@@ -20,14 +20,14 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 .page-hdr-l h1 em{color:var(--green);font-style:normal;}
 .page-hdr-r{text-align:right;font-size:11px;color:var(--muted);line-height:1.9;}
 .page-hdr-r strong{display:block;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin-bottom:2px;}
-.sec{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:6px;margin:28px 0 12px;}
-.sec h2{font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);}
+.sec{display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:8px;margin:32px 0 14px;}
+.sec h2{font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:none;color:var(--ink);}
 .sec span{font-size:11px;color:var(--muted);}
 .card{background:var(--white);border:1px solid var(--rule);border-radius:6px;padding:18px 20px;margin-bottom:12px;}
 .card-lbl{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
 .card-hl{font-family:'DM Serif Display',serif;font-size:17px;margin-bottom:5px;line-height:1.3;}
 .card-hl em{color:var(--green);font-style:normal;}
-.card-sub{font-size:11.5px;color:var(--ink2);line-height:1.65;margin-bottom:12px;}
+.card-sub{font-size:11.5px;color:var(--ink2);line-height:1.65;margin-bottom:10px;}
 .card-sub ul{margin:0 0 0 14px;padding:0;}
 .muted-note{font-size:10px;color:var(--muted);margin:2px 0 8px;font-style:italic;}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
@@ -48,9 +48,10 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 .l-sq{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
 .l-ln{width:18px;height:2.5px;flex-shrink:0;}
 .l-da{width:18px;height:0;border-top:2.5px dashed;flex-shrink:0;}
-.toggle-row{display:flex;align-items:center;gap:14px;margin:12px 0 0;flex-wrap:wrap;}
+.toggle-row{display:flex;align-items:center;gap:14px;margin:8px 0 0;flex-wrap:wrap;}
 .toggle-group{display:flex;align-items:center;gap:5px;}
 .toggle-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:2px;}
+.filter-bar{display:flex;align-items:center;gap:6px;padding:6px 0;border-top:1px solid var(--rule);margin-top:10px;flex-wrap:wrap;}
 .tog{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;padding:4px 10px;border-radius:20px;border:1px solid var(--rule);background:var(--white);color:var(--ink2);cursor:pointer;transition:all .15s;}
 .tog:hover{border-color:var(--ink2);}
 .tog.ai{background:var(--ink);color:#fff;border-color:var(--ink);}
@@ -72,6 +73,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 .dot.on{background:var(--green);}.dot.off{background:#ccc;}
 .footer{border-top:1px solid var(--rule);padding-top:12px;margin-top:36px;display:flex;justify-content:space-between;font-size:10px;color:var(--muted);}
 .ghost-card{background:transparent;border:none;box-shadow:none;}
+.sec-sub{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:0 0 8px;}
 </style>
 </head>
 <body>
@@ -101,7 +103,8 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 </div>
 
 <!-- ── 1. LAST WEEK SNAPSHOT ── -->
-<div class="sec"><h2>Last week snapshot</h2><span>w/e 5 Apr 2026 vs w/e 29 Mar 2026</span></div>
+<div class="sec"><h2>1 · Last week snapshot</h2><span>w/e 5 Apr 2026 vs w/e 29 Mar 2026</span></div>
+<p style="font-size:11px;color:var(--ink2);margin:6px 0 10px">CPA flat for 3 consecutive weeks at £120–127 — plateau, not recovery. Winner share bounced to 69% but zero new winners launched this week.</p>
 <div class="grid5" style="margin-bottom:12px">
   <div class="kpi"><div class="kpi-lbl">Weekly spend</div><div class="kpi-val">£129K</div><div class="kpi-diff r">↓ 11.6%</div><div class="kpi-sub">vs £146K prior week</div></div>
   <div class="kpi"><div class="kpi-lbl">Blended CPA</div><div class="kpi-val r">£122</div><div class="kpi-diff g">↓ 3.9%</div><div class="kpi-sub">vs £127 prior week</div></div>
@@ -111,7 +114,8 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 </div>
 
 <!-- ── 2. PLATFORM PERFORMANCE ── -->
-<div class="sec"><h2>Platform performance</h2><span>Blended weekly &amp; monthly</span></div>
+<div class="sec"><h2>2 · Platform performance</h2><span>Blended CPA &amp; spend · weekly &amp; monthly</span></div>
+<p style="font-size:11px;color:var(--ink2);margin:6px 0 10px">CPM is down 13% since Jan — cheaper inventory — but CVR is 33% below period average. The market, not the media cost, is the constraint.</p>
 
 <div class="card">
   <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2px">
@@ -141,17 +145,17 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 
 <div class="grid2">
   <div class="card">
-    <div class="card-lbl">CPM vs blended CVR — indexed to Jan avg</div>
-    <div class="card-hl">CPM down 13% — <span style="color:var(--red)">CVR down 41%</span>. Audience is the problem</div>
+    <div class="card-lbl">CPM vs blended CVR — indexed to period avg</div>
+    <div class="card-hl">CPM near average — <span style="color:var(--red)">CVR down 33% vs period average</span>. Audience demand softening</div>
     <div class="leg">
       <div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>CPM index</div>
       <div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>CVR index</div>
-      <div class="leg-item" style="font-size:10px;color:var(--muted)">Jan = 100</div>
+      <div class="leg-item" style="font-size:10px;color:var(--muted)">Period avg = 100</div>
     </div>
     <div class="chart-wrap" style="height:190px"><canvas id="cCPMCVR"></canvas></div>
   </div>
   <div class="card">
-    <div class="card-lbl">CVR by product — indexed to Jan avg</div>
+    <div class="card-lbl">CVR by product — indexed to period avg</div>
     <div class="card-hl">Biotic CVR <span style="color:var(--red)">more volatile</span> — share growing despite higher CPA</div>
     <div class="leg">
       <div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Vitals CVR</div>
@@ -163,7 +167,8 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 </div>
 
 <!-- ── 3. CREATIVE TOP LEVEL ── -->
-<div class="sec"><h2>Creative top level · Winners</h2><span>Winner pool health &amp; pipeline</span></div>
+<div class="sec"><h2>3 · Winner pool health</h2><span>Age, pipeline &amp; rate of production</span></div>
+<p style="font-size:11px;color:var(--ink2);margin:6px 0 10px">Fresh pool share has collapsed from 56% (Jan) to 16% (Apr). Winners per £100K has halved since Dec. The pipeline problem is structural, not seasonal.</p>
 
 <div class="grid2">
   <div class="card">
@@ -200,28 +205,28 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 </div>
 
 <!-- ── 4. CREATIVE DEEP DIVE: PRODUCT ── -->
-<div class="sec"><h2>Creative winners · Product</h2><span>CPA, hit rates &amp; unicorns</span></div>
+<div class="sec"><h2>4 · Creative by product</h2><span>CPA, hit rates &amp; unicorns</span></div>
+<p style="font-size:11px;color:var(--ink2);margin:6px 0 10px">Biotic at £223 CPA is 17.9% of spend — every percentage point of spend shifted from Vitals to Biotic adds roughly £1.50 to blended CPA.</p>
 
 <div class="card">
   <div class="card-lbl">Monthly CPA by product</div>
-  <div class="card-hl">Biotic <span style="color:var(--red)">nearly doubled</span> — £131 → £223. Bundle consistently cheapest</div>
-  <div class="card-sub">Thrive (not shown — scale): £116–332. See Thrive chart below.</div>
+  <div class="card-hl">Biotic <span style="color:var(--red)">nearly doubled</span> — £131 → £223. Intro Bundle creative consistently cheapest</div>
+  <div class="card-sub">Thrive (not shown — scale): £116–332. Bundle = Intro Bundle / Sleep & Energy creative, grouped separately from standard Vitals ads.</div>
   <div class="leg">
     <div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Vitals</div>
     <div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Biotic</div>
-    <div class="leg-item"><div class="l-ln" style="background:#1d7a4a"></div>Bundle</div>
+    <div class="leg-item"><div class="l-ln" style="background:#1d7a4a"></div>Bundle (Intro / S&amp;E)</div>
   </div>
   <div class="chart-wrap" style="height:200px"><canvas id="cProdCPA"></canvas></div>
 </div>
 
-<div class="toggle-row">
-  <div class="toggle-group"><span class="toggle-label">Creative type</span>
-    <button class="tog ag" data-of="all" onclick="setOfferFilter('all',this)">All</button>
-    <button class="tog" data-of="non_offer" onclick="setOfferFilter('non_offer',this)">Non-offer</button>
-    <button class="tog" data-of="offer" onclick="setOfferFilter('offer',this)">Offer</button>
-  </div>
+<div class="filter-bar" style="border-top:none;margin-top:4px;margin-bottom:4px">
+  <span class="toggle-label">Creative type</span>
+  <button class="tog ag" data-of="all"       onclick="setOfferFilter('all',this)">All</button>
+  <button class="tog"    data-of="non_offer" onclick="setOfferFilter('non_offer',this)">Non-offer</button>
+  <button class="tog"    data-of="offer"     onclick="setOfferFilter('offer',this)">Offer</button>
 </div>
-<div class="grid2" style="margin-top:8px">
+<div class="grid2" style="margin-top:0">
   <div class="card">
     <div class="card-lbl">Vitals &amp; Bundle · launches vs winners vs hit rate</div>
     <div class="card-hl">Consistent 11–14% hit rate Oct–Feb</div>
@@ -249,30 +254,37 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
     <div class="chart-wrap" style="height:190px"><canvas id="cThrHit"></canvas></div>
   </div>
   <div class="card">
-    <div class="card-lbl">🦄 Unicorn ads — monthly count</div>
+    <div class="card-lbl">🦄 Unicorn ads — monthly count by product</div>
     <div class="card-hl">13 total — <span style="color:var(--amber)">none since Jan 2026</span></div>
     <div class="card-sub">≥5% of daily account spend within 14 days of launch. 9% of all winners historically.</div>
     <div class="leg">
-      <div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.6)"></div>Brightshift</div>
-      <div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.5)"></div>Internal</div>
-      <div class="leg-item"><div class="l-sq" style="background:rgba(123,63,160,.5)"></div>Celeb</div>
-      <div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.5)"></div>Hambi/Other</div>
+      <div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.55)"></div>Vitals</div>
+      <div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.55)"></div>Bundle</div>
+      <div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.5)"></div>Biotic</div>
+      <div class="leg-item"><div class="l-sq" style="background:rgba(123,63,160,.5)"></div>Thrive</div>
     </div>
-    <div class="chart-wrap" style="height:190px"><canvas id="cUnicorn"></canvas></div>
+    <div class="filter-bar">
+      <span class="toggle-label">Creative type</span>
+      <button class="tog ag" data-uo="all"       onclick="setUnicornOffer('all',this)">All</button>
+      <button class="tog"    data-uo="non_offer" onclick="setUnicornOffer('non_offer',this)">Non-offer</button>
+      <button class="tog"    data-uo="offer"     onclick="setUnicornOffer('offer',this)">Offer</button>
+    </div>
+    <div class="chart-wrap" style="height:165px;margin-top:8px"><canvas id="cUnicorn"></canvas></div>
   </div>
 </div>
 
 <!-- ── 5. CREATIVE DEEP DIVE: SOURCE ── -->
-<div class="sec"><h2>Creative winners · Source</h2><span>CPA, hit rates &amp; unicorns</span></div>
+<div class="sec"><h2>5 · Creative winner performance</h2><span>CPA, hit rates &amp; unicorns · by source &amp; product</span></div>
+<p style="font-size:11px;color:var(--ink2);margin:6px 0 10px">All sources converging between £112–144 in Apr — the gap between best and worst source is the smallest it's been all period. External pressure, not source quality, is driving CPA.</p>
 
 <div class="card">
   <div class="card-lbl">Monthly CPA by source</div>
   <div class="card-hl">All sources <span style="color:var(--red)">converging Mar–Apr</span> — external pressure, not source-specific</div>
   <div class="card-sub"><ul>
-    <li>Celeb: £90–92 Oct–Jan → £123 Mar. Highest spend per ad. No new launches in Apr</li>
-    <li>Brightshift: best Dec–Jan (£63–76) → £123. Sharpest collapse; highest peak hit rate (19% Dec)</li>
-    <li>Internal: £71–95 Oct–Feb → £122. Volume engine</li>
-    <li>Hambi: most consistent £84–117. Most resilient hit rate in Feb</li>
+    <li><strong>Celeb</strong> — all ambassador-featuring ads, any production source</li>
+    <li><strong>Brightshift</strong> — best Dec–Jan (£63–76) → £144 Apr; sharpest collapse</li>
+    <li><strong>Internal</strong> — £71–94 Oct–Feb → £110 Apr; volume engine</li>
+    <li><strong>Hambi</strong> — most consistent £84–117; most resilient hit rate</li>
   </ul></div>
   <div class="leg">
     <div class="leg-item"><div class="l-ln" style="background:#7b3fa0"></div>Celeb</div>
@@ -281,24 +293,29 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
     <div class="leg-item"><div class="l-ln" style="background:#b86800"></div>Hambi</div>
     <div class="leg-item"><div class="l-da" style="border-color:#bf3b2e"></div>Influencer</div>
   </div>
-  <div class="chart-wrap" style="height:210px"><canvas id="cSrcCPA"></canvas></div>
+  <div class="filter-bar">
+    <span class="toggle-label">Product</span>
+    <button class="tog ai" data-srcp="all"    onclick="setSrcCPAProd('all',this)">All</button>
+    <button class="tog"    data-srcp="vitals" onclick="setSrcCPAProd('vitals',this)">Vitals &amp; Bundle</button>
+    <button class="tog"    data-srcp="biotic" onclick="setSrcCPAProd('biotic',this)">Biotic</button>
+    <button class="tog"    data-srcp="offer"  onclick="setSrcCPAProd('offer',this)">Offer</button>
+  </div>
+  <div class="chart-wrap" style="height:210px;margin-top:8px"><canvas id="cSrcCPA"></canvas></div>
 </div>
 
-<div class="toggle-row">
-  <div class="toggle-group"><span class="toggle-label">Product</span>
-    <button class="tog ai" data-sp="all" onclick="setSrcProd('all',this)">All</button>
-    <button class="tog" data-sp="vitals_bundle" onclick="setSrcProd('vitals_bundle',this)">Vitals &amp; Bundle</button>
-    <button class="tog" data-sp="biotic" onclick="setSrcProd('biotic',this)">Biotic</button>
-    <button class="tog" data-sp="thrive" onclick="setSrcProd('thrive',this)">Thrive</button>
-  </div>
-  <div class="toggle-group"><span class="toggle-label">Creative type</span>
-    <button class="tog ag" data-so="all" onclick="setSrcOffer('all',this)">All</button>
-    <button class="tog" data-so="non_offer" onclick="setSrcOffer('non_offer',this)">Non-offer</button>
-    <button class="tog" data-so="offer" onclick="setSrcOffer('offer',this)">Offer</button>
-  </div>
+<div class="filter-bar" style="border-top:none;margin-top:4px;margin-bottom:4px">
+  <span class="toggle-label">Product</span>
+  <button class="tog ai" data-sp="all"          onclick="setSrcProd('all',this)">All</button>
+  <button class="tog"    data-sp="vitals_bundle" onclick="setSrcProd('vitals_bundle',this)">Vitals &amp; Bundle</button>
+  <button class="tog"    data-sp="biotic"        onclick="setSrcProd('biotic',this)">Biotic</button>
+  <button class="tog"    data-sp="thrive"        onclick="setSrcProd('thrive',this)">Thrive</button>
+  <span class="toggle-label" style="margin-left:10px">Creative type</span>
+  <button class="tog ag" data-so="all"       onclick="setSrcOffer('all',this)">All</button>
+  <button class="tog"    data-so="non_offer" onclick="setSrcOffer('non_offer',this)">Non-offer</button>
+  <button class="tog"    data-so="offer"     onclick="setSrcOffer('offer',this)">Offer</button>
 </div>
 
-<div class="grid2" style="margin-top:8px">
+<div class="grid2" style="margin-top:0">
   <div class="card"><div class="card-lbl">Internal (non-celeb)</div><div class="card-hl">Volume engine — <em>5–7% hit rate Oct–Feb</em></div><p class="muted-note">Mar/Apr partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(173,200,230,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cIntHit"></canvas></div></div>
   <div class="card"><div class="card-lbl">Celeb / Ambassador</div><div class="card-hl">Highest hit rate — <span style="color:var(--amber)">few launches, none in Apr</span></div><p class="muted-note">Mar/Apr partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(180,150,220,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(123,63,160,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cCelSrcHit"></canvas></div></div>
 </div>
@@ -308,51 +325,118 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 </div>
 <div class="grid2" style="margin-top:0">
   <div class="card"><div class="card-lbl">Influencer</div><div class="card-hl">Running since Oct — <em>growing with new naming convention</em></div><p class="muted-note">Mar/Apr partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(255,180,180,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cInfHit"></canvas></div></div>
-  <div class="card ghost-card"></div>
+  <div class="card">
+    <div class="card-lbl">🦄 Unicorn ads — monthly count by source</div>
+    <div class="card-hl">Internal and Brightshift the factories — <span style="color:var(--amber)">none since Jan 2026</span></div>
+    <div class="card-sub">Offer toggle updates both unicorn charts.</div>
+    <div class="leg">
+      <div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.6)"></div>Brightshift</div>
+      <div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.5)"></div>Internal</div>
+      <div class="leg-item"><div class="l-sq" style="background:rgba(123,63,160,.5)"></div>Celeb</div>
+      <div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.5)"></div>Hambi/Other</div>
+    </div>
+    <div class="filter-bar">
+      <span class="toggle-label">Creative type</span>
+      <button class="tog ag" data-uo="all"       onclick="setUnicornOffer('all',this)">All</button>
+      <button class="tog"    data-uo="non_offer" onclick="setUnicornOffer('non_offer',this)">Non-offer</button>
+      <button class="tog"    data-uo="offer"     onclick="setUnicornOffer('offer',this)">Offer</button>
+    </div>
+    <div class="chart-wrap" style="height:165px"><canvas id="cUnicornSrc"></canvas></div>
+  </div>
 </div>
 
 <!-- ── 6. KEY CREATIVE SEGMENTS ── -->
-<div class="sec"><h2>Key creative segments</h2><span>Weekly CPA &amp; spend share</span></div>
+<div class="sec"><h2>6 · Key creative segments</h2><span>Ambassador, offer &amp; bundle · Oct 2025 – Apr 2026</span></div>
+
+<!-- Celeb row -->
+<div class="sec-sub">Ambassador &amp; celebrity</div>
 <div class="grid2">
   <div class="card">
-    <div class="card-lbl">Celeb / ambassador vs non-celeb CPA</div>
-    <div class="card-hl">Celeb scales further — <em>3× spend per ad, 3.4× longer</em></div>
-    <div class="card-sub">Celeb median CPA £111 vs £138 non-celeb once controlled for scale. Risk: if top ambassador ads fatigue, no proven replacement at that volume.</div>
+    <div class="card-lbl">Account — celeb vs non-celeb CPA &amp; share</div>
+    <div class="card-hl">Celeb CPA hit <span style="color:var(--red)">£140</span> in Apr — non-celeb improved to £110 the same week</div>
+    <div class="card-sub">Gap reversed sharply: celeb now £30 more expensive after near-parity in mid-March.</div>
     <div class="leg">
-      <div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.2)"></div>Celeb share % (left)</div>
+      <div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.18)"></div>Celeb share % (left)</div>
       <div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Celeb CPA (right)</div>
       <div class="leg-item"><div class="l-ln" style="background:#aaa"></div>Non-celeb CPA (right)</div>
     </div>
-    <div class="chart-wrap" style="height:200px"><canvas id="cCeleb"></canvas></div>
+    <div class="filter-bar">
+      <span class="toggle-label">Product</span>
+      <button class="tog ai" data-cp="all"    onclick="setCelebProd('all',this)">All</button>
+      <button class="tog"    data-cp="vitals" onclick="setCelebProd('vitals',this)">Vitals &amp; Bundle</button>
+      <button class="tog"    data-cp="biotic" onclick="setCelebProd('biotic',this)">Biotic</button>
+    </div>
+    <div class="chart-wrap" style="height:190px;margin-top:8px"><canvas id="cCeleb"></canvas></div>
   </div>
   <div class="card">
-    <div class="card-lbl">Offer / bundle vs non-offer CPA</div>
-    <div class="card-hl">Offer consistently <em>£40–50 cheaper</em> — masking non-offer rise</div>
-    <div class="card-sub">Without offer creative, blended CPA ~£134 not £122. Non-offer CPA now £134 and rising.</div>
-    <div class="leg">
-      <div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.2)"></div>Offer share % (left)</div>
-      <div class="leg-item"><div class="l-ln" style="background:#1d7a4a"></div>Offer CPA (right)</div>
-      <div class="leg-item"><div class="l-ln" style="background:#aaa"></div>Non-offer CPA (right)</div>
+    <div class="card-lbl">Vitals — CPA by individual ambassador, monthly</div>
+    <div class="card-hl">Matt Willis &amp; Rylan now <span style="color:var(--red)">£130–160</span> — every ambassador rising since Jan</div>
+    <div class="card-sub">Spencer &amp; Ambassador Mashup most contained. Ben rising steadily. Matt Willis and Rylan sharpest deteriorations.</div>
+    <div class="leg" id="celebDetailLeg"></div>
+    <div class="filter-bar">
+      <span class="toggle-label">Product</span>
+      <button class="tog ai" data-ambp="vitals" onclick="setAmbProd('vitals',this)">Vitals &amp; Bundle</button>
+      <button class="tog"    data-ambp="all"    onclick="setAmbProd('all',this)">All</button>
+      <button class="tog"    data-ambp="biotic" onclick="setAmbProd('biotic',this)">Biotic</button>
+      <button class="tog"    data-ambp="offer"  onclick="setAmbProd('offer',this)">Offer</button>
     </div>
-    <div class="chart-wrap" style="height:200px"><canvas id="cOffer"></canvas></div>
+    <div class="chart-wrap" style="height:190px;margin-top:8px"><canvas id="cCelebDetail"></canvas></div>
   </div>
 </div>
 
+<!-- Offer row -->
+<div class="sec-sub" style="margin-top:16px">Offer &amp; bundle creative</div>
+<div class="card">
+  <div class="card-lbl">Account — offer vs non-offer CPA &amp; share · weekly</div>
+  <div class="card-hl">Offer CPA improved to <span style="color:var(--green)">£80</span> in Apr — non-offer now £146, widening gap</div>
+  <div class="card-sub">Offer saves ~£66/purchase. Without it, blended CPA would be ~£138 not £120. <span style="color:var(--muted);font-size:10px">⚠ Mar offer share: 27.5% of ad spend, 24.4% of account total — £88K unattributed spend in Mar inflates the % slightly.</span></div>
+  <div class="leg">
+    <div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.18)"></div>Offer share % (left)</div>
+    <div class="leg-item"><div class="l-ln" style="background:#1d7a4a"></div>Offer CPA (right)</div>
+    <div class="leg-item"><div class="l-ln" style="background:#aaa"></div>Non-offer CPA (right)</div>
+  </div>
+  <div class="chart-wrap" style="height:200px"><canvas id="cOffer"></canvas></div>
+</div>
+<div class="grid2" style="margin-top:0">
+  <div class="card">
+    <div class="card-lbl">Vitals — offer vs non-offer CPA + offer share within Vitals</div>
+    <div class="card-hl">Offer ~35% of Vitals spend — non-offer CPA rising sharply (£82→£122)</div>
+    <div class="card-sub">Offer CPA stable at £57–89. Offer share peaked Feb (38%), softening since.</div>
+    <div class="leg">
+      <div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.2)"></div>Offer % of Vitals (left)</div>
+      <div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Vitals offer CPA (right)</div>
+      <div class="leg-item"><div class="l-ln" style="background:#aaa"></div>Vitals non-offer CPA (right)</div>
+    </div>
+    <div class="chart-wrap" style="height:200px"><canvas id="cVitOffer"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-lbl">Vitals — Free Magnesium vs Intro Bundle, monthly</div>
+    <div class="card-hl">Free Mag cheapest at <span style="color:var(--green)">£65</span> — Intro Bundle larger share at £88</div>
+    <div class="card-sub">Intro Bundle ~20% of account spend vs Free Mag ~10%. Both improved in Apr. Free Mag only scaled from Jan.</div>
+    <div class="leg">
+      <div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.3)"></div>Free Mag share % (left)</div>
+      <div class="leg-item"><div class="l-ln" style="background:#1d7a4a"></div>Free Mag CPA (right)</div>
+      <div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.3)"></div>Intro Bundle share % (left)</div>
+      <div class="leg-item"><div class="l-ln" style="background:#b86800"></div>Intro Bundle CPA (right)</div>
+    </div>
+    <div class="chart-wrap" style="height:200px"><canvas id="cOfferDetail"></canvas></div>
+  </div>
+</div>
+<div class="chart-wrap" style="display:none"><canvas id="cVitOfferMix"></canvas></div>
+
 <!-- ── 7. TOP 25 WINNERS ── -->
-<div class="sec"><h2>Top 25 winners — last 4 weeks</h2><span>● active last week &nbsp;○ not spending &nbsp;🦄 unicorn</span></div>
-<div class="toggle-row" style="margin-bottom:10px">
-  <div class="toggle-group"><span class="toggle-label">Product</span>
-    <button class="tog ai" data-tp="all" onclick="filterTbl('p','all',this)">All</button>
-    <button class="tog" data-tp="Vitals" onclick="filterTbl('p','Vitals',this)">Vitals</button>
-    <button class="tog" data-tp="Bundle" onclick="filterTbl('p','Bundle',this)">Bundle</button>
-    <button class="tog" data-tp="Biotic" onclick="filterTbl('p','Biotic',this)">Biotic</button>
-    <button class="tog" data-tp="Thrive" onclick="filterTbl('p','Thrive',this)">Thrive</button>
-  </div>
-  <div class="toggle-group"><span class="toggle-label">Creative type</span>
-    <button class="tog ag" data-to="all" onclick="filterTbl('o','all',this)">All</button>
-    <button class="tog" data-to="non_offer" onclick="filterTbl('o','non_offer',this)">Non-offer</button>
-    <button class="tog" data-to="offer" onclick="filterTbl('o','offer',this)">Offer</button>
-  </div>
+<div class="sec"><h2>7 · Top 25 winners — last 4 weeks</h2><span>● active last week &nbsp;○ not spending &nbsp;🦄 unicorn</span></div>
+<p style="font-size:11px;color:var(--ink2);margin:6px 0 10px">3 Biotic winners in the last 4 weeks, all Rylan/Spencer fresh launches. Vitals winners concentrated in ageing offer creative — Free Magnesium and intro bundles carrying the table.</p>
+<div class="filter-bar" style="border-top:none;margin-top:0;margin-bottom:10px">
+  <span class="toggle-label">Product</span>
+  <button class="tog ai" data-tp="all"    onclick="filterTbl('p','all',this)">All</button>
+  <button class="tog"    data-tp="Vitals" onclick="filterTbl('p','Vitals',this)">Vitals &amp; Bundle</button>
+  <button class="tog"    data-tp="Biotic" onclick="filterTbl('p','Biotic',this)">Biotic</button>
+  <button class="tog"    data-tp="Thrive" onclick="filterTbl('p','Thrive',this)">Thrive</button>
+  <span class="toggle-label" style="margin-left:10px">Creative type</span>
+  <button class="tog ag" data-to="all"       onclick="filterTbl('o','all',this)">All</button>
+  <button class="tog"    data-to="non_offer" onclick="filterTbl('o','non_offer',this)">Non-offer</button>
+  <button class="tog"    data-to="offer"     onclick="filterTbl('o','offer',this)">Offer</button>
 </div>
 <div class="card" style="padding:0;overflow:hidden">
   <table class="wtbl">
@@ -371,7 +455,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 
 <div class="footer">
   <span>Heights · Meta UK · Internal · Apr 2026</span>
-  <span>Winner ≥£3K first 30 days (Biotic/Thrive ≥£1K) · 🦄 ≥5% daily spend share within 14 days · Data: Sep 2025 – 5 Apr 2026</span>
+  <span>Winner ≥£3K first 30 days (Biotic/Thrive ≥£1K) · 🦄 ≥5% daily spend share within 14 days · Spend/CPA: ad-set level · Creative analysis: ad level · Sep 2025 – 5 Apr 2026</span>
 </div>
 
 <script>
@@ -379,22 +463,22 @@ Chart.defaults.font.family="'DM Sans',sans-serif";
 const GC='#e8e5df';
 const TT={backgroundColor:'#111',titleColor:'#fff',bodyColor:'rgba(255,255,255,.75)',padding:10,cornerRadius:3,borderColor:'#333',borderWidth:1};
 
-// ── DATA ──
+// ── DATA ── (spend/CPA = ad-set level for complete account total; creative metrics = ad level)
 const WL=["6–12 Oct","13–19 Oct","20–26 Oct","27 Oct–2 Nov","3–9 Nov","10–16 Nov","17–23 Nov","24–30 Nov","1–7 Dec","8–14 Dec","15–21 Dec","22–28 Dec","29 Dec–4 Jan","5–11 Jan","12–18 Jan","19–25 Jan","26 Jan–1 Feb","2–8 Feb","9–15 Feb","16–22 Feb","23 Feb–1 Mar","2–8 Mar","9–15 Mar","16–22 Mar","23–29 Mar","30 Mar–5 Apr"];
-const W_CPA=[106,100,95,87,87,85,103,97,114,97,95,69,70,79,76,79,77,91,91,95,99,114,118,121,127,122];
+const W_CPA=[105,99,93,86,85,84,102,95,111,92,93,69,70,78,75,79,76,90,90,94,98,113,126,118,125,120];
 const W_SHARE=[78.1,73.7,75.5,75.4,82.4,87.9,77.5,76.6,69.1,69.3,75.7,65.4,73.6,88.1,86.4,80.1,79.3,76.0,75.9,73.2,73.3,70.8,68.5,65.2,63.6,69.1];
-const W_SPEND=[92,98,110,133,154,155,128,95,55,63,58,127,503,399,176,162,158,147,133,135,193,189,168,154,146,129];
-const W_CPM_IDX=[95,92,96,99,101,97,98,102,88,94,91,78,72,100,98,99,101,104,107,108,106,110,109,107,104,103];
-const W_CVR_IDX=[105,108,112,115,110,114,105,107,97,103,105,115,118,100,102,97,99,87,84,80,76,72,70,68,65,64];
+const W_SPEND=[92,97,110,133,154,154,127,95,55,63,58,127,502,399,175,162,157,147,133,135,193,189,249,141,145,93];
+const W_CPM_IDX=[96.5, 94.9, 98.2, 99.9, 101.5, 98.2, 99.9, 103.2, 89.9, 96.5, 93.2, 79.9, 73.2, 101.5, 99.9, 101.5, 103.2, 104.9, 108.2, 109.9, 108.2, 111.5, 109.9, 108.2, 104.9, 103.2];
+const W_CVR_IDX=[108.5, 113.7, 118.9, 124.1, 113.7, 118.9, 108.5, 113.7, 103.4, 108.5, 113.7, 124.1, 129.2, 103.4, 103.4, 98.2, 103.4, 93.0, 87.9, 82.7, 77.5, 72.4, 72.4, 72.4, 67.2, 67.2];
 const W_CVR_RAW=[0.0021,0.0022,0.0023,0.0024,0.0022,0.0023,0.0021,0.0022,0.002,0.0021,0.0022,0.0024,0.0025,0.002,0.002,0.0019,0.002,0.0018,0.0017,0.0016,0.0015,0.0014,0.0014,0.0014,0.0013,0.0013];
 const W_CPM_RAW=[5.8,5.7,5.9,6.0,6.1,5.9,6.0,6.2,5.4,5.8,5.6,4.8,4.4,6.1,6.0,6.1,6.2,6.3,6.5,6.6,6.5,6.7,6.6,6.5,6.3,6.2];
 const ML=["Oct","Nov","Dec","Jan","Feb","Mar","Apr"];
-const MO_SPEND_K=[463,579,488,1192,598,707,129];
-const MO_CPA=[95,91,78,76,93,122,120];
-const MO_WIN_SHARE=[78.9,79.4,72.4,82.1,75.1,67.5,69.1];
+const MO_SPEND_K=[463,579,487,1191,597,760,94]; // Oct–Mar = ad-set level (complete); Apr = ad level only
+const MO_CPA=[93,89,77,75,92,120,120]; // Oct–Mar = ad-set level; Apr = ad level
+const MO_WIN_SHARE=[78.9,79.4,72.4,82.1,75.1,67.5,69.7];
 const M_NORM=[8.0,3.1,13.1,1.8,3.0,1.6,0];
-const CVR_VIT=[105,108,113,116,112,116,107,109,98,104,106,116,119,100,102,98,100,89,85,81,77,73,71,70,67,65];
-const CVR_BIO=[98,102,105,108,104,107,99,100,90,96,98,110,114,100,103,95,96,82,78,74,70,65,63,61,58,55];
+const CVR_VIT=[108.9,112.0,117.2,120.3,116.2,120.3,111.0,113.0,101.6,107.9,109.9,120.3,123.4,103.7,105.8,101.6,103.7,92.3,88.2,84.0,79.9,75.7,73.6,72.6,69.5,67.4];
+const CVR_BIO=[109.3,113.8,117.1,120.5,116.0,119.3,110.4,111.5,100.4,107.1,109.3,122.7,127.2,111.5,114.9,106.0,107.1,91.5,87.0,82.5,78.1,72.5,70.3,68.0,64.7,61.3];
 const BIO_SHARE=[2.1,2.3,2.8,3.1,3.5,3.8,3.2,2.9,1.8,2.1,2.2,3.4,3.1,4.2,4.8,5.1,5.5,7.2,8.1,9.4,11.2,14.8,15.9,16.5,17.2,17.9];
 const AGE_F=[78.1,73.7,75.5,75.4,45.8,51.6,45.5,39.1,31.5,29.1,24.0,28.8,40.1,59.4,66.1,61.2,49.1,29.3,26.3,25.0,22.1,20.1,19.8,20.2,18.4,16.2];
 const AGE_P=[0,0,0,0,36.6,36.3,32.0,37.5,37.6,40.1,28.2,17.5,17.4,14.7,9.5,8.8,19.6,31.7,36.5,33.1,37.1,39.1,39.4,35.8,34.2,40.5];
@@ -415,11 +499,12 @@ const BIO_HR=[18.2,4.0,8.3,10.3,20.2,5.7,0];
 const THR_L=[0,23,26,16,4,43,0];
 const THR_W=[0,3,4,2,1,1,0];
 const THR_HR=[0,4.3,3.8,0,0,2.3,0];
-const CEL_CPA_SRC=[92,91,91,90,134,123,119];
-const INT_CPA_SRC=[81,81,94,71,91,122,112];
-const BSH_CPA=[101,93,63,76,92,123,144];
+// ── Source CPA — all celeb definition, fresh from CSV ──
+const CEL_CPA_SRC=[100,93,73,81,103,125,140];
+const INT_CPA_SRC=[81,81,94,71,91,122,110];
+const BSH_CPA=[101,93,63,76,92,122,144];
 const HAM_CPA=[117,101,84,89,83,113,104];
-const INF_CPA=[86,70,null,null,91,132,146];
+const INF_CPA=[86,70,175,140,91,129,146];
 const CEL_L=[8,14,11,19,24,8,0];
 const CEL_W=[4,2,2,2,10,2,0];
 const CEL_HR=[50.0,14.3,18.2,10.5,41.7,25.0,0];
@@ -435,18 +520,69 @@ const HAM_HR=[10.0,28.6,10.1,13.2,10.0,4.2,0];
 const INF_L=[4,0,0,0,29,35,14];
 const INF_W=[1,0,0,0,5,0,0];
 const INF_HR=[25.0,0,0,0,17.2,0,0];
-const CEL_SEG_CPA=[114,103,102,87,86,89,114,95,112,81,84,66,67,86,83,90,89,100,93,98,106,121,125,128,131,124];
-const NCEL_SEG_CPA=[98,98,90,87,87,80,96,99,116,108,102,71,73,74,72,73,71,87,91,93,95,111,114,117,124,121];
-const CEL_SEG_SHARE=[53.6,50.1,45.0,42.2,46.5,53.5,45.4,37.9,37.3,34.3,35.6,43.6,39.0,47.8,40.2,40.9,39.5,36.8,34.8,40.2,40.0,36.9,35.2,37.1,36.4,34.8];
-const OFF_CPA=[89,75,71,56,69,62,76,77,90,78,74,46,51,64,61,59,54,69,69,68,66,84,88,85,82,79];
-const NOFF_CPA=[112,109,104,101,93,93,116,111,126,108,105,78,80,92,89,96,100,111,113,118,120,134,138,142,148,154];
-const OFF_SHARE=[22.3,19.3,21.2,20.3,20.9,19.7,22.9,31.8,25.2,28.4,25.0,19.1,24.3,35.3,36.4,32.7,34.9,34.7,37.5,32.1,26.0,28.5,29.1,27.8,25.4,26.2];
+// ── Source CPA by product filter (All / Vitals / Biotic / Offer) ──
+const SRC_PROD_CPA={
+  Celeb:      {all:[100,93,73,81,103,125,140], vitals:[94,90,73,80,94,115,122], biotic:[129,156,82,126,172,167,189], offer:[87,79,50,77,69,90,126]},
+  Internal:   {all:[81,81,94,71,91,122,110],   vitals:[74,76,90,65,83,110,96],  biotic:[148,113,181,215,245,288,282],offer:[72,70,55,59,67,88,79]},
+  Brightshift:{all:[101,93,63,76,92,122,144],  vitals:[96,87,62,75,85,null,null],biotic:[107,103,82,null,98,122,144],offer:[null,80,48,65,null,null,null]},
+  Hambi:      {all:[117,101,84,89,83,113,104], vitals:[103,99,84,89,80,112,96], biotic:[null,null,null,null,null,null,null],offer:[85,null,null,80,null,109,null]},
+  Influencer: {all:[86,70,175,140,91,129,146], vitals:[86,70,null,null,91,130,146],biotic:[null,null,null,null,null,null,null],offer:[null,null,null,null,78,null,131]},
+};
+// ── Celeb segment weekly ──
+const CEL_SEG_CPA=[114,103,102,87,86,89,114,95,112,81,84,66,67,86,83,90,89,100,93,98,112,122,127,125,128,140];
+const NCEL_SEG_CPA=[98,98,90,87,87,80,96,99,116,108,102,71,73,74,72,73,71,87,91,93,91,110,130,119,127,110];
+const CEL_SEG_SHARE=[53.6,50.1,45.0,42.2,46.5,53.5,45.4,37.9,37.3,34.3,35.6,43.6,39.0,47.8,40.2,40.9,39.5,36.8,34.8,40.2,44.1,37.3,34.0,34.7,31.0,38.0];
+// ── Offer segment weekly ──
+const OFF_CPA=[89,75,71,56,69,62,76,77,90,78,74,46,51,64,61,59,54,69,69,68,67,85,97,89,91,80];
+const NOFF_CPA=[112,109,104,101,93,93,116,111,126,108,105,78,80,92,89,96,100,111,113,118,118,132,148,140,150,146];
+const OFF_SHARE=[22.3,19.3,21.2,20.3,20.9,19.7,22.9,31.8,25.2,28.4,25.0,19.1,24.3,35.3,36.4,32.7,34.9,34.7,37.5,32.1,25.3,27.8,27.9,28.0,27.0,26.2];
+// ── Free Magnesium vs Intro Bundle — monthly ──
+const FM_CPA_MO=[null,null,38,50,58,75,65];
+const IB_CPA_MO=[72,70,58,65,75,98,88];
+const FM_SHARE_MO=[0,0,0.5,10.7,11.8,9.2,7.6];
+const IB_SHARE_MO=[20.5,23.7,22.6,21.9,20.1,18.4,18.5];
+// ── Celeb/ambassador CPA by product filter — monthly ──
+const CEL_CPA_ALL=[100,93,73,81,103,125,140];
+const NCEL_CPA_ALL=[90,89,81,74,87,119,110];
+const CEL_CPA_VIT=[94,90,73,80,94,115,122];
+const NCEL_CPA_VIT=[82,77,74,70,80,105,96];
+const CEL_CPA_BIO=[129,156,82,126,172,167,189];
+const NCEL_CPA_BIO=[148,113,181,215,245,288,282];
+const CEL_SHARE_ALL=[48.6,46.2,38.7,42.6,38.0,32.9,34.8];
+const CEL_SHARE_VIT=[44.1,43.8,37.2,40.1,24.3,29.3,29.2];
+const CEL_SHARE_BIO=[0,5.4,0.6,13.0,52.3,40.1,29.4];
+// ── Per-ambassador CPA by product filter ──
+const AMB_COLORS=['#1a5fa8','#bf3b2e','#1d7a4a','#7b3fa0','#b86800','#888'];
+const AMB_LABELS=['Ben Shephard','Rylan','Spencer Matthews','Ambassador Mashup','Carol Vorderman','Matt Willis'];
+const AMB_PROD_CPA={
+  'Ben Shephard':      {all:[75,83,74,81,88,113,151],  vitals:[75,83,74,81,86,108,188],  biotic:[null,null,263,301,164,144,107], offer:[null,null,41,76,68,88,105]},
+  'Rylan':             {all:[null,null,55,81,103,118,170],vitals:[null,null,55,80,102,113,129],biotic:[null,null,null,null,null,155,170],offer:[null,null,null,null,null,null,null]},
+  'Spencer Matthews':  {all:[121,103,76,72,91,150,140], vitals:[116,96,77,71,79,127,119], biotic:[null,null,null,null,null,null,null],offer:[null,null,null,null,null,null,null]},
+  'Ambassador Mashup': {all:[91,91,82,90,97,135,108],   vitals:[91,91,82,90,96,135,108],  biotic:[null,null,null,null,null,null,null],offer:[null,null,null,null,null,null,null]},
+  'Carol Vorderman':   {all:[93,96,null,90,null,113,124],vitals:[91,87,null,87,110,98,104],biotic:[null,null,null,null,null,null,null],offer:[87,79,null,77,69,90,null]},
+  'Matt Willis':       {all:[71,77,100,65,148,171,225],  vitals:[71,77,100,65,131,156,null],biotic:[null,null,null,null,null,null,null],offer:[null,null,null,null,null,null,null]},
+};
+// ── Vitals offer breakdown ──
+const VIT_OFF_CPA=[72,70,57,59,68,89,80];
+const VIT_NOFF_CPA=[97,92,82,86,101,122,123];
+const VIT_OFF_PCT=[28.9,31.6,26.1,34.6,38.1,34.7,35.3];
+const VIT_FM_SPEND_K=[0,5,30,62,64,105,15];
+const VIT_IB_SPEND_K=[0,45,64,215,131,192,33];
 
-// Unicorn monthly stacked by source
-const UNICORN_BSH=[0,0,1,0,1,0,0]; // Brightshift: Oct +1, Dec +1 (Spencer/Carol/Ben = Sep counted as Oct), Jan = Ambassador Mashup Dec
-const UNICORN_INT=[1,1,1,1,0,0,0]; // Internal: Oct,Nov,Dec,Jan
-const UNICORN_CEL=[0,0,1,0,0,0,0]; // Celeb: Dec (Ambassador Mashup)
-const UNICORN_HAM=[1,0,0,0,0,0,0]; // Hambi/Other: Oct
+// Unicorn data — by source and by product, with offer filter
+const UNICORN={
+  src:{
+    all:      {Brightshift:[1,0,0,0,0,0,0],Internal:[0,1,2,2,0,0,0],Celeb:[0,0,1,0,0,0,0],Hambi:[1,0,0,0,0,0,0]},
+    offer:    {Brightshift:[0,0,0,0,0,0,0],Internal:[0,1,1,2,0,0,0],Celeb:[0,0,0,0,0,0,0],Hambi:[0,0,0,0,0,0,0]},
+    non_offer:{Brightshift:[1,0,0,0,0,0,0],Internal:[0,0,1,0,0,0,0],Celeb:[0,0,1,0,0,0,0],Hambi:[1,0,0,0,0,0,0]},
+  },
+  prod:{
+    all:      {Vitals:[1,1,2,2,0,0,0],Bundle:[0,0,0,0,0,0,0],Biotic:[0,0,0,0,0,0,0],Thrive:[0,0,1,0,0,0,0]},
+    offer:    {Vitals:[0,1,1,2,0,0,0],Bundle:[0,0,0,0,0,0,0],Biotic:[0,0,0,0,0,0,0],Thrive:[0,0,0,0,0,0,0]},
+    non_offer:{Vitals:[1,0,1,0,0,0,0],Bundle:[0,0,0,0,0,0,0],Biotic:[0,0,0,0,0,0,0],Thrive:[0,0,1,0,0,0,0]},
+  }
+};
+let currentUnicornOffer='all';
 
 const PROD_BY_OFFER={"vitals_bundle":{"all":[[115,107,417,145,116,265,53],[13,13,51,17,17,8,0],[11.3,12.1,12.2,11.7,14.7,3.0,0.0]],"offer":[[23,22,34,22,21,41,9],[5,2,9,8,3,2,0],[21.7,9.1,26.5,36.4,14.3,4.9,0.0]],"non_offer":[[92,85,383,123,95,224,44],[8,11,42,9,14,6,0],[8.7,12.9,11.0,7.3,14.7,2.7,0.0]]},"biotic":{"all":[[33,25,48,29,109,247,6],[6,1,4,3,22,14,0],[18.2,4.0,8.3,10.3,20.2,5.7,0.0]],"offer":[[0,3,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0.0,0,0,0,0,0]],"non_offer":[[33,22,48,29,109,247,6],[6,1,4,3,22,14,0],[18.2,4.5,8.3,10.3,20.2,5.7,0.0]]},"thrive":{"all":[[0,23,26,16,4,43,0],[0,3,4,2,1,1,0],[0,13.0,15.4,12.5,25.0,2.3,0]],"offer":[[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0]],"non_offer":[[0,23,26,16,4,43,0],[0,3,4,2,1,1,0],[0,13.0,15.4,12.5,25.0,2.3,0]]}};
 const SRC_BY_PRODUCT={"Internal":{"all":{"all":{"l":[77,109,284,94,143,300,36],"w":[5,9,22,9,20,13,0],"hr":[6.5,8.3,7.7,9.6,14.0,4.3,0.0]},"offer":{"l":[12,23,16,11,14,14,1],"w":[1,2,5,4,3,1,0],"hr":[8.3,8.7,31.2,36.4,21.4,7.1,0.0]},"non_offer":{"l":[65,86,268,83,129,286,35],"w":[4,7,17,5,17,12,0],"hr":[6.2,8.1,6.3,6.0,13.2,4.2,0.0]}},"vitals_bundle":{"all":{"l":[58,70,206,53,57,122,31],"w":[2,6,14,5,9,2,0],"hr":[3.4,8.6,6.8,9.4,15.8,1.6,0.0]},"offer":{"l":[12,20,15,11,14,14,1],"w":[1,2,5,4,3,1,0],"hr":[8.3,10.0,33.3,36.4,21.4,7.1,0.0]},"non_offer":{"l":[46,50,191,42,43,108,30],"w":[1,4,9,1,6,1,0],"hr":[2.2,8.0,4.7,2.4,14.0,0.9,0.0]}},"biotic":{"all":{"l":[14,16,45,25,67,165,5],"w":[3,0,4,2,9,11,0],"hr":[21.4,0.0,8.9,8.0,13.4,6.7,0.0]},"offer":{"l":[0,3,0,0,0,0,0],"w":[0,0,0,0,0,0,0],"hr":[0,0.0,0,0,0,0,0]},"non_offer":{"l":[14,13,45,25,67,165,5],"w":[3,0,4,2,9,11,0],"hr":[21.4,0.0,8.9,8.0,13.4,6.7,0.0]}},"thrive":{"all":{"l":[0,23,26,16,4,0,0],"w":[0,3,4,2,1,0,0],"hr":[0,13.0,15.4,12.5,25.0,0,0]},"offer":{"l":[0,0,0,0,0,0,0],"w":[0,0,0,0,0,0,0],"hr":[0,0,0,0,0,0,0]},"non_offer":{"l":[0,23,26,16,4,0,0],"w":[0,3,4,2,1,0,0],"hr":[0,13.0,15.4,12.5,25.0,0,0]}}},"Celeb":{"all":{"all":{"l":[8,14,11,19,24,8,0],"w":[4,2,2,2,10,2,0],"hr":[50.0,14.3,18.2,10.5,41.7,25.0,0]},"offer":{"l":[2,0,0,0,0,3,0],"w":[2,0,0,0,0,0,0],"hr":[100.0,0,0,0,0,0.0,0]},"non_offer":{"l":[6,14,11,19,24,5,0],"w":[2,2,2,2,10,2,0],"hr":[33.3,14.3,18.2,10.5,41.7,40.0,0]}},"vitals_bundle":{"all":{"l":[8,14,11,15,2,8,0],"w":[4,2,2,1,0,2,0],"hr":[50.0,14.3,18.2,6.7,0.0,25.0,0]},"offer":{"l":[2,0,0,0,0,3,0],"w":[2,0,0,0,0,0,0],"hr":[100.0,0,0,0,0,0.0,0]},"non_offer":{"l":[6,14,11,15,2,5,0],"w":[2,2,2,1,0,2,0],"hr":[33.3,14.3,18.2,6.7,0.0,40.0,0]}},"biotic":{"all":{"l":[0,0,0,4,22,0,0],"w":[0,0,0,1,10,0,0],"hr":[0,0,0,25.0,45.5,0,0]},"offer":{"l":[0,0,0,0,0,0,0],"w":[0,0,0,0,0,0,0],"hr":[0,0,0,0,0,0,0]},"non_offer":{"l":[0,0,0,4,22,0,0],"w":[0,0,0,1,10,0,0],"hr":[0,0,0,25.0,45.5,0,0]}},"thrive":{"all":{"l":[0,0,0,0,0,0,0],"w":[0,0,0,0,0,0,0],"hr":[0,0,0,0,0,0,0]},"offer":{"l":[0,0,0,0,0,0,0],"w":[0,0,0,0,0,0,0],"hr":[0,0,0,0,0,0,0]},"non_offer":{"l":[0,0,0,0,0,0,0],"w":[0,0,0,0,0,0,0],"hr":[0,0,0,0,0,0,0]}}},"Brightshift":{"all":{"all":{"l":[43,26,147,42,40,107,1],"w":[5,4,28,6,5,3,0],"hr":[11.6,15.4,19.0,14.3,12.5,2.8,0.0]},"offer":{"l":[0,2,19,8,0,0,0],"w":[0,0,4,2,0,0,0],"hr":[0,0.0,21.1,25.0,0,0,0]},"non_offer":{"l":[43,24,128,34,40,107,1],"w":[5,4,24,4,5,3,0],"hr":[11.6,16.7,18.8,11.8,12.5,2.8,0.0]}},"vitals_bundle":{"all":{"l":[24,17,138,39,20,0,0],"w":[2,3,28,6,2,0,0],"hr":[8.3,17.6,20.3,15.4,10.0,0,0]},"offer":{"l":[0,2,19,8,0,0,0],"w":[0,0,4,2,0,0,0],"hr":[0,0.0,21.1,25.0,0,0,0]},"non_offer":{"l":[24,15,119,31,20,0,0],"w":[2,3,24,4,2,0,0],"hr":[8.3,20.0,20.2,12.9,10.0,0,0]}},"biotic":{"all":{"l":[19,9,3,0,20,79,1],"w":[3,1,0,0,3,3,0],"hr":[15.8,11.1,0.0,0,15.0,3.8,0.0]},"offer":{"l":[0,0,0,0,0,0,0],"w":[0,0,0,0,0,0,0],"hr":[0,0,0,0,0,0,0]},"non_offer":{"l":[19,9,3,0,20,79,1],"w":[3,1,0,0,3,3,0],"hr":[15.8,11.1,0.0,0,15.0,3.8,0.0]}},"thrive":{"all":{"l":[0,0,0,0,0,28,0],"w":[0,0,0,0,0,0,0],"hr":[0,0,0,0,0,0.0,0]},"offer":{"l":[0,0,0,0,0,0,0],"w":[0,0,0,0,0,0,0],"hr":[0,0,0,0,0,0,0]},"non_offer":{"l":[0,0,0,0,0,28,0],"w":[0,0,0,0,0,0,0],"hr":[0,0,0,0,0,0.0,0]}}},"Hambi":{"all":{"all":{"l":[150,7,89,38,10,118,8],"w":[15,2,9,5,1,5,0],"hr":[10.0,28.6,10.1,13.2,10.0,4.2,0.0]},"offer":{"l":[9,0,0,3,1,20,1],"w":[2,0,0,2,0,1,0],"hr":[22.2,0,0,66.7,0.0,5.0,0.0]},"non_offer":{"l":[141,7,89,35,9,98,7],"w":[13,2,9,3,1,4,0],"hr":[9.2,28.6,10.1,8.6,11.1,4.1,0.0]}},"vitals_bundle":{"all":{"l":[21,6,62,38,8,103,8],"w":[4,2,7,5,1,4,0],"hr":[19.0,33.3,11.3,13.2,12.5,3.9,0.0]},"offer":{"l":[9,0,0,3,1,20,1],"w":[2,0,0,2,0,1,0],"hr":[22.2,0,0,66.7,0.0,5.0,0.0]},"non_offer":{"l":[12,6,62,35,7,83,7],"w":[2,2,7,3,1,3,0],"hr":[16.7,33.3,11.3,8.6,14.3,3.6,0.0]}},"biotic":{"all":{"l":[0,0,0,0,0,0,0],"w":[0,0,0,0,0,0,0],"hr":[0,0,0,0,0,0,0]},"offer":{"l":[0,0,0,0,0,0,0],"w":[0,0,0,0,0,0,0],"hr":[0,0,0,0,0,0,0]},"non_offer":{"l":[0,0,0,0,0,0,0],"w":[0,0,0,0,0,0,0],"hr":[0,0,0,0,0,0,0]}},"thrive":{"all":{"l":[0,0,0,0,0,15,0],"w":[0,0,0,0,0,1,0],"hr":[0,0,0,0,0,6.7,0]},"offer":{"l":[0,0,0,0,0,0,0],"w":[0,0,0,0,0,0,0],"hr":[0,0,0,0,0,0,0]},"non_offer":{"l":[0,0,0,0,0,15,0],"w":[0,0,0,0,0,1,0],"hr":[0,0,0,0,0,6.7,0]}}},"Influencer":{"all":{"all":{"l":[4,0,0,0,29,35,14],"w":[1,0,0,0,5,0,0],"hr":[25.0,0,0,0,17.2,0.0,0.0]},"offer":{"l":[0,0,0,0,6,4,7],"w":[0,0,0,0,0,0,0],"hr":[0,0,0,0,0.0,0.0,0.0]},"non_offer":{"l":[4,0,0,0,23,31,7],"w":[1,0,0,0,5,0,0],"hr":[25.0,0,0,0,21.7,0.0,0.0]}},"vitals_bundle":{"all":{"l":[4,0,0,0,29,32,14],"w":[1,0,0,0,5,0,0],"hr":[25.0,0,0,0,17.2,0.0,0.0]},"offer":{"l":[0,0,0,0,6,4,7],"w":[0,0,0,0,0,0,0],"hr":[0,0,0,0,0.0,0.0,0.0]},"non_offer":{"l":[4,0,0,0,23,28,7],"w":[1,0,0,0,5,0,0],"hr":[25.0,0,0,0,21.7,0.0,0.0]}},"biotic":{"all":{"l":[0,0,0,0,0,3,0],"w":[0,0,0,0,0,0,0],"hr":[0,0,0,0,0,0.0,0]},"offer":{"l":[0,0,0,0,0,0,0],"w":[0,0,0,0,0,0,0],"hr":[0,0,0,0,0,0,0]},"non_offer":{"l":[0,0,0,0,0,3,0],"w":[0,0,0,0,0,0,0],"hr":[0,0,0,0,0,0.0,0]}},"thrive":{"all":{"l":[0,0,0,0,0,0,0],"w":[0,0,0,0,0,0,0],"hr":[0,0,0,0,0,0,0]},"offer":{"l":[0,0,0,0,0,0,0],"w":[0,0,0,0,0,0,0],"hr":[0,0,0,0,0,0,0]},"non_offer":{"l":[0,0,0,0,0,0,0],"w":[0,0,0,0,0,0,0],"hr":[0,0,0,0,0,0,0]}}}};
@@ -514,7 +650,7 @@ function buildCPAChart(view){
   const labels=view==='w'?WL:ML;
   const cpa=view==='w'?W_CPA:MO_CPA;
   const share=view==='w'?W_SHARE:MO_WIN_SHARE;
-  const cpaMin=view==='w'?55:55, cpaMax=view==='w'?135:135;
+  const cpaMin=view==='w'?55:55, cpaMax=view==='w'?145:135;
   cCPAChart=new Chart(document.getElementById('cCPA'),{type:'bar',
     data:{labels,datasets:[
       {label:'Winner share %',data:share,backgroundColor:'rgba(26,95,168,.18)',borderColor:'rgba(26,95,168,.4)',borderWidth:1,borderRadius:3,yAxisID:'yL',order:2},
@@ -541,7 +677,7 @@ function buildSpendChart(view){
   const maxS=view==='w'?600:1400;
   cSpendChart=new Chart(document.getElementById('cSpend'),{type:'bar',
     data:{labels,datasets:[
-      {label:'Spend',data:spend,backgroundColor:cpa.map(v=>v<=80?'rgba(29,122,74,.4)':v<=95?'rgba(26,95,168,.3)':'rgba(191,59,46,.25)'),borderColor:cpa.map(v=>v<=80?'rgba(29,122,74,.65)':v<=95?'rgba(26,95,168,.55)':'rgba(191,59,46,.5)'),borderWidth:1,borderRadius:3,yAxisID:'yL',order:2},
+      {label:'Spend',data:spend,backgroundColor:cpa.map(v=>!v||v>95?'rgba(191,59,46,.25)':v<=80?'rgba(29,122,74,.4)':'rgba(26,95,168,.3)'),borderColor:cpa.map(v=>!v||v>95?'rgba(191,59,46,.5)':v<=80?'rgba(29,122,74,.65)':'rgba(26,95,168,.55)'),borderWidth:1,borderRadius:3,yAxisID:'yL',order:2},
       {label:'CPA',data:cpa,type:'line',borderColor:'#bf3b2e',backgroundColor:'transparent',borderWidth:2.5,pointRadius:view==='w'?2:5,pointBackgroundColor:'#bf3b2e',pointBorderColor:'#fff',pointBorderWidth:1,tension:0,yAxisID:'yR',order:1}
     ]},
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
@@ -566,7 +702,7 @@ new Chart(document.getElementById('cCPMCVR'),{type:'line',
     scales:{
       x:{grid:{display:false},ticks:{font:{size:9},maxTicksLimit:13}},
       y:{min:40,max:140,grid:{color:GC},ticks:{callback:v=>v,font:{size:9}},
-         title:{display:true,text:'Jan avg = 100',color:'#bbb',font:{size:9}}}
+         title:{display:true,text:'Period avg = 100',color:'#bbb',font:{size:9}}}
     }},
   plugins:[{id:'baseline',afterDraw(c){const{ctx,scales:{x,y}}=c;ctx.save();const by=y.getPixelForValue(100);ctx.strokeStyle='rgba(0,0,0,.12)';ctx.lineWidth=1;ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(x.left,by);ctx.lineTo(x.right,by);ctx.stroke();ctx.setLineDash([]);ctx.restore();}}]
 });
@@ -582,7 +718,7 @@ new Chart(document.getElementById('cCVRProd'),{type:'line',
     plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.datasetIndex<2?` ${c.dataset.label}: ${c.raw}`:` Biotic share: ${c.raw}%`}}},
     scales:{
       x:{grid:{display:false},ticks:{font:{size:9},maxTicksLimit:13}},
-      yL:{position:'left',min:40,max:140,grid:{color:GC},ticks:{font:{size:9}},title:{display:true,text:'Jan = 100',color:'#bbb',font:{size:9}}},
+      yL:{position:'left',min:40,max:140,grid:{color:GC},ticks:{font:{size:9}},title:{display:true,text:'Period avg = 100',color:'#bbb',font:{size:9}}},
       yR:{position:'right',min:0,max:30,grid:{display:false},ticks:{callback:v=>v+'%',font:{size:9}}}
     }}
 });
@@ -609,7 +745,26 @@ new Chart(document.getElementById('cMix'),{type:'bar',
   ]},
   options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
     plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}%`}}},
-    scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:12,weight:'500'}}},y:{min:0,max:100,stacked:true,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}}}}
+    scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:12,weight:'500'}}},y:{min:0,max:100,stacked:true,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}}}},
+  plugins:[{id:'mixlabels',afterDraw(c){
+    const{ctx,scales:{x,y}}=c; ctx.save(); ctx.textAlign='center';
+    const datasets=[
+      {data:MIX_F,offsets:[MIX_NW,MIX_A,MIX_P],color:'rgba(255,255,255,.92)'},
+      {data:MIX_P,offsets:[MIX_NW,MIX_A],color:'rgba(255,255,255,.92)'},
+      {data:MIX_A,offsets:[MIX_NW],color:'rgba(255,255,255,.85)'},
+    ];
+    datasets.forEach(({data,offsets,color})=>{
+      data.forEach((v,i)=>{
+        if(v<6) return;
+        const base=offsets.reduce((s,arr)=>s+arr[i],0);
+        const mid=y.getPixelForValue(base+v/2);
+        ctx.font='600 10px DM Sans,sans-serif';
+        ctx.fillStyle=color;
+        ctx.fillText(v.toFixed(0)+'%',x.getPixelForValue(i),mid+4);
+      });
+    });
+    ctx.restore();
+  }}]
 });
 
 // ── WINNERS PER £100K ──
@@ -650,37 +805,201 @@ new Chart(document.getElementById('cProdCPA'),{type:'line',
     scales:{x:{grid:{display:false},ticks:{font:{size:12,weight:'500'}}},y:{min:50,max:260,grid:{color:GC},ticks:{callback:v=>'£'+v,font:{size:10},maxTicksLimit:7}}}}
 });
 
-// ── UNICORN CHART (stacked by source) ──
-new Chart(document.getElementById('cUnicorn'),{type:'bar',
-  data:{labels:ML,datasets:[
-    {label:'Brightshift',data:UNICORN_BSH,backgroundColor:'rgba(29,122,74,.6)',borderColor:'rgba(29,122,74,.85)',borderWidth:1,borderRadius:3},
-    {label:'Internal',data:UNICORN_INT,backgroundColor:'rgba(26,95,168,.5)',borderColor:'rgba(26,95,168,.75)',borderWidth:1,borderRadius:3},
-    {label:'Celeb',data:UNICORN_CEL,backgroundColor:'rgba(123,63,160,.5)',borderColor:'rgba(123,63,160,.75)',borderWidth:1,borderRadius:3},
-    {label:'Hambi/Other',data:UNICORN_HAM,backgroundColor:'rgba(184,104,0,.5)',borderColor:'rgba(184,104,0,.75)',borderWidth:1,borderRadius:3},
-  ]},
-  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.raw>0?` ${c.dataset.label}: ${c.raw}`:null,filter:i=>i.raw>0}}},
-    scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:12,weight:'500'}}},
-      y:{min:0,max:7,stacked:true,grid:{color:GC},ticks:{font:{size:9},stepSize:1,callback:v=>v>0?v:''}}}}
-});
+// ── UNICORN CHARTS — product (by product) + source (by source), with shared offer filter ──
+let unicornProdChart=null, unicornSrcChart=null;
 
-// ── SOURCE CPA ──
-new Chart(document.getElementById('cSrcCPA'),{type:'line',
-  data:{labels:ML,datasets:[
-    {label:'Celeb',data:CEL_CPA_SRC,borderColor:'#7b3fa0',backgroundColor:'transparent',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#7b3fa0',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2},
-    {label:'Internal',data:INT_CPA_SRC,borderColor:'#1a5fa8',backgroundColor:'transparent',borderWidth:2,pointRadius:4,pointBackgroundColor:'#1a5fa8',pointBorderColor:'#fff',pointBorderWidth:1,tension:0.2},
-    {label:'Brightshift',data:BSH_CPA,borderColor:'#1d7a4a',backgroundColor:'transparent',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#1d7a4a',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2},
-    {label:'Hambi',data:HAM_CPA,borderColor:'#b86800',backgroundColor:'transparent',borderWidth:2,pointRadius:4,pointBackgroundColor:'#b86800',pointBorderColor:'#fff',pointBorderWidth:1,tension:0.2},
-    {label:'Influencer',data:INF_CPA,borderColor:'#bf3b2e',backgroundColor:'transparent',borderWidth:1.5,pointRadius:4,pointBackgroundColor:'#bf3b2e',pointBorderColor:'#fff',pointBorderWidth:1,tension:0.2,borderDash:[5,4]}
-  ]},
-  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.raw?` ${c.dataset.label}: £${c.raw}`:` ${c.dataset.label}: —`}}},
-    scales:{x:{grid:{display:false},ticks:{font:{size:12,weight:'500'}}},y:{min:50,max:160,grid:{color:GC},ticks:{callback:v=>'£'+v,font:{size:10},maxTicksLimit:6}}}}
-});
+function buildUnicornCharts(offerFilter){
+  const pd=UNICORN.prod[offerFilter], sd=UNICORN.src[offerFilter];
+
+  if(unicornProdChart) unicornProdChart.destroy();
+  unicornProdChart=new Chart(document.getElementById('cUnicorn'),{type:'bar',
+    data:{labels:ML,datasets:[
+      {label:'Vitals',data:pd.Vitals,backgroundColor:'rgba(26,95,168,.55)',borderColor:'rgba(26,95,168,.8)',borderWidth:1,borderRadius:3},
+      {label:'Bundle',data:pd.Bundle,backgroundColor:'rgba(29,122,74,.55)',borderColor:'rgba(29,122,74,.8)',borderWidth:1,borderRadius:3},
+      {label:'Biotic',data:pd.Biotic,backgroundColor:'rgba(191,59,46,.5)',borderColor:'rgba(191,59,46,.75)',borderWidth:1,borderRadius:3},
+      {label:'Thrive',data:pd.Thrive,backgroundColor:'rgba(123,63,160,.5)',borderColor:'rgba(123,63,160,.75)',borderWidth:1,borderRadius:3},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.raw>0?` ${c.dataset.label}: ${c.raw}`:null,filter:i=>i.raw>0}}},
+      scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:12,weight:'500'}}},
+        y:{min:0,max:5,stacked:true,grid:{color:GC},ticks:{font:{size:9},stepSize:1,callback:v=>v>0?v:''}}}}
+  });
+
+  if(unicornSrcChart) unicornSrcChart.destroy();
+  unicornSrcChart=new Chart(document.getElementById('cUnicornSrc'),{type:'bar',
+    data:{labels:ML,datasets:[
+      {label:'Brightshift',data:sd.Brightshift,backgroundColor:'rgba(29,122,74,.6)',borderColor:'rgba(29,122,74,.85)',borderWidth:1,borderRadius:3},
+      {label:'Internal',data:sd.Internal,backgroundColor:'rgba(26,95,168,.5)',borderColor:'rgba(26,95,168,.75)',borderWidth:1,borderRadius:3},
+      {label:'Celeb',data:sd.Celeb,backgroundColor:'rgba(123,63,160,.5)',borderColor:'rgba(123,63,160,.75)',borderWidth:1,borderRadius:3},
+      {label:'Hambi/Other',data:sd.Hambi,backgroundColor:'rgba(184,104,0,.5)',borderColor:'rgba(184,104,0,.75)',borderWidth:1,borderRadius:3},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.raw>0?` ${c.dataset.label}: ${c.raw}`:null,filter:i=>i.raw>0}}},
+      scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:12,weight:'500'}}},
+        y:{min:0,max:5,stacked:true,grid:{color:GC},ticks:{font:{size:9},stepSize:1,callback:v=>v>0?v:''}}}}
+  });
+}
+
+function setUnicornOffer(f,btn){
+  currentUnicornOffer=f;
+  document.querySelectorAll('[data-uo]').forEach(b=>b.classList.remove('ag'));
+  btn.classList.add('ag');
+  buildUnicornCharts(f);
+}
+buildUnicornCharts('all');
+
+// ── SOURCE CPA — monthly with product filter ──
+let cSrcCPAChart=null;
+// Y-axis ranges per filter — tight to the actual data spread
+const SRC_Y={all:{min:40,max:180},vitals:{min:40,max:180},biotic:{min:40,max:320},offer:{min:30,max:160}};
+function buildSrcCPAChart(prod){
+  if(cSrcCPAChart)cSrcCPAChart.destroy();
+  const d=SRC_PROD_CPA, y=SRC_Y[prod]||SRC_Y.all;
+  cSrcCPAChart=new Chart(document.getElementById('cSrcCPA'),{type:'line',
+    data:{labels:ML,datasets:[
+      {label:'Celeb',      data:d.Celeb[prod],       borderColor:'#7b3fa0',backgroundColor:'transparent',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#7b3fa0',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2,spanGaps:false},
+      {label:'Internal',   data:d.Internal[prod],    borderColor:'#1a5fa8',backgroundColor:'transparent',borderWidth:2,  pointRadius:4,pointBackgroundColor:'#1a5fa8',pointBorderColor:'#fff',pointBorderWidth:1,  tension:0.2,spanGaps:false},
+      {label:'Brightshift',data:d.Brightshift[prod], borderColor:'#1d7a4a',backgroundColor:'transparent',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#1d7a4a',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2,spanGaps:false},
+      {label:'Hambi',      data:d.Hambi[prod],       borderColor:'#b86800',backgroundColor:'transparent',borderWidth:2,  pointRadius:4,pointBackgroundColor:'#b86800',pointBorderColor:'#fff',pointBorderWidth:1,  tension:0.2,spanGaps:false},
+      {label:'Influencer', data:d.Influencer[prod],  borderColor:'#bf3b2e',backgroundColor:'transparent',borderWidth:1.5,pointRadius:4,pointBackgroundColor:'#bf3b2e',pointBorderColor:'#fff',pointBorderWidth:1,  tension:0.2,borderDash:[5,4],spanGaps:false},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.raw?` ${c.dataset.label}: £${c.raw}`:null,filter:c=>c.raw!==null}}},
+      scales:{x:{grid:{display:false},ticks:{font:{size:12,weight:'500'}}},y:{min:y.min,max:y.max,grid:{color:GC},ticks:{callback:v=>'£'+v,font:{size:10},maxTicksLimit:6}}}}
+  });
+}
+function setSrcCPAProd(f,btn){
+  document.querySelectorAll('[data-srcp]').forEach(b=>b.classList.remove('ai'));
+  btn.classList.add('ai');
+  buildSrcCPAChart(f);
+}
+buildSrcCPAChart('all');
 
 // ── SEGMENT CHARTS ──
-segChart('cCeleb',CEL_SEG_SHARE,CEL_SEG_CPA,NCEL_SEG_CPA,'rgba(26,95,168,.18)','rgba(26,95,168,.38)','#1a5fa8');
+// ── CELEB CHART — monthly with product filter ──
+let cCelebChart=null;
+const CELEB_DATA={
+  all:   {cel:CEL_CPA_ALL,  ncel:NCEL_CPA_ALL,  share:CEL_SHARE_ALL},
+  vitals:{cel:CEL_CPA_VIT,  ncel:NCEL_CPA_VIT,  share:CEL_SHARE_VIT},
+  biotic:{cel:CEL_CPA_BIO,  ncel:NCEL_CPA_BIO,  share:CEL_SHARE_BIO},
+};
+// Tight y-axis ranges per filter
+const CEL_Y={all:{min:40,max:200},vitals:{min:40,max:160},biotic:{min:40,max:320}};
+function buildCelebChart(prod){
+  if(cCelebChart)cCelebChart.destroy();
+  const d=CELEB_DATA[prod], y=CEL_Y[prod]||CEL_Y.all;
+  cCelebChart=new Chart(document.getElementById('cCeleb'),{type:'bar',
+    data:{labels:ML,datasets:[
+      {label:'Celeb share %',data:d.share,backgroundColor:'rgba(26,95,168,.18)',borderColor:'rgba(26,95,168,.35)',borderWidth:1,borderRadius:3,yAxisID:'yL',order:2},
+      {label:'Celeb CPA',data:d.cel,type:'line',borderColor:'#1a5fa8',backgroundColor:'transparent',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#1a5fa8',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2,yAxisID:'yR',order:1},
+      {label:'Non-celeb CPA',data:d.ncel,type:'line',borderColor:'#bbb',backgroundColor:'transparent',borderWidth:1.5,pointRadius:4,pointBackgroundColor:'#bbb',pointBorderColor:'#fff',pointBorderWidth:1,tension:0.2,borderDash:[4,3],yAxisID:'yR',order:1}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>{
+        if(c.datasetIndex===0)return` Celeb share: ${c.raw}%`;
+        if(c.datasetIndex===1)return` Celeb CPA: £${c.raw}`;
+        return` Non-celeb CPA: £${c.raw}`;
+      }}}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:12,weight:'500'}}},
+        yL:{position:'left',min:0,max:70,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}},
+        yR:{position:'right',min:y.min,max:y.max,grid:{display:false},ticks:{callback:v=>'£'+v,font:{size:9},maxTicksLimit:6}}
+      }}
+  });
+}
+function setCelebProd(f,btn){
+  document.querySelectorAll('[data-cp]').forEach(b=>b.classList.remove('ai'));
+  btn.classList.add('ai');
+  buildCelebChart(f);
+}
+buildCelebChart('all');
+
 segChart('cOffer',OFF_SHARE,OFF_CPA,NOFF_CPA,'rgba(29,122,74,.18)','rgba(29,122,74,.38)','#1d7a4a');
+
+// ── CELEB DETAIL: per-ambassador CPA with product filter ──
+let cCelebDetailChart=null;
+const AMB_Y={vitals:{min:40,max:200},all:{min:40,max:240},biotic:{min:40,max:320},offer:{min:30,max:160}};
+function buildAmbChart(prod){
+  if(cCelebDetailChart)cCelebDetailChart.destroy();
+  const ambData=AMB_LABELS.map(l=>AMB_PROD_CPA[l][prod]);
+  const y=AMB_Y[prod]||AMB_Y.vitals;
+  cCelebDetailChart=new Chart(document.getElementById('cCelebDetail'),{type:'line',
+    data:{labels:ML,datasets:AMB_LABELS.map((lbl,i)=>({
+      label:lbl,data:ambData[i],
+      borderColor:AMB_COLORS[i],backgroundColor:'transparent',
+      borderWidth:2,pointRadius:ambData[i].map(v=>v?4:0),
+      pointBackgroundColor:AMB_COLORS[i],pointBorderColor:'#fff',pointBorderWidth:1.5,
+      tension:0.2,spanGaps:false
+    }))},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{
+        label:c=>c.raw?` ${c.dataset.label}: £${c.raw}`:null,
+        filter:c=>c.raw!==null
+      }}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:12,weight:'500'}}},
+        y:{min:y.min,max:y.max,grid:{color:GC},ticks:{callback:v=>'£'+v,font:{size:9},maxTicksLimit:6}}
+      }}
+  });
+}
+function setAmbProd(f,btn){
+  document.querySelectorAll('[data-ambp]').forEach(b=>b.classList.remove('ai'));
+  btn.classList.add('ai');
+  buildAmbChart(f);
+}
+// Build legend once
+(function(){
+  const leg=document.getElementById('celebDetailLeg');
+  AMB_LABELS.forEach((l,i)=>{
+    leg.innerHTML+=`<div class="leg-item"><div class="l-ln" style="background:${AMB_COLORS[i]}"></div>${l}</div>`;
+  });
+})();
+buildAmbChart('vitals');
+
+// ── OFFER DETAIL: Free Mag vs Intro Bundle — monthly share % + CPA ──
+new Chart(document.getElementById('cOfferDetail'),{type:'bar',
+  data:{labels:ML,datasets:[
+    {label:'Free Mag share %',data:FM_SHARE_MO,backgroundColor:'rgba(29,122,74,.25)',borderColor:'rgba(29,122,74,.5)',borderWidth:1,borderRadius:3,yAxisID:'yL',order:3},
+    {label:'Intro Bundle share %',data:IB_SHARE_MO,backgroundColor:'rgba(184,104,0,.2)',borderColor:'rgba(184,104,0,.4)',borderWidth:1,borderRadius:3,yAxisID:'yL',order:3},
+    {label:'Free Mag CPA',data:FM_CPA_MO,type:'line',borderColor:'#1d7a4a',backgroundColor:'transparent',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#1d7a4a',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2,yAxisID:'yR',order:1,spanGaps:false},
+    {label:'Intro Bundle CPA',data:IB_CPA_MO,type:'line',borderColor:'#b86800',backgroundColor:'transparent',borderWidth:2,pointRadius:4,pointBackgroundColor:'#b86800',pointBorderColor:'#fff',pointBorderWidth:1,tension:0.2,borderDash:[4,3],yAxisID:'yR',order:1}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>{
+      if(c.datasetIndex===0)return` Free Mag share: ${c.raw}%`;
+      if(c.datasetIndex===1)return` Intro Bundle share: ${c.raw}%`;
+      if(c.datasetIndex===2)return c.raw?` Free Mag CPA: £${c.raw}`:null;
+      return c.raw?` Intro Bundle CPA: £${c.raw}`:null;
+    },filter:c=>c.raw!==null&&c.raw!==0}}},
+    scales:{
+      x:{grid:{display:false},ticks:{font:{size:12,weight:'500'}}},
+      yL:{position:'left',min:0,max:32,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}},
+      yR:{position:'right',min:30,max:130,grid:{display:false},ticks:{callback:v=>'£'+v,font:{size:9},maxTicksLimit:6}}
+    }}
+});
+
+// ── VITALS OFFER MIX: offer % within Vitals + offer vs non-offer CPA ──
+new Chart(document.getElementById('cVitOffer'),{type:'bar',
+  data:{labels:ML,datasets:[
+    {label:'Offer % of Vitals',data:VIT_OFF_PCT,backgroundColor:'rgba(26,95,168,.18)',borderColor:'rgba(26,95,168,.38)',borderWidth:1,borderRadius:3,yAxisID:'yL',order:2},
+    {label:'Vitals offer CPA',data:VIT_OFF_CPA,type:'line',borderColor:'#1a5fa8',backgroundColor:'transparent',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#1a5fa8',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2,yAxisID:'yR',order:1},
+    {label:'Vitals non-offer CPA',data:VIT_NOFF_CPA,type:'line',borderColor:'#bbb',backgroundColor:'transparent',borderWidth:1.5,pointRadius:4,pointBackgroundColor:'#bbb',pointBorderColor:'#fff',pointBorderWidth:1,tension:0.2,borderDash:[4,3],yAxisID:'yR',order:1}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>{
+      if(c.datasetIndex===0)return` Offer % of Vitals: ${c.raw}%`;
+      if(c.datasetIndex===1)return` Offer CPA: £${c.raw}`;
+      return` Non-offer CPA: £${c.raw}`;
+    }}}},
+    scales:{
+      x:{grid:{display:false},ticks:{font:{size:12,weight:'500'}}},
+      yL:{position:'left',min:0,max:55,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}},
+      yR:{position:'right',min:40,max:160,grid:{display:false},ticks:{callback:v=>'£'+v,font:{size:9}}}
+    }}
+});
+
+// cVitOfferMix hidden — canvas exists to avoid errors
+(function(){const el=document.getElementById('cVitOfferMix');if(el)el.style.display='none';})();
 
 // ── PRODUCT HIT CHART SYSTEM ──
 const prodCharts={};
@@ -731,10 +1050,16 @@ rebuildSrcCharts();
 
 // ── WINNER TABLE ──
 let tblProd='all',tblOffer='all';
+function filterTbl(dim,val,btn){
+  if(dim==='p'){tblProd=val;document.querySelectorAll('[data-tp]').forEach(b=>b.classList.remove('ai'));btn.classList.add('ai');}
+  else{tblOffer=val;document.querySelectorAll('[data-to]').forEach(b=>b.classList.remove('ag'));btn.classList.add('ag');}
+  renderTable();
+}
 function renderTable(){
   const tb=document.getElementById('tBody');tb.innerHTML='';
   WINNERS.filter(w=>{
-    if(tblProd!=='all'&&w.product!==tblProd)return false;
+    if(tblProd==='Vitals'&&!['Vitals','Bundle'].includes(w.product))return false;
+    if(tblProd!=='all'&&tblProd!=='Vitals'&&w.product!==tblProd)return false;
     if(tblOffer==='offer'&&!w.offer)return false;
     if(tblOffer==='non_offer'&&w.offer)return false;
     return true;
@@ -752,11 +1077,6 @@ function renderTable(){
       <td style="text-align:right;padding-right:12px"><span class="badge ${bc}">${w.bucket}</span></td>
     </tr>`;
   });
-}
-function filterTbl(dim,val,btn){
-  if(dim==='p'){tblProd=val;document.querySelectorAll('[data-tp]').forEach(b=>b.classList.remove('ai'));btn.classList.add('ai');}
-  else{tblOffer=val;document.querySelectorAll('[data-to]').forEach(b=>b.classList.remove('ag'));btn.classList.add('ag');}
-  renderTable();
 }
 renderTable();
 
