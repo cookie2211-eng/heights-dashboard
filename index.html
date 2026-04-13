@@ -102,8 +102,8 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="kpi"><div class="kpi-lbl">Weekly spend</div><div class="kpi-val" id="k-spend"></div><div class="kpi-diff" id="k-spend-d"></div><div class="kpi-sub" id="k-spend-s"></div></div>
   <div class="kpi"><div class="kpi-lbl">Blended CPA</div><div class="kpi-val r" id="k-cpa"></div><div class="kpi-diff" id="k-cpa-d"></div><div class="kpi-sub" id="k-cpa-s"></div></div>
   <div class="kpi"><div class="kpi-lbl">Winner spend share</div><div class="kpi-val a" id="k-wsh"></div><div class="kpi-diff" id="k-wsh-d"></div><div class="kpi-sub" id="k-wsh-s"></div></div>
-  <div class="kpi"><div class="kpi-lbl">New Vitals winners</div><div class="kpi-val" id="k-vw"></div><div class="kpi-diff n">30-day threshold</div><div class="kpi-sub">ads crossing £3K this week</div></div>
-  <div class="kpi"><div class="kpi-lbl">New Biotic winners</div><div class="kpi-val" id="k-bw"></div><div class="kpi-diff n">30-day threshold</div><div class="kpi-sub">ads crossing £1K this week</div></div>
+  <div class="kpi"><div class="kpi-lbl">New Vitals winners</div><div class="kpi-val" id="k-vw"></div><div class="kpi-diff n">£3K threshold</div><div class="kpi-sub">30-day windows closed this week</div></div>
+  <div class="kpi"><div class="kpi-lbl">New Biotic winners</div><div class="kpi-val" id="k-bw"></div><div class="kpi-diff n">£1K threshold</div><div class="kpi-sub">30-day windows closed this week</div></div>
 </div>
 <div id="new-winner-detail" style="display:none;margin-bottom:12px">
   <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">New winners this week — created w/e <span id="nwd-week"></span></div>
@@ -136,9 +136,9 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
     <div class="chart-wrap" style="height:190px"><canvas id="cCPMCVR"></canvas></div>
   </div>
   <div class="card">
-    <div class="card-lbl">CVR by product — indexed to period avg</div>
-    <div class="card-hl">Biotic CVR <span style="color:var(--red)">more volatile</span> — share growing despite higher CPA</div>
-    <div class="card-sub" style="font-size:10px;color:var(--muted);margin-bottom:6px">⚠ Both lines indexed to the same blended period average — as Biotic share grows, the baseline shifts. Lines are not directly comparable.</div>
+    <div class="card-lbl">CVR by product — absolute</div>
+    <div class="card-hl">Both Vitals and Biotic CVR <span style="color:var(--red)">falling</span> — Biotic more volatile</div>
+    <div class="card-sub" style="font-size:10px;color:var(--muted);margin-bottom:6px">Absolute CVR per product. Biotic CVR is structurally lower than Vitals — not directly comparable.</div>
     <div class="leg"><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Vitals CVR</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Biotic CVR</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.2)"></div>Biotic share % (right)</div></div>
     <div class="chart-wrap" style="height:190px"><canvas id="cCVRProd"></canvas></div>
   </div>
@@ -162,7 +162,8 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 </div>
 <div class="card">
   <div class="card-lbl">Winners per £100K spend — monthly</div>
-  <div class="card-hl">Testing efficiency below Dec benchmark</div>
+  <div class="card-hl">Testing efficiency — Dec benchmark <span id="dec-bmk-hl"></span></div>
+  <p class="muted-note">Current month inflated — partial spend denominator. Will normalise as month completes.</p>
   <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.6)"></div>Winners per £100K</div><div class="leg-item"><div class="l-da" style="border-color:rgba(29,122,74,.45)"></div>Dec benchmark</div></div>
   <div class="chart-wrap" style="height:150px"><canvas id="cNorm"></canvas></div>
 </div>
@@ -189,8 +190,8 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="card"><div class="card-lbl">Thrive · launches vs winners vs hit rate</div><div class="card-hl">Winner = ≥£1K — early stage</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(180,150,220,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(123,63,160,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cThrHit"></canvas></div></div>
   <div class="card">
     <div class="card-lbl">🦄 Unicorn ads — monthly count by product</div>
-    <div class="card-hl">8 total (Oct 2025+) — <span style="color:var(--amber)">none since Mar 2026</span></div>
-    <div class="card-sub">≥5% of daily account spend within 14 days of launch.</div>
+    <div class="card-hl">8 total (Oct 2025+) — <span style="color:var(--amber)">last: Free Mag lo-fi price, Mar 2026</span></div>
+    <div class="card-sub">≥5% of daily account spend within 14 days of launch. Mar unicorn: "free magnesium lo-fi price" hit 7.6% on day 2.</div>
     <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.55)"></div>Vitals</div><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.55)"></div>Bundle</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.5)"></div>Biotic</div><div class="leg-item"><div class="l-sq" style="background:rgba(123,63,160,.5)"></div>Thrive</div></div>
     <div class="filter-bar"><span class="toggle-label">Creative type</span><button class="tog ag" data-uo="all" onclick="setUnicornOffer('all',this)">All</button><button class="tog" data-uo="non_offer" onclick="setUnicornOffer('non_offer',this)">Non-offer</button><button class="tog" data-uo="offer" onclick="setUnicornOffer('offer',this)">Offer</button></div>
     <div class="chart-wrap" style="height:165px;margin-top:8px"><canvas id="cUnicorn"></canvas></div>
@@ -238,6 +239,25 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 
 <!-- 6. KEY SEGMENTS -->
 <div class="sec"><h2>6 · Key creative segments</h2><span>Ambassador, offer &amp; bundle</span></div>
+
+<div class="card">
+  <div class="card-lbl">Monthly spend by creative type — BAU, Offer, Celeb, Influencer</div>
+  <div class="card-hl">Celeb dominant throughout — <em>Offer growing Jan–Feb</em>, Influencer scaling from Mar</div>
+  <div class="card-sub">Shows how spend is allocated across creative types. Influencer includes all whitelisting (Oct 2025+) and paid influencer (Mar 2026+).</div>
+  <div class="leg">
+    <div class="leg-item"><div class="l-sq" style="background:rgba(155,155,155,.5)"></div>BAU</div>
+    <div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.6)"></div>Offer</div>
+    <div class="leg-item"><div class="l-sq" style="background:rgba(123,63,160,.6)"></div>Celeb</div>
+    <div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.6)"></div>Influencer</div>
+  </div>
+  <div class="filter-bar">
+    <span class="toggle-label">Product</span>
+    <button class="tog ai" data-segp="all" onclick="setSegProd('all',this)">All</button>
+    <button class="tog" data-segp="vit" onclick="setSegProd('vit',this)">Vitals &amp; Bundle</button>
+    <button class="tog" data-segp="bio" onclick="setSegProd('bio',this)">Biotic</button>
+  </div>
+  <div class="chart-wrap" style="height:220px;margin-top:8px"><canvas id="cSegSpend"></canvas></div>
+</div>
 <div class="sec-sub">Ambassador &amp; celebrity</div>
 <div class="grid2">
   <div class="card">
@@ -370,6 +390,10 @@ function init() {
   buildAllCharts();
   buildAmbLegend();
   renderTable();
+  // Set Dec benchmark headline
+  const bmk = D.M_NORM[2];
+  const decBmkEl = document.getElementById('dec-bmk-hl');
+  if(decBmkEl) decBmkEl.textContent = bmk + ' per £100K';
 }
 
 function setKPI(id, val, delta, sub) {
@@ -392,7 +416,7 @@ const GC = '#e8e5df';
 const TT = {backgroundColor:'#111',titleColor:'#fff',bodyColor:'rgba(255,255,255,.75)',padding:10,cornerRadius:3,borderColor:'#333',borderWidth:1};
 
 function buildAllCharts() {
-  const {WL,ML,W_CPA,W_SHARE,W_SPEND,W_CPM_IDX,W_CVR_IDX,MO_CPA,MO_WIN_SHARE,MO_SPEND_K,
+  const {WL,ML,W_CPA,W_SHARE,W_SPEND,W_CPM_IDX,W_CVR_IDX,W_CVR_VIT,W_CVR_BIO,MO_CPA,MO_WIN_SHARE,MO_SPEND_K,
     VIT_CPA,BIO_CPA,BUN_CPA,CVR_VIT,CVR_BIO,BIO_SHARE,AGE_F,AGE_P,AGE_A,
     MIX_F,MIX_P,MIX_A,MIX_NW,M_NORM,OFF_CPA,NOFF_CPA,OFF_SHARE,
     FM_CPA_MO,IB_CPA_MO,FM_SHARE_MO,IB_SHARE_MO,
@@ -414,19 +438,17 @@ function buildAllCharts() {
     plugins:[{id:'bl',afterDraw(c){const{ctx,scales:{x,y}}=c;ctx.save();const by=y.getPixelForValue(100);ctx.strokeStyle='rgba(0,0,0,.12)';ctx.lineWidth=1;ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(x.left,by);ctx.lineTo(x.right,by);ctx.stroke();ctx.setLineDash([]);ctx.restore();}}]
   });
 
-  // CVR by product — dynamic Y axis
-  const cvrMin = Math.floor(Math.min(...D.CVR_VIT, ...D.CVR_BIO) / 10) * 10 - 10;
-  const cvrMax = Math.ceil(Math.max(...D.CVR_VIT, ...D.CVR_BIO) / 10) * 10 + 10;
+  // CVR by product — absolute CVR
   new Chart(document.getElementById('cCVRProd'),{type:'line',
-    data:{labels:WL,datasets:[
-      {label:'Vitals CVR',data:CVR_VIT,borderColor:'#1a5fa8',backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:0.3,yAxisID:'yL'},
-      {label:'Biotic CVR',data:CVR_BIO,borderColor:'#bf3b2e',backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:0.3,yAxisID:'yL'},
-      {label:'Biotic share',data:BIO_SHARE,backgroundColor:'rgba(191,59,46,.12)',borderColor:'transparent',fill:true,type:'bar',yAxisID:'yR',order:3}
+    data:{labels:D.WL,datasets:[
+      {label:'Vitals CVR',data:D.W_CVR_VIT,borderColor:'#1a5fa8',backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:0.3,yAxisID:'yL'},
+      {label:'Biotic CVR',data:D.W_CVR_BIO,borderColor:'#bf3b2e',backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:0.3,yAxisID:'yL'},
+      {label:'Biotic share',data:D.BIO_SHARE,backgroundColor:'rgba(191,59,46,.12)',borderColor:'transparent',fill:true,type:'bar',yAxisID:'yR',order:3}
     ]},
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.datasetIndex<2?` ${c.dataset.label}: ${c.raw}`:` Biotic share: ${c.raw}%`}}},
+      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.datasetIndex<2?` ${c.dataset.label}: ${(c.raw*100).toFixed(2)}%`:` Biotic share: ${c.raw}%`}}},
       scales:{x:{grid:{display:false},ticks:{font:{size:9},maxTicksLimit:13}},
-        yL:{position:'left',min:cvrMin,max:cvrMax,grid:{color:GC},ticks:{font:{size:9}}},
+        yL:{position:'left',min:0,grid:{color:GC},ticks:{callback:v=>(v*100).toFixed(1)+'%',font:{size:9}},title:{display:true,text:'CVR',color:'#bbb',font:{size:9}}},
         yR:{position:'right',min:0,max:30,grid:{display:false},ticks:{callback:v=>v+'%',font:{size:9}}}}}
   });
 
@@ -439,10 +461,28 @@ function buildAllCharts() {
     ]},
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
       plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}%`}}},
-      scales:{x:{grid:{display:false},ticks:{font:{size:9},maxTicksLimit:13}},y:{min:0,max:100,stacked:true,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}}}}
+      scales:{x:{grid:{display:false},ticks:{font:{size:9},maxTicksLimit:13}},y:{min:0,max:100,stacked:true,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}}}},
+    plugins:[{id:'ageLabels',afterDraw(c){
+      const{ctx,scales:{x,y}}=c; ctx.save(); ctx.textAlign='center';
+      // Label Fresh% on last point
+      const lastIdx = AGE_F.length-1;
+      const fPx = x.getPixelForValue(lastIdx);
+      const stackBase = AGE_A[lastIdx]+AGE_P[lastIdx];
+      if(AGE_F[lastIdx]>5){
+        const fPy = y.getPixelForValue(stackBase + AGE_F[lastIdx]/2);
+        ctx.font='600 9px DM Sans,sans-serif'; ctx.fillStyle='rgba(29,122,74,.9)';
+        ctx.fillText(AGE_F[lastIdx].toFixed(0)+'%',fPx,fPy+3);
+      }
+      if(AGE_A[lastIdx]>5){
+        const aPy = y.getPixelForValue(AGE_A[lastIdx]/2);
+        ctx.fillStyle='rgba(184,104,0,.9)';
+        ctx.fillText(AGE_A[lastIdx].toFixed(0)+'%',fPx,aPy+3);
+      }
+      ctx.restore();
+    }}]
   });
 
-  // Monthly mix
+  // Monthly mix — with data labels
   new Chart(document.getElementById('cMix'),{type:'bar',
     data:{labels:ML,datasets:[
       {label:'Non-winner',data:MIX_NW,backgroundColor:'rgba(155,155,155,.3)',borderColor:'rgba(155,155,155,.5)',borderWidth:1},
@@ -452,7 +492,26 @@ function buildAllCharts() {
     ]},
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
       plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}%`}}},
-      scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:12,weight:'500'}}},y:{min:0,max:100,stacked:true,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}}}}
+      scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:12,weight:'500'}}},y:{min:0,max:100,stacked:true,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}}}},
+    plugins:[{id:'mixlabels',afterDraw(c){
+      const{ctx,scales:{x,y}}=c; ctx.save(); ctx.textAlign='center';
+      const datasets=[
+        {data:MIX_F,offsets:[MIX_NW,MIX_A,MIX_P],color:'rgba(255,255,255,.95)'},
+        {data:MIX_P,offsets:[MIX_NW,MIX_A],color:'rgba(255,255,255,.95)'},
+        {data:MIX_A,offsets:[MIX_NW],color:'rgba(255,255,255,.85)'},
+      ];
+      datasets.forEach(({data,offsets,color})=>{
+        data.forEach((v,i)=>{
+          if(v<6) return;
+          const base=offsets.reduce((s,arr)=>s+arr[i],0);
+          const mid=y.getPixelForValue(base+v/2);
+          ctx.font='600 10px DM Sans,sans-serif';
+          ctx.fillStyle=color;
+          ctx.fillText(v.toFixed(0)+'%',x.getPixelForValue(i),mid+4);
+        });
+      });
+      ctx.restore();
+    }}]
   });
 
   // Winners per £100K
@@ -555,6 +614,56 @@ function buildAllCharts() {
   buildAmbChart('vitals');
   rebuildProdCharts();
   rebuildSrcCharts();
+  buildSegSpendChart('all');
+}
+
+// ── Segment spend stacked bar ──
+let cSegChart = null;
+function buildSegSpendChart(prod) {
+  if(cSegChart) cSegChart.destroy();
+  const sfx = prod === 'vit' ? '_VIT' : prod === 'bio' ? '_BIO' : '_ALL';
+  const bau   = D['SEG_BAU'  + sfx];
+  const offer = D['SEG_OFFER'+ sfx];
+  const celeb = D['SEG_CELEB'+ sfx];
+  const inf   = D['SEG_INF'  + sfx];
+  const totals = bau.map((_,i) => bau[i]+offer[i]+celeb[i]+inf[i]);
+  cSegChart = new Chart(document.getElementById('cSegSpend'),{type:'bar',
+    data:{labels:D.ML,datasets:[
+      {label:'BAU',         data:bau,  backgroundColor:'rgba(155,155,155,.45)',borderColor:'rgba(155,155,155,.7)', borderWidth:1,borderRadius:2},
+      {label:'Offer',       data:offer,backgroundColor:'rgba(29,122,74,.55)', borderColor:'rgba(29,122,74,.8)',   borderWidth:1,borderRadius:2},
+      {label:'Celeb',       data:celeb,backgroundColor:'rgba(123,63,160,.55)',borderColor:'rgba(123,63,160,.8)',  borderWidth:1,borderRadius:2},
+      {label:'Influencer',  data:inf,  backgroundColor:'rgba(26,95,168,.55)', borderColor:'rgba(26,95,168,.8)',   borderWidth:1,borderRadius:2},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{
+        label:c=>{
+          const tot=totals[c.dataIndex];
+          const pct=tot>0?Math.round(c.raw/tot*100):0;
+          return` ${c.dataset.label}: £${c.raw}K (${pct}%)`;
+        }
+      }}},
+      scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:12,weight:'500'}}},
+        y:{stacked:true,grid:{color:GC},ticks:{callback:v=>'£'+v+'K',font:{size:9}},min:0}}},
+    plugins:[{id:'seglabels',afterDraw(c){
+      const{ctx,scales:{x,y}}=c; ctx.save(); ctx.textAlign='center';
+      // Label celeb % on each bar
+      celeb.forEach((v,i)=>{
+        if(v < 5) return;
+        const tot = totals[i]; if(tot===0) return;
+        const pct = Math.round(v/tot*100);
+        const base = bau[i]+offer[i];
+        const mid = y.getPixelForValue(base + v/2);
+        ctx.font='600 9px DM Sans,sans-serif'; ctx.fillStyle='rgba(255,255,255,.9)';
+        ctx.fillText(pct+'%', x.getPixelForValue(i), mid+3);
+      });
+      ctx.restore();
+    }}]
+  });
+}
+function setSegProd(f,btn){
+  document.querySelectorAll('[data-segp]').forEach(b=>b.classList.remove('ai'));
+  btn.classList.add('ai');
+  buildSegSpendChart(f);
 }
 
 // ── CPA chart ──
