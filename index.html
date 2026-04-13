@@ -106,7 +106,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="kpi"><div class="kpi-lbl">New Biotic winners</div><div class="kpi-val" id="k-bw"></div><div class="kpi-diff n">£1K threshold</div><div class="kpi-sub">30-day windows closed this week</div></div>
 </div>
 <div id="new-winner-detail" style="display:none;margin-bottom:12px">
-  <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">New winners this week — created w/e <span id="nwd-week"></span></div>
+  <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Confirmed winners this week — 30-day spend window closed w/e <span id="nwd-week"></span></div>
   <div id="nwd-list" style="display:flex;flex-direction:column;gap:4px"></div>
 </div>
 
@@ -145,7 +145,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 </div>
 
 <!-- 3. WINNER POOL -->
-<div class="sec"><h2>3 · Winner pool health</h2><span>Age, pipeline &amp; rate of production</span></div>
+<div class="sec"><h2>3 · Winner pool health</h2><span>Age &amp; pipeline</span></div>
 <div class="grid2">
   <div class="card">
     <div class="card-lbl">Weekly spend through winners by age</div>
@@ -160,14 +160,6 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
     <div class="chart-wrap" style="height:190px"><canvas id="cMix"></canvas></div>
   </div>
 </div>
-<div class="card">
-  <div class="card-lbl">Winners per £100K spend — monthly</div>
-  <div class="card-hl">Testing efficiency — Dec benchmark <span id="dec-bmk-hl"></span></div>
-  <p class="muted-note">Current month inflated — partial spend denominator. Will normalise as month completes.</p>
-  <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.6)"></div>Winners per £100K</div><div class="leg-item"><div class="l-da" style="border-color:rgba(29,122,74,.45)"></div>Dec benchmark</div></div>
-  <div class="chart-wrap" style="height:150px"><canvas id="cNorm"></canvas></div>
-</div>
-
 <!-- 4. BY PRODUCT -->
 <div class="sec"><h2>4 · Creative by product</h2><span>CPA, hit rates &amp; unicorns</span></div>
 <div class="card">
@@ -241,8 +233,8 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 <div class="sec"><h2>6 · Key creative segments</h2><span>Ambassador, offer &amp; bundle</span></div>
 
 <div class="card">
-  <div class="card-lbl">Monthly spend by creative type — BAU, Offer, Celeb, Influencer</div>
-  <div class="card-hl">Celeb dominant throughout — <em>Offer growing Jan–Feb</em>, Influencer scaling from Mar</div>
+  <div class="card-lbl">Monthly spend mix by creative type — 100% stacked</div>
+  <div class="card-hl">Celeb dominant throughout — <em>Offer grew Jan–Feb</em>, Influencer scaling from Mar</div>
   <div class="card-sub">Shows how spend is allocated across creative types. Influencer includes all whitelisting (Oct 2025+) and paid influencer (Mar 2026+).</div>
   <div class="leg">
     <div class="leg-item"><div class="l-sq" style="background:rgba(155,155,155,.5)"></div>BAU</div>
@@ -390,10 +382,6 @@ function init() {
   buildAllCharts();
   buildAmbLegend();
   renderTable();
-  // Set Dec benchmark headline
-  const bmk = D.M_NORM[2];
-  const decBmkEl = document.getElementById('dec-bmk-hl');
-  if(decBmkEl) decBmkEl.textContent = bmk + ' per £100K';
 }
 
 function setKPI(id, val, delta, sub) {
@@ -453,31 +441,35 @@ function buildAllCharts() {
   });
 
   // Age stacked area
-  new Chart(document.getElementById('cAge'),{type:'line',
+  new Chart(document.getElementById('cAge'),{type:'bar',
     data:{labels:WL,datasets:[
-      {label:'Ageing 11+wks',data:AGE_A,backgroundColor:'rgba(184,104,0,.4)',borderColor:'rgba(184,104,0,.75)',borderWidth:1.5,fill:true,tension:0.3,pointRadius:0},
-      {label:'Prime 5–10wks',data:AGE_P,backgroundColor:'rgba(26,95,168,.35)',borderColor:'rgba(26,95,168,.65)',borderWidth:1.5,fill:'-1',tension:0.3,pointRadius:0},
-      {label:'Fresh 0–4wks',data:AGE_F,backgroundColor:'rgba(29,122,74,.4)',borderColor:'rgba(29,122,74,.75)',borderWidth:1.5,fill:'-1',tension:0.3,pointRadius:0}
+      {label:'Fresh 0–4wks', data:AGE_F,backgroundColor:'rgba(29,122,74,.55)', borderColor:'rgba(29,122,74,.8)', borderWidth:1},
+      {label:'Prime 5–10wks',data:AGE_P,backgroundColor:'rgba(26,95,168,.45)', borderColor:'rgba(26,95,168,.7)', borderWidth:1},
+      {label:'Ageing 11+wks',data:AGE_A,backgroundColor:'rgba(184,104,0,.45)', borderColor:'rgba(184,104,0,.7)', borderWidth:1},
     ]},
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
       plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}%`}}},
-      scales:{x:{grid:{display:false},ticks:{font:{size:9},maxTicksLimit:13}},y:{min:0,max:100,stacked:true,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}}}},
+      scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:9},maxTicksLimit:13}},
+        y:{min:0,max:100,stacked:true,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}}}},
     plugins:[{id:'ageLabels',afterDraw(c){
-      const{ctx,scales:{x,y}}=c; ctx.save(); ctx.textAlign='center';
-      // Label Fresh% on last point
-      const lastIdx = AGE_F.length-1;
-      const fPx = x.getPixelForValue(lastIdx);
-      const stackBase = AGE_A[lastIdx]+AGE_P[lastIdx];
-      if(AGE_F[lastIdx]>5){
-        const fPy = y.getPixelForValue(stackBase + AGE_F[lastIdx]/2);
-        ctx.font='600 9px DM Sans,sans-serif'; ctx.fillStyle='rgba(29,122,74,.9)';
-        ctx.fillText(AGE_F[lastIdx].toFixed(0)+'%',fPx,fPy+3);
-      }
-      if(AGE_A[lastIdx]>5){
-        const aPy = y.getPixelForValue(AGE_A[lastIdx]/2);
-        ctx.fillStyle='rgba(184,104,0,.9)';
-        ctx.fillText(AGE_A[lastIdx].toFixed(0)+'%',fPx,aPy+3);
-      }
+      const{ctx,scales:{x,y},chartArea}=c; ctx.save(); ctx.textAlign='center';
+      ctx.beginPath(); ctx.rect(chartArea.left,chartArea.top,chartArea.width,chartArea.height); ctx.clip();
+      // Label every 4th week to avoid crowding
+      AGE_F.forEach((v,i)=>{
+        if(i % 4 !== 0 && i !== AGE_F.length-1) return;
+        const px = x.getPixelForValue(i);
+        if(px > chartArea.right - 20) return;
+        ctx.font='600 9px DM Sans,sans-serif';
+        if(v >= 6){
+          const base = AGE_P[i]+AGE_A[i];
+          ctx.fillStyle='rgba(255,255,255,.9)';
+          ctx.fillText(v.toFixed(0)+'%', px, y.getPixelForValue(base+v/2)+3);
+        }
+        if(AGE_A[i] >= 6){
+          ctx.fillStyle='rgba(255,255,255,.85)';
+          ctx.fillText(AGE_A[i].toFixed(0)+'%', px, y.getPixelForValue(AGE_A[i]/2)+3);
+        }
+      });
       ctx.restore();
     }}]
   });
@@ -511,33 +503,6 @@ function buildAllCharts() {
         });
       });
       ctx.restore();
-    }}]
-  });
-
-  // Winners per £100K
-  const decBmk = M_NORM[2] || 13.1;
-  new Chart(document.getElementById('cNorm'),{type:'bar',
-    data:{labels:ML,datasets:[{label:'Winners/£100K',data:M_NORM,
-      backgroundColor:M_NORM.map(v=>v>=10?'rgba(29,122,74,.65)':v>=4?'rgba(184,104,0,.6)':'rgba(191,59,46,.55)'),
-      borderColor:M_NORM.map(v=>v>=10?'rgba(29,122,74,.9)':v>=4?'rgba(184,104,0,.85)':'rgba(191,59,46,.8)'),
-      borderWidth:1.5,borderRadius:4,barPercentage:0.55}]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>` ${c.raw} winners per £100K`}}},
-      scales:{x:{grid:{display:false},ticks:{font:{size:12,weight:'500'}}},y:{min:0,max:Math.max(16,Math.ceil(Math.max(...M_NORM)*1.3)),grid:{color:GC},ticks:{font:{size:9},maxTicksLimit:5}}}},
-    plugins:[{id:'nann',afterDraw(c){
-      const{ctx,scales:{y,x}}=c;ctx.save();
-      const by=y.getPixelForValue(decBmk);
-      ctx.strokeStyle='rgba(29,122,74,.3)';ctx.lineWidth=1.5;ctx.setLineDash([4,4]);
-      ctx.beginPath();ctx.moveTo(x.left,by);ctx.lineTo(x.right,by);ctx.stroke();ctx.setLineDash([]);
-      ctx.font='italic 10px DM Sans,sans-serif';ctx.textAlign='left';ctx.fillStyle='rgba(29,122,74,.6)';
-      ctx.fillText(`Dec benchmark ${decBmk}`,x.left+3,by-4);
-      M_NORM.forEach((v,i)=>{
-        if(v<=0)return;
-        const px=x.getPixelForValue(i);
-        ctx.font='700 12px DM Sans,sans-serif';ctx.textAlign='center';
-        ctx.fillStyle=v>=10?'rgba(29,122,74,1)':v>=4?'rgba(184,104,0,1)':'rgba(191,59,46,1)';
-        ctx.fillText(v.toFixed(1),px,y.getPixelForValue(v)-7);
-      });ctx.restore();
     }}]
   });
 
@@ -629,32 +594,29 @@ function buildSegSpendChart(prod) {
   const totals = bau.map((_,i) => bau[i]+offer[i]+celeb[i]+inf[i]);
   cSegChart = new Chart(document.getElementById('cSegSpend'),{type:'bar',
     data:{labels:D.ML,datasets:[
-      {label:'BAU',         data:bau,  backgroundColor:'rgba(155,155,155,.45)',borderColor:'rgba(155,155,155,.7)', borderWidth:1,borderRadius:2},
-      {label:'Offer',       data:offer,backgroundColor:'rgba(29,122,74,.55)', borderColor:'rgba(29,122,74,.8)',   borderWidth:1,borderRadius:2},
-      {label:'Celeb',       data:celeb,backgroundColor:'rgba(123,63,160,.55)',borderColor:'rgba(123,63,160,.8)',  borderWidth:1,borderRadius:2},
-      {label:'Influencer',  data:inf,  backgroundColor:'rgba(26,95,168,.55)', borderColor:'rgba(26,95,168,.8)',   borderWidth:1,borderRadius:2},
+      {label:'BAU',         data:bau.map((_,i)=>totals[i]>0?Math.round(bau[i]/totals[i]*100):0),   backgroundColor:'rgba(155,155,155,.45)',borderColor:'rgba(155,155,155,.7)', borderWidth:1,borderRadius:2},
+      {label:'Offer',       data:offer.map((_,i)=>totals[i]>0?Math.round(offer[i]/totals[i]*100):0),backgroundColor:'rgba(29,122,74,.55)', borderColor:'rgba(29,122,74,.8)',   borderWidth:1,borderRadius:2},
+      {label:'Celeb',       data:celeb.map((_,i)=>totals[i]>0?Math.round(celeb[i]/totals[i]*100):0),backgroundColor:'rgba(123,63,160,.55)',borderColor:'rgba(123,63,160,.8)',  borderWidth:1,borderRadius:2},
+      {label:'Influencer',  data:inf.map((_,i)=>totals[i]>0?Math.round(inf[i]/totals[i]*100):0),   backgroundColor:'rgba(26,95,168,.55)', borderColor:'rgba(26,95,168,.8)',   borderWidth:1,borderRadius:2},
     ]},
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
       plugins:{legend:{display:false},tooltip:{...TT,callbacks:{
-        label:c=>{
-          const tot=totals[c.dataIndex];
-          const pct=tot>0?Math.round(c.raw/tot*100):0;
-          return` ${c.dataset.label}: £${c.raw}K (${pct}%)`;
-        }
+        label:c=>` ${c.dataset.label}: ${c.raw}% (£${totals[c.dataIndex]>0?(c.raw/100*totals[c.dataIndex]).toFixed(0):'0'}K)`
       }}},
       scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:12,weight:'500'}}},
-        y:{stacked:true,grid:{color:GC},ticks:{callback:v=>'£'+v+'K',font:{size:9}},min:0}}},
+        y:{stacked:true,min:0,max:100,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}}}},
     plugins:[{id:'seglabels',afterDraw(c){
       const{ctx,scales:{x,y}}=c; ctx.save(); ctx.textAlign='center';
-      // Label celeb % on each bar
-      celeb.forEach((v,i)=>{
-        if(v < 5) return;
-        const tot = totals[i]; if(tot===0) return;
-        const pct = Math.round(v/tot*100);
-        const base = bau[i]+offer[i];
-        const mid = y.getPixelForValue(base + v/2);
-        ctx.font='600 9px DM Sans,sans-serif'; ctx.fillStyle='rgba(255,255,255,.9)';
-        ctx.fillText(pct+'%', x.getPixelForValue(i), mid+3);
+      const pcts = [bau,offer,celeb,inf].map(arr=>arr.map((v,i)=>totals[i]>0?Math.round(v/totals[i]*100):0));
+      pcts.forEach((arr,di)=>{
+        arr.forEach((pct,i)=>{
+          if(pct < 8) return;
+          const base = pcts.slice(0,di).reduce((s,a)=>s+a[i],0);
+          const mid = y.getPixelForValue(base + pct/2);
+          ctx.font = '600 10px DM Sans,sans-serif';
+          ctx.fillStyle = 'rgba(255,255,255,.92)';
+          ctx.fillText(pct+'%', x.getPixelForValue(i), mid+4);
+        });
       });
       ctx.restore();
     }}]
