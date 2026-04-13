@@ -749,9 +749,9 @@ function setAmbProd(f,btn){document.querySelectorAll('[data-ambp]').forEach(b=>b
 const prodCharts={};
 let currentOfferFilter='all';
 const prodCfg={
-  cVitHit:{key:'vitals_bundle',barBg:'rgba(173,200,230,.55)',barBd:'rgba(120,165,210,.8)',winBg:'rgba(26,95,168,.82)',winBd:'rgba(26,95,168,1)',maxY:450},
-  cBioHit:{key:'biotic',barBg:'rgba(255,185,160,.55)',barBd:'rgba(220,130,110,.8)',winBg:'rgba(191,59,46,.82)',winBd:'rgba(191,59,46,1)',maxY:280},
-  cThrHit:{key:'thrive',barBg:'rgba(180,150,220,.55)',barBd:'rgba(150,110,190,.8)',winBg:'rgba(123,63,160,.82)',winBd:'rgba(123,63,160,1)',maxY:50},
+  cVitHit:{key:'vitals_bundle',barBg:'rgba(173,200,230,.55)',barBd:'rgba(120,165,210,.8)',winBg:'rgba(26,95,168,.82)',winBd:'rgba(26,95,168,1)',maxY:0},
+  cBioHit:{key:'biotic',barBg:'rgba(255,185,160,.55)',barBd:'rgba(220,130,110,.8)',winBg:'rgba(191,59,46,.82)',winBd:'rgba(191,59,46,1)',maxY:0},
+  cThrHit:{key:'thrive',barBg:'rgba(180,150,220,.55)',barBd:'rgba(150,110,190,.8)',winBg:'rgba(123,63,160,.82)',winBd:'rgba(123,63,160,1)',maxY:0},
 };
 function rebuildProdCharts(){
   Object.entries(prodCfg).forEach(([id,c])=>{
@@ -772,11 +772,11 @@ function setOfferFilter(f,btn){
 const srcCharts={};
 let currentSrcProd='all',currentSrcOffer='all';
 const srcCfg={
-  cIntHit:{src:'Internal',barBg:'rgba(173,200,230,.55)',barBd:'rgba(120,165,210,.8)',winBg:'rgba(26,95,168,.82)',winBd:'rgba(26,95,168,1)',maxY:350},
-  cCelSrcHit:{src:'Celeb',barBg:'rgba(180,150,220,.55)',barBd:'rgba(150,110,190,.8)',winBg:'rgba(123,63,160,.82)',winBd:'rgba(123,63,160,1)',maxY:30},
-  cBshHit:{src:'Brightshift',barBg:'rgba(185,225,200,.55)',barBd:'rgba(120,190,150,.8)',winBg:'rgba(29,122,74,.82)',winBd:'rgba(29,122,74,1)',maxY:160},
-  cHamHit:{src:'Hambi',barBg:'rgba(250,220,165,.55)',barBd:'rgba(210,170,90,.8)',winBg:'rgba(184,104,0,.82)',winBd:'rgba(184,104,0,1)',maxY:160},
-  cInfHit:{src:'Influencer',barBg:'rgba(255,180,180,.55)',barBd:'rgba(220,130,130,.8)',winBg:'rgba(191,59,46,.82)',winBd:'rgba(191,59,46,1)',maxY:40},
+  cIntHit:{src:'Internal',barBg:'rgba(173,200,230,.55)',barBd:'rgba(120,165,210,.8)',winBg:'rgba(26,95,168,.82)',winBd:'rgba(26,95,168,1)',maxY:0},
+  cCelSrcHit:{src:'Celeb',barBg:'rgba(180,150,220,.55)',barBd:'rgba(150,110,190,.8)',winBg:'rgba(123,63,160,.82)',winBd:'rgba(123,63,160,1)',maxY:0},
+  cBshHit:{src:'Brightshift',barBg:'rgba(185,225,200,.55)',barBd:'rgba(120,190,150,.8)',winBg:'rgba(29,122,74,.82)',winBd:'rgba(29,122,74,1)',maxY:0},
+  cHamHit:{src:'Hambi',barBg:'rgba(250,220,165,.55)',barBd:'rgba(210,170,90,.8)',winBg:'rgba(184,104,0,.82)',winBd:'rgba(184,104,0,1)',maxY:0},
+  cInfHit:{src:'Influencer',barBg:'rgba(255,180,180,.55)',barBd:'rgba(220,130,130,.8)',winBg:'rgba(191,59,46,.82)',winBd:'rgba(191,59,46,1)',maxY:0},
 };
 function rebuildSrcCharts(){
   const of=currentSrcOffer==='all'?currentOfferFilter:currentSrcOffer;
