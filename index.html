@@ -21,7 +21,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 .page-hdr-r{text-align:right;font-size:11px;color:var(--muted);line-height:1.9;}
 .page-hdr-r strong{display:block;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin-bottom:2px;}
 .sec{display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:8px;margin:32px 0 14px;}
-.sec h2{font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:none;color:var(--ink);}
+.sec h2{font-size:13px;font-weight:600;letter-spacing:.04em;color:var(--ink);}
 .sec span{font-size:11px;color:var(--muted);}
 .card{background:var(--white);border:1px solid var(--rule);border-radius:6px;padding:18px 20px;margin-bottom:12px;}
 .card-lbl{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
@@ -31,7 +31,6 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 .card-sub ul{margin:0 0 0 14px;padding:0;}
 .muted-note{font-size:10px;color:var(--muted);margin:2px 0 8px;font-style:italic;}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
 .grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
 .kpi{background:var(--white);border:1px solid var(--rule);border-radius:6px;padding:14px 16px;}
 .kpi-lbl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
@@ -48,8 +47,6 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 .l-sq{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
 .l-ln{width:18px;height:2.5px;flex-shrink:0;}
 .l-da{width:18px;height:0;border-top:2.5px dashed;flex-shrink:0;}
-.toggle-row{display:flex;align-items:center;gap:14px;margin:8px 0 0;flex-wrap:wrap;}
-.toggle-group{display:flex;align-items:center;gap:5px;}
 .toggle-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:2px;}
 .filter-bar{display:flex;align-items:center;gap:6px;padding:6px 0;border-top:1px solid var(--rule);margin-top:10px;flex-wrap:wrap;}
 .tog{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;padding:4px 10px;border-radius:20px;border:1px solid var(--rule);background:var(--white);color:var(--ink2);cursor:pointer;transition:all .15s;}
@@ -57,7 +54,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 .tog.ai{background:var(--ink);color:#fff;border-color:var(--ink);}
 .tog.ag{background:var(--green);color:#fff;border-color:var(--green);}
 .view-toggle{display:flex;border:1px solid var(--rule);border-radius:4px;overflow:hidden;}
-.view-toggle button{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:4px 11px;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;}
+.view-toggle button{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:4px 11px;border:none;background:transparent;color:var(--muted);cursor:pointer;}
 .view-toggle button.active{background:var(--ink);color:#fff;}
 .wtbl{width:100%;border-collapse:collapse;font-size:12px;}
 .wtbl th{text-align:left;padding:7px 10px;border-bottom:2px solid var(--ink);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
@@ -68,19 +65,15 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 .badge.g{background:var(--green-lt);color:var(--green);}
 .badge.a{background:var(--amber-lt);color:var(--amber);}
 .badge.r{background:var(--red-lt);color:var(--red);}
-.badge.p{background:var(--purple-lt);color:var(--purple);}
 .dot{width:7px;height:7px;border-radius:50%;display:inline-block;}
 .dot.on{background:var(--green);}.dot.off{background:#ccc;}
 .footer{border-top:1px solid var(--rule);padding-top:12px;margin-top:36px;display:flex;justify-content:space-between;font-size:10px;color:var(--muted);}
-.ghost-card{background:transparent;border:none;box-shadow:none;}
 .sec-sub{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:0 0 8px;}
 #loading{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;font-family:'DM Serif Display',serif;font-size:22px;color:var(--muted);}
 </style>
 </head>
 <body>
-
 <div id="loading">Loading dashboard…</div>
-
 <div id="app" style="display:none">
 
 <div class="page-hdr">
@@ -92,7 +85,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
     <strong>Heights</strong>
     Sep 2025 – <span id="hdr-date"></span><br>
     Winner ≥£3K first 30 days (Biotic/Thrive ≥£1K)<br>
-    🦄 Unicorn = ≥5% daily spend share within 14 days of launch · Oct 2025+
+    🦄 Unicorn = ≥5% daily spend within 14 days · Oct 2025+
   </div>
 </div>
 
@@ -103,24 +96,21 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <ul id="tldr-bullets" style="margin:0 0 0 16px;padding:0;font-size:12px;line-height:1.8;color:rgba(255,255,255,.7)"></ul>
 </div>
 
-<!-- ── 1. LAST WEEK SNAPSHOT ── -->
+<!-- 1. SNAPSHOT -->
 <div class="sec"><h2>1 · Last week snapshot</h2><span id="s1-span"></span></div>
-<p id="s1-sub" style="font-size:11px;color:var(--ink2);margin:6px 0 10px"></p>
 <div class="grid5" style="margin-bottom:12px">
   <div class="kpi"><div class="kpi-lbl">Weekly spend</div><div class="kpi-val" id="k-spend"></div><div class="kpi-diff" id="k-spend-d"></div><div class="kpi-sub" id="k-spend-s"></div></div>
   <div class="kpi"><div class="kpi-lbl">Blended CPA</div><div class="kpi-val r" id="k-cpa"></div><div class="kpi-diff" id="k-cpa-d"></div><div class="kpi-sub" id="k-cpa-s"></div></div>
   <div class="kpi"><div class="kpi-lbl">Winner spend share</div><div class="kpi-val a" id="k-wsh"></div><div class="kpi-diff" id="k-wsh-d"></div><div class="kpi-sub" id="k-wsh-s"></div></div>
-  <div class="kpi"><div class="kpi-lbl">New Vitals winners</div><div class="kpi-val" id="k-vw"></div><div class="kpi-diff n">= same</div><div class="kpi-sub">vs prior week</div></div>
-  <div class="kpi"><div class="kpi-lbl">New Biotic winners</div><div class="kpi-val" id="k-bw"></div><div class="kpi-diff n" id="k-bw-d"></div><div class="kpi-sub">vs prior week</div></div>
+  <div class="kpi"><div class="kpi-lbl">New Vitals winners</div><div class="kpi-val" id="k-vw"></div><div class="kpi-diff n">30-day threshold</div><div class="kpi-sub">ads crossing £3K this week</div></div>
+  <div class="kpi"><div class="kpi-lbl">New Biotic winners</div><div class="kpi-val" id="k-bw"></div><div class="kpi-diff n">30-day threshold</div><div class="kpi-sub">ads crossing £1K this week</div></div>
 </div>
 
-<!-- ── 2. PLATFORM PERFORMANCE ── -->
+<!-- 2. PLATFORM -->
 <div class="sec"><h2>2 · Platform performance</h2><span>Blended CPA &amp; spend · weekly &amp; monthly</span></div>
-<p style="font-size:11px;color:var(--ink2);margin:6px 0 10px">CPM is near average — CVR is 33% below period average. The market, not the media cost, is the constraint.</p>
 <div class="card">
   <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2px">
-    <div><div class="card-lbl">Blended CPA vs % spend through winners</div>
-    <div class="card-hl">CPA recovering — winner share stabilising</div></div>
+    <div><div class="card-lbl">Blended CPA vs % spend through winners</div><div class="card-hl">CPA trend vs winner share</div></div>
     <div class="view-toggle"><button class="active" onclick="setCPAView('w',this)">Weekly</button><button onclick="setCPAView('m',this)">Monthly</button></div>
   </div>
   <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.25)"></div>Winner share % (left)</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>CPA £ (right)</div></div>
@@ -128,8 +118,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 </div>
 <div class="card">
   <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2px">
-    <div><div class="card-lbl">Spend £ vs blended CPA</div>
-    <div class="card-hl">Jan: <em>£1.2M at £76</em> — scale and efficiency both peaked together</div></div>
+    <div><div class="card-lbl">Spend £ vs blended CPA</div><div class="card-hl">Jan: <em>£1.2M at £76</em> — scale and efficiency peaked together</div></div>
     <div class="view-toggle"><button class="active" onclick="setSpendView('w',this)">Weekly</button><button onclick="setSpendView('m',this)">Monthly</button></div>
   </div>
   <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.3)"></div>Spend (left)</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>CPA £ (right)</div></div>
@@ -138,50 +127,47 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 <div class="grid2">
   <div class="card">
     <div class="card-lbl">CPM vs blended CVR — indexed to period avg</div>
-    <div class="card-hl">CPM near average — <span style="color:var(--red)">CVR down 33% vs period average</span></div>
+    <div class="card-hl">CPM near average — <span style="color:var(--red)">CVR down vs period average</span></div>
     <div class="leg"><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>CPM index</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>CVR index</div><div class="leg-item" style="font-size:10px;color:var(--muted)">Period avg = 100</div></div>
     <div class="chart-wrap" style="height:190px"><canvas id="cCPMCVR"></canvas></div>
   </div>
   <div class="card">
     <div class="card-lbl">CVR by product — indexed to period avg</div>
     <div class="card-hl">Biotic CVR <span style="color:var(--red)">more volatile</span> — share growing despite higher CPA</div>
-    <div class="card-sub" style="font-size:10px;color:var(--muted);margin-bottom:6px">⚠ Both lines indexed to the same blended period average — as Biotic share grows, the baseline shifts. Lines are not directly comparable to each other.</div>
+    <div class="card-sub" style="font-size:10px;color:var(--muted);margin-bottom:6px">⚠ Both lines indexed to the same blended period average — as Biotic share grows, the baseline shifts. Lines are not directly comparable.</div>
     <div class="leg"><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Vitals CVR</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Biotic CVR</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.2)"></div>Biotic share % (right)</div></div>
     <div class="chart-wrap" style="height:190px"><canvas id="cCVRProd"></canvas></div>
   </div>
 </div>
 
-<!-- ── 3. WINNER POOL HEALTH ── -->
+<!-- 3. WINNER POOL -->
 <div class="sec"><h2>3 · Winner pool health</h2><span>Age, pipeline &amp; rate of production</span></div>
-<p style="font-size:11px;color:var(--ink2);margin:6px 0 10px">Fresh winner spend has collapsed to a new low. Winners per £100K has halved since Dec. The pipeline problem is structural, not seasonal.</p>
 <div class="grid2">
   <div class="card">
     <div class="card-lbl">Weekly spend through winners by age</div>
-    <div class="card-hl">Fresh share <span style="color:var(--red)">collapsing</span></div>
+    <div class="card-hl">Fresh share <span style="color:var(--red)">at new low</span></div>
     <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.7)"></div>Fresh (0–4 wks)</div><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.6)"></div>Prime (5–10 wks)</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.6)"></div>Ageing (11+ wks)</div></div>
     <div class="chart-wrap" style="height:190px"><canvas id="cAge"></canvas></div>
   </div>
   <div class="card">
     <div class="card-lbl">Monthly spend mix by winner age</div>
-    <div class="card-hl">Fresh winner share at new low</div>
+    <div class="card-hl">Fresh winner share collapsing</div>
     <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.7)"></div>Fresh</div><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.6)"></div>Prime</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.6)"></div>Ageing</div><div class="leg-item"><div class="l-sq" style="background:rgba(155,155,155,.35)"></div>Non-winner</div></div>
     <div class="chart-wrap" style="height:190px"><canvas id="cMix"></canvas></div>
   </div>
 </div>
 <div class="card">
   <div class="card-lbl">Winners per £100K spend — monthly</div>
-  <div class="card-hl">Testing efficiency has not recovered to Dec benchmark</div>
+  <div class="card-hl">Testing efficiency below Dec benchmark</div>
   <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.6)"></div>Winners per £100K</div><div class="leg-item"><div class="l-da" style="border-color:rgba(29,122,74,.45)"></div>Dec benchmark</div></div>
   <div class="chart-wrap" style="height:150px"><canvas id="cNorm"></canvas></div>
 </div>
 
-<!-- ── 4. CREATIVE BY PRODUCT ── -->
+<!-- 4. BY PRODUCT -->
 <div class="sec"><h2>4 · Creative by product</h2><span>CPA, hit rates &amp; unicorns</span></div>
-<p style="font-size:11px;color:var(--ink2);margin:6px 0 10px">Biotic drag on blended CPA remains the key structural headwind.</p>
 <div class="card">
   <div class="card-lbl">Monthly CPA by product</div>
   <div class="card-hl">Biotic <span style="color:var(--red)">nearly doubled</span> since Oct. Bundle creative consistently cheapest</div>
-  <div class="card-sub">Thrive (not shown — scale). Bundle = Intro Bundle / Sleep & Energy creative.</div>
   <div class="leg"><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Vitals</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Biotic</div><div class="leg-item"><div class="l-ln" style="background:#1d7a4a"></div>Bundle</div></div>
   <div class="chart-wrap" style="height:200px"><canvas id="cProdCPA"></canvas></div>
 </div>
@@ -196,24 +182,22 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="card"><div class="card-lbl">Biotic · launches vs winners vs hit rate</div><div class="card-hl">Winner = ≥£1K in first 30 days</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(255,185,160,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cBioHit"></canvas></div></div>
 </div>
 <div class="grid2" style="margin-top:0">
-  <div class="card"><div class="card-lbl">Thrive · launches vs winners vs hit rate</div><div class="card-hl">Winner = ≥£1K in first 30 days — early stage</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(180,150,220,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(123,63,160,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cThrHit"></canvas></div></div>
+  <div class="card"><div class="card-lbl">Thrive · launches vs winners vs hit rate</div><div class="card-hl">Winner = ≥£1K — early stage</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(180,150,220,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(123,63,160,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cThrHit"></canvas></div></div>
   <div class="card">
     <div class="card-lbl">🦄 Unicorn ads — monthly count by product</div>
-    <div class="card-hl">8 total — <span style="color:var(--amber)">none since Mar 2026</span></div>
-    <div class="card-sub">≥5% of daily account spend within 14 days of launch. Oct 2025 onwards.</div>
+    <div class="card-hl">8 total (Oct 2025+) — <span style="color:var(--amber)">none since Mar 2026</span></div>
+    <div class="card-sub">≥5% of daily account spend within 14 days of launch.</div>
     <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.55)"></div>Vitals</div><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.55)"></div>Bundle</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.5)"></div>Biotic</div><div class="leg-item"><div class="l-sq" style="background:rgba(123,63,160,.5)"></div>Thrive</div></div>
     <div class="filter-bar"><span class="toggle-label">Creative type</span><button class="tog ag" data-uo="all" onclick="setUnicornOffer('all',this)">All</button><button class="tog" data-uo="non_offer" onclick="setUnicornOffer('non_offer',this)">Non-offer</button><button class="tog" data-uo="offer" onclick="setUnicornOffer('offer',this)">Offer</button></div>
     <div class="chart-wrap" style="height:165px;margin-top:8px"><canvas id="cUnicorn"></canvas></div>
   </div>
 </div>
 
-<!-- ── 5. CREATIVE BY SOURCE ── -->
-<div class="sec"><h2>5 · Creative winner performance</h2><span>CPA, hit rates &amp; unicorns · by source &amp; product</span></div>
-<p style="font-size:11px;color:var(--ink2);margin:6px 0 10px">All sources converging — external pressure, not source-specific issues, driving CPA.</p>
+<!-- 5. BY SOURCE -->
+<div class="sec"><h2>5 · Creative winner performance</h2><span>CPA, hit rates · by source &amp; product</span></div>
 <div class="card">
   <div class="card-lbl">Monthly CPA by source</div>
   <div class="card-hl">All sources <span style="color:var(--red)">converging</span> — Brightshift sharpest collapse</div>
-  <div class="card-sub"><ul><li><strong>Celeb</strong> — all ambassador-featuring ads</li><li><strong>Brightshift</strong> — best Dec–Jan → sharpest collapse</li><li><strong>Internal</strong> — volume engine</li><li><strong>Hambi</strong> — most consistent, most resilient</li></ul></div>
   <div class="leg"><div class="leg-item"><div class="l-ln" style="background:#7b3fa0"></div>Celeb</div><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Internal</div><div class="leg-item"><div class="l-ln" style="background:#1d7a4a"></div>Brightshift</div><div class="leg-item"><div class="l-ln" style="background:#b86800"></div>Hambi</div><div class="leg-item"><div class="l-da" style="border-color:#bf3b2e"></div>Influencer</div></div>
   <div class="filter-bar"><span class="toggle-label">Product</span><button class="tog ai" data-srcp="all" onclick="setSrcCPAProd('all',this)">All</button><button class="tog" data-srcp="vitals" onclick="setSrcCPAProd('vitals',this)">Vitals &amp; Bundle</button><button class="tog" data-srcp="biotic" onclick="setSrcCPAProd('biotic',this)">Biotic</button><button class="tog" data-srcp="offer" onclick="setSrcCPAProd('offer',this)">Offer</button></div>
   <div class="chart-wrap" style="height:210px;margin-top:8px"><canvas id="cSrcCPA"></canvas></div>
@@ -234,7 +218,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="card"><div class="card-lbl">Celeb / Ambassador</div><div class="card-hl">Highest hit rate — fewest launches</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(180,150,220,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(123,63,160,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cCelSrcHit"></canvas></div></div>
 </div>
 <div class="grid2" style="margin-top:0">
-  <div class="card"><div class="card-lbl">Brightshift</div><div class="card-hl">19% peak Dec — sharpest collapse</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(185,225,200,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cBshHit"></canvas></div></div>
+  <div class="card"><div class="card-lbl">Brightshift</div><div class="card-hl">Sharpest collapse in hit rate</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(185,225,200,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cBshHit"></canvas></div></div>
   <div class="card"><div class="card-lbl">Hambi</div><div class="card-hl">Most consistent — most resilient</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(250,220,165,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cHamHit"></canvas></div></div>
 </div>
 <div class="grid2" style="margin-top:0">
@@ -248,13 +232,12 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   </div>
 </div>
 
-<!-- ── 6. KEY CREATIVE SEGMENTS ── -->
+<!-- 6. KEY SEGMENTS -->
 <div class="sec"><h2>6 · Key creative segments</h2><span>Ambassador, offer &amp; bundle</span></div>
-
 <div class="sec-sub">Ambassador &amp; celebrity</div>
 <div class="grid2">
   <div class="card">
-    <div class="card-lbl">Account — celeb vs non-celeb CPA &amp; share</div>
+    <div class="card-lbl">Account — celeb vs non-celeb CPA &amp; share · monthly</div>
     <div class="card-hl">Celeb CPA rising — gap vs non-celeb widening</div>
     <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.18)"></div>Celeb share % (left)</div><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Celeb CPA (right)</div><div class="leg-item"><div class="l-ln" style="background:#aaa"></div>Non-celeb CPA (right)</div></div>
     <div class="filter-bar"><span class="toggle-label">Product</span><button class="tog ai" data-cp="all" onclick="setCelebProd('all',this)">All</button><button class="tog" data-cp="vitals" onclick="setCelebProd('vitals',this)">Vitals &amp; Bundle</button><button class="tog" data-cp="biotic" onclick="setCelebProd('biotic',this)">Biotic</button></div>
@@ -268,7 +251,6 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
     <div class="chart-wrap" style="height:190px;margin-top:8px"><canvas id="cCelebDetail"></canvas></div>
   </div>
 </div>
-
 <div class="sec-sub" style="margin-top:16px">Offer &amp; bundle creative</div>
 <div class="card">
   <div class="card-lbl">Account — offer vs non-offer CPA &amp; share · weekly</div>
@@ -290,9 +272,8 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
     <div class="chart-wrap" style="height:200px"><canvas id="cOfferDetail"></canvas></div>
   </div>
 </div>
-<div class="chart-wrap" style="display:none"><canvas id="cVitOfferMix"></canvas></div>
 
-<!-- ── 7. TOP 25 WINNERS ── -->
+<!-- 7. WINNERS TABLE -->
 <div class="sec"><h2>7 · Top 25 winners — last 4 weeks</h2><span>● active last week &nbsp;○ not spending &nbsp;🦄 unicorn</span></div>
 <div class="filter-bar" style="border-top:none;margin-top:0;margin-bottom:10px">
   <span class="toggle-label">Product</span>
@@ -308,12 +289,9 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 <div class="card" style="padding:0;overflow:hidden">
   <table class="wtbl">
     <thead><tr>
-      <th style="width:20px;padding-left:12px"></th>
-      <th style="width:16px"></th>
-      <th>Ad name</th>
-      <th style="text-align:right">4-wk spend</th>
-      <th style="text-align:right">CPA</th>
-      <th style="text-align:right">Age</th>
+      <th style="width:20px;padding-left:12px"></th><th style="width:16px"></th>
+      <th>Ad name</th><th style="text-align:right">4-wk spend</th>
+      <th style="text-align:right">CPA</th><th style="text-align:right">Age</th>
       <th style="text-align:right;padding-right:12px">Bucket</th>
     </tr></thead>
     <tbody id="tBody"></tbody>
@@ -322,30 +300,34 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 
 <div class="footer">
   <span>Heights · Meta UK · Internal · <span id="footer-date"></span></span>
-  <span>Winner ≥£3K first 30 days (Biotic/Thrive ≥£1K) · 🦄 ≥5% daily spend share within 14 days · Spend/CPA: ad-set level where available · Creative analysis: ad level</span>
+  <span>Winner ≥£3K first 30 days (Biotic/Thrive ≥£1K) · 🦄 ≥5% daily spend share within 14 days · Oct 2025+</span>
 </div>
-
 </div><!-- #app -->
 
 <script>
-// ── LOAD DATA THEN INIT ──
-let D; // global data object
+// ════════════════════════════════════════
+// LOAD DATA
+// ════════════════════════════════════════
+let D;
 fetch('all_data.json')
   .then(r => { if(!r.ok) throw new Error('all_data.json not found'); return r.json(); })
   .then(data => { D = data; init(); })
   .catch(err => {
-    document.getElementById('loading').innerHTML = '⚠ Could not load all_data.json<br><small style="font-size:14px;font-family:sans-serif">Run update.py and upload all_data.json alongside index.html</small>';
+    document.getElementById('loading').innerHTML =
+      '⚠ Could not load all_data.json<br><small style="font-size:14px;font-family:sans-serif">Upload all_data.json alongside index.html</small>';
   });
 
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
 function init() {
   document.getElementById('loading').style.display = 'none';
   document.getElementById('app').style.display = 'block';
 
   const K = D.KPI;
-  document.getElementById('hdr-date').textContent = K.last_date;
-  document.getElementById('footer-date').textContent = new Date(K.last_date).toLocaleDateString('en-GB',{month:'short',year:'numeric'});
-
-  // Section 1 header
+  const lastDate = new Date(K.last_date);
+  document.getElementById('hdr-date').textContent = lastDate.toLocaleDateString('en-GB',{month:'short',year:'numeric'});
+  document.getElementById('footer-date').textContent = lastDate.toLocaleDateString('en-GB',{month:'short',year:'numeric'});
   document.getElementById('s1-span').textContent = `w/e ${K.week_label} vs w/e ${K.prev_week_label}`;
 
   // KPIs
@@ -355,20 +337,15 @@ function init() {
   document.getElementById('k-vw').textContent = K.new_vit_winners;
   document.getElementById('k-bw').textContent = K.new_bio_winners;
 
-  // TLDR (auto-generated from data)
-  const cpaDir = K.cpa < K.prev_cpa ? 'improving' : 'elevated';
+  // TLDR
+  const cpaWord = K.cpa < K.prev_cpa ? `improving to £${K.cpa}` : `at £${K.cpa}`;
   document.getElementById('tldr-hl').textContent =
-    `CPA ${cpaDir} at £${K.cpa} w/e ${K.week_label}. ` +
-    `Winner share ${K.winner_share}%. Fresh winner spend at new low.`;
-  const bullets = [
-    `Winner share ${K.winner_share}% w/e ${K.week_label} — ${K.new_vit_winners} new Vitals winners, ${K.new_bio_winners} new Biotic winners this week`,
+    `CPA ${cpaWord} w/e ${K.week_label}. Winner share ${K.winner_share}%. Fresh pool at new low.`;
+  document.getElementById('tldr-bullets').innerHTML = [
+    `Winner share ${K.winner_share}% w/e ${K.week_label} — ${K.new_vit_winners} new Vitals winners, ${K.new_bio_winners} new Biotic winners`,
     `Biotic CPA £${D.BIO_CPA[D.BIO_CPA.length-1]} at ${D.BIO_SHARE[D.BIO_SHARE.length-1]}% of spend — structural drag on blended CPA`,
-    `Fresh winner spend = ${D.AGE_F[D.AGE_F.length-1]}% of winner pool — lowest on record`,
-  ];
-  document.getElementById('tldr-bullets').innerHTML = bullets.map(b=>`<li>${b}</li>`).join('');
-
-  document.getElementById('s1-sub').textContent =
-    `CPA ${K.cpa_delta.val > 0 ? 'up' : 'down'} ${Math.abs(K.cpa_delta.val)}% vs prior week. Winner share at ${K.winner_share}%.`;
+    `Fresh winner spend = ${D.AGE_F[D.AGE_F.length-1]}% of winner pool`,
+  ].map(b=>`<li>${b}</li>`).join('');
 
   buildAllCharts();
   buildAmbLegend();
@@ -378,24 +355,28 @@ function init() {
 function setKPI(id, val, delta, sub) {
   document.getElementById(id).textContent = val;
   const d = document.getElementById(id+'-d');
-  const arrow = delta.val > 0 ? '↑' : '↓';
-  d.className = `kpi-diff ${delta.dir}`;
-  d.textContent = `${arrow} ${Math.abs(delta.val)}%`;
+  if(d && delta) {
+    const arrow = delta.val >= 0 ? '↑' : '↓';
+    d.className = `kpi-diff ${delta.dir}`;
+    d.textContent = `${arrow} ${Math.abs(delta.val)}%`;
+  }
   const s = document.getElementById(id+'-s');
   if(s) s.textContent = sub;
 }
 
-// ── CHART SETUP ──
-Chart.defaults.font.family="'DM Sans',sans-serif";
-const GC='#e8e5df';
-const TT={backgroundColor:'#111',titleColor:'#fff',bodyColor:'rgba(255,255,255,.75)',padding:10,cornerRadius:3,borderColor:'#333',borderWidth:1};
+// ════════════════════════════════════════
+// CHART CONFIG
+// ════════════════════════════════════════
+Chart.defaults.font.family = "'DM Sans',sans-serif";
+const GC = '#e8e5df';
+const TT = {backgroundColor:'#111',titleColor:'#fff',bodyColor:'rgba(255,255,255,.75)',padding:10,cornerRadius:3,borderColor:'#333',borderWidth:1};
 
 function buildAllCharts() {
   const {WL,ML,W_CPA,W_SHARE,W_SPEND,W_CPM_IDX,W_CVR_IDX,MO_CPA,MO_WIN_SHARE,MO_SPEND_K,
-         VIT_CPA,BIO_CPA,BUN_CPA,CVR_VIT,CVR_BIO,BIO_SHARE,AGE_F,AGE_P,AGE_A,
-         MIX_F,MIX_P,MIX_A,MIX_NW,M_NORM,CEL_SEG_CPA,NCEL_SEG_CPA,CEL_SEG_SHARE,
-         OFF_CPA,NOFF_CPA,OFF_SHARE,FM_CPA_MO,IB_CPA_MO,FM_SHARE_MO,IB_SHARE_MO,
-         VIT_OFF_CPA,VIT_NOFF_CPA,VIT_OFF_PCT} = D;
+    VIT_CPA,BIO_CPA,BUN_CPA,CVR_VIT,CVR_BIO,BIO_SHARE,AGE_F,AGE_P,AGE_A,
+    MIX_F,MIX_P,MIX_A,MIX_NW,M_NORM,OFF_CPA,NOFF_CPA,OFF_SHARE,
+    FM_CPA_MO,IB_CPA_MO,FM_SHARE_MO,IB_SHARE_MO,
+    VIT_OFF_CPA,VIT_NOFF_CPA,VIT_OFF_PCT} = D;
 
   buildCPAChart('w');
   buildSpendChart('w');
@@ -410,7 +391,7 @@ function buildAllCharts() {
       plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}`}}},
       scales:{x:{grid:{display:false},ticks:{font:{size:9},maxTicksLimit:13}},
         y:{min:40,max:140,grid:{color:GC},ticks:{callback:v=>v,font:{size:9}},title:{display:true,text:'Period avg = 100',color:'#bbb',font:{size:9}}}}},
-    plugins:[{id:'baseline',afterDraw(c){const{ctx,scales:{x,y}}=c;ctx.save();const by=y.getPixelForValue(100);ctx.strokeStyle='rgba(0,0,0,.12)';ctx.lineWidth=1;ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(x.left,by);ctx.lineTo(x.right,by);ctx.stroke();ctx.setLineDash([]);ctx.restore();}}]
+    plugins:[{id:'bl',afterDraw(c){const{ctx,scales:{x,y}}=c;ctx.save();const by=y.getPixelForValue(100);ctx.strokeStyle='rgba(0,0,0,.12)';ctx.lineWidth=1;ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(x.left,by);ctx.lineTo(x.right,by);ctx.stroke();ctx.setLineDash([]);ctx.restore();}}]
   });
 
   // CVR by product
@@ -423,11 +404,11 @@ function buildAllCharts() {
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
       plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.datasetIndex<2?` ${c.dataset.label}: ${c.raw}`:` Biotic share: ${c.raw}%`}}},
       scales:{x:{grid:{display:false},ticks:{font:{size:9},maxTicksLimit:13}},
-        yL:{position:'left',min:40,max:140,grid:{color:GC},ticks:{font:{size:9}},title:{display:true,text:'Period avg = 100',color:'#bbb',font:{size:9}}},
+        yL:{position:'left',min:40,max:140,grid:{color:GC},ticks:{font:{size:9}}},
         yR:{position:'right',min:0,max:30,grid:{display:false},ticks:{callback:v=>v+'%',font:{size:9}}}}}
   });
 
-  // Age stacked
+  // Age stacked area
   new Chart(document.getElementById('cAge'),{type:'line',
     data:{labels:WL,datasets:[
       {label:'Ageing 11+wks',data:AGE_A,backgroundColor:'rgba(184,104,0,.4)',borderColor:'rgba(184,104,0,.75)',borderWidth:1.5,fill:true,tension:0.3,pointRadius:0},
@@ -453,7 +434,7 @@ function buildAllCharts() {
   });
 
   // Winners per £100K
-  const decBenchmark = M_NORM[2] || 13.1;
+  const decBmk = M_NORM[2] || 13.1;
   new Chart(document.getElementById('cNorm'),{type:'bar',
     data:{labels:ML,datasets:[{label:'Winners/£100K',data:M_NORM,
       backgroundColor:M_NORM.map(v=>v>=10?'rgba(29,122,74,.65)':v>=4?'rgba(184,104,0,.6)':'rgba(191,59,46,.55)'),
@@ -462,13 +443,13 @@ function buildAllCharts() {
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>` ${c.raw} winners per £100K`}}},
       scales:{x:{grid:{display:false},ticks:{font:{size:12,weight:'500'}}},y:{min:0,max:Math.max(16,Math.ceil(Math.max(...M_NORM)*1.3)),grid:{color:GC},ticks:{font:{size:9},maxTicksLimit:5}}}},
-    plugins:[{id:'norm_ann',afterDraw(c){
+    plugins:[{id:'nann',afterDraw(c){
       const{ctx,scales:{y,x}}=c;ctx.save();
-      const by=y.getPixelForValue(decBenchmark);
+      const by=y.getPixelForValue(decBmk);
       ctx.strokeStyle='rgba(29,122,74,.3)';ctx.lineWidth=1.5;ctx.setLineDash([4,4]);
       ctx.beginPath();ctx.moveTo(x.left,by);ctx.lineTo(x.right,by);ctx.stroke();ctx.setLineDash([]);
       ctx.font='italic 10px DM Sans,sans-serif';ctx.textAlign='left';ctx.fillStyle='rgba(29,122,74,.6)';
-      ctx.fillText(`Dec benchmark ${decBenchmark}`,x.left+3,by-4);
+      ctx.fillText(`Dec benchmark ${decBmk}`,x.left+3,by-4);
       M_NORM.forEach((v,i)=>{
         if(v<=0)return;
         const px=x.getPixelForValue(i);
@@ -487,11 +468,11 @@ function buildAllCharts() {
       {label:'Bundle',data:BUN_CPA,borderColor:'#1d7a4a',backgroundColor:'transparent',borderWidth:2,pointRadius:4,pointBackgroundColor:'#1d7a4a',pointBorderColor:'#fff',pointBorderWidth:1,tension:0.2},
     ]},
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.raw?` ${c.dataset.label}: £${c.raw}`:` ${c.dataset.label}: —`}}},
+      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.raw?` ${c.dataset.label}: £${c.raw}`:null}}},
       scales:{x:{grid:{display:false},ticks:{font:{size:12,weight:'500'}}},y:{min:50,max:260,grid:{color:GC},ticks:{callback:v=>'£'+v,font:{size:10},maxTicksLimit:7}}}}
   });
 
-  // Offer segment (weekly)
+  // Offer weekly
   new Chart(document.getElementById('cOffer'),{type:'bar',
     data:{labels:WL,datasets:[
       {label:'Offer share %',data:OFF_SHARE,backgroundColor:'rgba(29,122,74,.18)',borderColor:'rgba(29,122,74,.38)',borderWidth:1,borderRadius:2,yAxisID:'yL',order:2},
@@ -501,8 +482,7 @@ function buildAllCharts() {
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
       plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>{
         if(c.datasetIndex===0)return` Share: ${c.raw}%`;
-        if(c.datasetIndex===1)return` Offer CPA: £${c.raw}`;
-        return` Non-offer CPA: £${c.raw}`;
+        return c.datasetIndex===1?` Offer CPA: £${c.raw}`:` Non-offer CPA: £${c.raw}`;
       }}}},
       scales:{x:{grid:{display:false},ticks:{font:{size:9},maxTicksLimit:13}},
         yL:{position:'left',min:0,max:60,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}},
@@ -514,13 +494,12 @@ function buildAllCharts() {
     data:{labels:ML,datasets:[
       {label:'Offer % of Vitals',data:VIT_OFF_PCT,backgroundColor:'rgba(26,95,168,.18)',borderColor:'rgba(26,95,168,.38)',borderWidth:1,borderRadius:3,yAxisID:'yL',order:2},
       {label:'Vitals offer CPA',data:VIT_OFF_CPA,type:'line',borderColor:'#1a5fa8',backgroundColor:'transparent',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#1a5fa8',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2,yAxisID:'yR',order:1},
-      {label:'Vitals non-offer CPA',data:VIT_NOFF_CPA,type:'line',borderColor:'#bbb',backgroundColor:'transparent',borderWidth:1.5,pointRadius:4,pointBackgroundColor:'#bbb',pointBorderColor:'#fff',pointBorderWidth:1,tension:0.2,borderDash:[4,3],yAxisID:'yR',order:1}
+      {label:'Non-offer CPA',data:VIT_NOFF_CPA,type:'line',borderColor:'#bbb',backgroundColor:'transparent',borderWidth:1.5,pointRadius:4,pointBackgroundColor:'#bbb',pointBorderColor:'#fff',pointBorderWidth:1,tension:0.2,borderDash:[4,3],yAxisID:'yR',order:1}
     ]},
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
       plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>{
         if(c.datasetIndex===0)return` Offer % of Vitals: ${c.raw}%`;
-        if(c.datasetIndex===1)return` Offer CPA: £${c.raw}`;
-        return` Non-offer CPA: £${c.raw}`;
+        return c.datasetIndex===1?` Offer CPA: £${c.raw}`:` Non-offer CPA: £${c.raw}`;
       }}}},
       scales:{x:{grid:{display:false},ticks:{font:{size:12,weight:'500'}}},
         yL:{position:'left',min:0,max:55,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}},
@@ -536,12 +515,13 @@ function buildAllCharts() {
       {label:'Intro Bundle CPA',data:IB_CPA_MO,type:'line',borderColor:'#b86800',backgroundColor:'transparent',borderWidth:2,pointRadius:4,pointBackgroundColor:'#b86800',pointBorderColor:'#fff',pointBorderWidth:1,tension:0.2,borderDash:[4,3],yAxisID:'yR',order:1}
     ]},
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>{
-        if(c.datasetIndex===0)return` Free Mag share: ${c.raw}%`;
-        if(c.datasetIndex===1)return` Intro Bundle share: ${c.raw}%`;
-        if(c.datasetIndex===2)return c.raw?` Free Mag CPA: £${c.raw}`:null;
-        return c.raw?` Intro Bundle CPA: £${c.raw}`:null;
-      },filter:c=>c.raw!==null&&c.raw!==0}}},
+      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{
+        label:c=>{
+          const labs=['Free Mag share','Intro Bundle share','Free Mag CPA','Intro Bundle CPA'];
+          const v = c.raw;
+          if(v===null||v===undefined) return null;
+          return c.datasetIndex<2?` ${labs[c.datasetIndex]}: ${v}%`:` ${labs[c.datasetIndex]}: £${v}`;
+        },filter:c=>c.raw!==null&&c.raw!==undefined}}},
       scales:{x:{grid:{display:false},ticks:{font:{size:12,weight:'500'}}},
         yL:{position:'left',min:0,max:32,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}},
         yR:{position:'right',min:30,max:130,grid:{display:false},ticks:{callback:v=>'£'+v,font:{size:9},maxTicksLimit:6}}}}
@@ -553,18 +533,16 @@ function buildAllCharts() {
   buildAmbChart('vitals');
   rebuildProdCharts();
   rebuildSrcCharts();
-
-  (function(){const el=document.getElementById('cVitOfferMix');if(el)el.style.display='none';})();
 }
 
-// ── CPA CHART (weekly/monthly) ──
-let cCPAChart=null;
-function buildCPAChart(view){
-  if(cCPAChart)cCPAChart.destroy();
-  const labels=view==='w'?D.WL:D.ML;
-  const cpa=view==='w'?D.W_CPA:D.MO_CPA;
-  const share=view==='w'?D.W_SHARE:D.MO_WIN_SHARE;
-  cCPAChart=new Chart(document.getElementById('cCPA'),{type:'bar',
+// ── CPA chart ──
+let cCPAChart = null;
+function buildCPAChart(view) {
+  if(cCPAChart) cCPAChart.destroy();
+  const labels = view==='w' ? D.WL : D.ML;
+  const cpa    = view==='w' ? D.W_CPA : D.MO_CPA;
+  const share  = view==='w' ? D.W_SHARE : D.MO_WIN_SHARE;
+  cCPAChart = new Chart(document.getElementById('cCPA'),{type:'bar',
     data:{labels,datasets:[
       {label:'Winner share %',data:share,backgroundColor:'rgba(26,95,168,.18)',borderColor:'rgba(26,95,168,.4)',borderWidth:1,borderRadius:3,yAxisID:'yL',order:2},
       {label:'CPA',data:cpa,type:'line',borderColor:'#bf3b2e',backgroundColor:'transparent',borderWidth:2.5,pointRadius:view==='w'?2:5,pointBackgroundColor:'#bf3b2e',pointBorderColor:'#fff',pointBorderWidth:1,tension:0,yAxisID:'yR',order:1}
@@ -578,15 +556,15 @@ function buildCPAChart(view){
 }
 function setCPAView(v,btn){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');buildCPAChart(v);}
 
-// ── SPEND CHART ──
-let cSpendChart=null;
-function buildSpendChart(view){
-  if(cSpendChart)cSpendChart.destroy();
-  const labels=view==='w'?D.WL:D.ML;
-  const spend=view==='w'?D.W_SPEND:D.MO_SPEND_K;
-  const cpa=view==='w'?D.W_CPA:D.MO_CPA;
-  const maxS=view==='w'?600:1400;
-  cSpendChart=new Chart(document.getElementById('cSpend'),{type:'bar',
+// ── Spend chart ──
+let cSpendChart = null;
+function buildSpendChart(view) {
+  if(cSpendChart) cSpendChart.destroy();
+  const labels = view==='w' ? D.WL : D.ML;
+  const spend  = view==='w' ? D.W_SPEND : D.MO_SPEND_K;
+  const cpa    = view==='w' ? D.W_CPA : D.MO_CPA;
+  const maxS   = view==='w' ? 600 : 1400;
+  cSpendChart = new Chart(document.getElementById('cSpend'),{type:'bar',
     data:{labels,datasets:[
       {label:'Spend',data:spend,backgroundColor:cpa.map(v=>!v||v>95?'rgba(191,59,46,.25)':v<=80?'rgba(29,122,74,.4)':'rgba(26,95,168,.3)'),borderColor:cpa.map(v=>!v||v>95?'rgba(191,59,46,.5)':v<=80?'rgba(29,122,74,.65)':'rgba(26,95,168,.55)'),borderWidth:1,borderRadius:3,yAxisID:'yL',order:2},
       {label:'CPA',data:cpa,type:'line',borderColor:'#bf3b2e',backgroundColor:'transparent',borderWidth:2.5,pointRadius:view==='w'?2:5,pointBackgroundColor:'#bf3b2e',pointBorderColor:'#fff',pointBorderWidth:1,tension:0,yAxisID:'yR',order:1}
@@ -600,14 +578,14 @@ function buildSpendChart(view){
 }
 function setSpendView(v,btn){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');buildSpendChart(v);}
 
-// ── HIT RATE CHART HELPER ──
-function hitChart(id,l,w,hr,barBg,barBd,winBg,winBd,maxY){
-  const mxHR=Math.max(...hr.filter(v=>v>0),1);
-  const yMax=maxY||Math.ceil(Math.max(...l.filter(v=>v>0))*1.35/50)*50||50;
+// ── Hit rate chart helper ──
+function hitChart(id,l,w,hr,barBg,barBd,winBg,winBd) {
+  const mxHR = Math.max(...hr.filter(v=>v>0),1);
+  const yMax = Math.ceil(Math.max(...l.filter(v=>v>0))*1.35/50)*50 || 50;
   return new Chart(document.getElementById(id),{type:'bar',
     data:{labels:D.ML,datasets:[
       {label:'Launches',data:l,backgroundColor:barBg,borderColor:barBd,borderWidth:1,borderRadius:3,yAxisID:'yL',order:3,barPercentage:0.85,categoryPercentage:0.7},
-      {label:'Winners',data:w,backgroundColor:winBg,borderColor:winBd,borderWidth:1.5,borderRadius:3,yAxisID:'yL',order:2,barPercentage:0.85,categoryPercentage:0.7},
+      {label:'Winners', data:w,backgroundColor:winBg,borderColor:winBd,borderWidth:1.5,borderRadius:3,yAxisID:'yL',order:2,barPercentage:0.85,categoryPercentage:0.7},
       {label:'Hit rate',data:hr,type:'line',borderColor:'rgba(191,59,46,.65)',backgroundColor:'transparent',borderWidth:2,pointRadius:4,pointBackgroundColor:'rgba(191,59,46,.9)',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2,yAxisID:'yR',order:1}
     ]},
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
@@ -615,7 +593,7 @@ function hitChart(id,l,w,hr,barBg,barBd,winBg,winBd,maxY){
       layout:{padding:{top:22}},
       scales:{x:{grid:{display:false},ticks:{font:{size:11,weight:'500'}}},
         yL:{position:'left',min:0,max:yMax,grid:{color:GC},ticks:{font:{size:9},maxTicksLimit:3}},
-        yR:{position:'right',min:0,max:Math.max(30,Math.ceil(mxHR/5)*5+8),grid:{display:false},ticks:{display:false}}},
+        yR:{position:'right',min:0,max:Math.max(30,Math.ceil(mxHR/5)*5+8),grid:{display:false},ticks:{display:false}}}},
     plugins:[{id:'lbl'+id,afterDraw(c){
       const{ctx,scales:{x},chartArea}=c;ctx.save();ctx.textAlign='center';
       const hrY=chartArea.top-8;
@@ -628,16 +606,15 @@ function hitChart(id,l,w,hr,barBg,barBd,winBg,winBd,maxY){
         ctx.fillText(hr[i]+'%',gx,hrY);
       });ctx.restore();
     }}]
-    }
   });
 }
 
-// ── UNICORN CHARTS ──
-let unicornProdChart=null,unicornSrcChart=null;
-function buildUnicornCharts(f){
-  const pd=D.UNICORN.prod[f],sd=D.UNICORN.src[f];
-  if(unicornProdChart)unicornProdChart.destroy();
-  unicornProdChart=new Chart(document.getElementById('cUnicorn'),{type:'bar',
+// ── Unicorn charts ──
+let unicornProdChart=null, unicornSrcChart=null;
+function buildUnicornCharts(f) {
+  const pd=D.UNICORN.prod[f], sd=D.UNICORN.src[f];
+  if(unicornProdChart) unicornProdChart.destroy();
+  unicornProdChart = new Chart(document.getElementById('cUnicorn'),{type:'bar',
     data:{labels:D.ML,datasets:[
       {label:'Vitals',data:pd.Vitals,backgroundColor:'rgba(26,95,168,.55)',borderColor:'rgba(26,95,168,.8)',borderWidth:1,borderRadius:3},
       {label:'Bundle',data:pd.Bundle,backgroundColor:'rgba(29,122,74,.55)',borderColor:'rgba(29,122,74,.8)',borderWidth:1,borderRadius:3},
@@ -646,10 +623,10 @@ function buildUnicornCharts(f){
     ]},
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
       plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.raw>0?` ${c.dataset.label}: ${c.raw}`:null,filter:i=>i.raw>0}}},
-      scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:12,weight:'500'}}},y:{min:0,max:5,stacked:true,grid:{color:GC},ticks:{font:{size:9},stepSize:1,callback:v=>v>0?v:''}}}}
+      scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:12,weight:'500'}}},y:{min:0,max:8,stacked:true,grid:{color:GC},ticks:{font:{size:9},stepSize:1,callback:v=>v>0?v:''}}}}
   });
-  if(unicornSrcChart)unicornSrcChart.destroy();
-  unicornSrcChart=new Chart(document.getElementById('cUnicornSrc'),{type:'bar',
+  if(unicornSrcChart) unicornSrcChart.destroy();
+  unicornSrcChart = new Chart(document.getElementById('cUnicornSrc'),{type:'bar',
     data:{labels:D.ML,datasets:[
       {label:'Brightshift',data:sd.Brightshift,backgroundColor:'rgba(29,122,74,.6)',borderColor:'rgba(29,122,74,.85)',borderWidth:1,borderRadius:3},
       {label:'Internal',data:sd.Internal,backgroundColor:'rgba(26,95,168,.5)',borderColor:'rgba(26,95,168,.75)',borderWidth:1,borderRadius:3},
@@ -658,22 +635,22 @@ function buildUnicornCharts(f){
     ]},
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
       plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.raw>0?` ${c.dataset.label}: ${c.raw}`:null,filter:i=>i.raw>0}}},
-      scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:12,weight:'500'}}},y:{min:0,max:5,stacked:true,grid:{color:GC},ticks:{font:{size:9},stepSize:1,callback:v=>v>0?v:''}}}}
+      scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:12,weight:'500'}}},y:{min:0,max:8,stacked:true,grid:{color:GC},ticks:{font:{size:9},stepSize:1,callback:v=>v>0?v:''}}}}
   });
 }
 function setUnicornOffer(f,btn){document.querySelectorAll('[data-uo]').forEach(b=>b.classList.remove('ag'));btn.classList.add('ag');buildUnicornCharts(f);}
 
-// ── SOURCE CPA ──
-let cSrcCPAChart=null;
-const SRC_Y={all:{min:40,max:200},vitals:{min:40,max:180},biotic:{min:40,max:320},offer:{min:30,max:160}};
-function buildSrcCPAChart(prod){
-  if(cSrcCPAChart)cSrcCPAChart.destroy();
-  const d=D.SRC_PROD_CPA,y=SRC_Y[prod]||SRC_Y.all;
-  const COLORS={Celeb:'#7b3fa0',Internal:'#1a5fa8',Brightshift:'#1d7a4a',Hambi:'#b86800',Influencer:'#bf3b2e'};
-  cSrcCPAChart=new Chart(document.getElementById('cSrcCPA'),{type:'line',
+// ── Source CPA ──
+let cSrcCPAChart = null;
+const SRC_Y = {all:{min:40,max:200},vitals:{min:40,max:180},biotic:{min:40,max:320},offer:{min:30,max:160}};
+function buildSrcCPAChart(prod) {
+  if(cSrcCPAChart) cSrcCPAChart.destroy();
+  const d=D.SRC_PROD_CPA, y=SRC_Y[prod]||SRC_Y.all;
+  const COLORS = {Celeb:'#7b3fa0',Internal:'#1a5fa8',Brightshift:'#1d7a4a',Hambi:'#b86800',Influencer:'#bf3b2e'};
+  cSrcCPAChart = new Chart(document.getElementById('cSrcCPA'),{type:'line',
     data:{labels:D.ML,datasets:Object.entries(d).map(([src,pdata])=>({
-      label:src,data:pdata[prod],
-      borderColor:COLORS[src],backgroundColor:'transparent',
+      label:src, data:pdata[prod],
+      borderColor:COLORS[src], backgroundColor:'transparent',
       borderWidth:src==='Influencer'?1.5:2.5,
       pointRadius:5,pointBackgroundColor:COLORS[src],pointBorderColor:'#fff',pointBorderWidth:1.5,
       tension:0.2,spanGaps:false,
@@ -686,26 +663,24 @@ function buildSrcCPAChart(prod){
 }
 function setSrcCPAProd(f,btn){document.querySelectorAll('[data-srcp]').forEach(b=>b.classList.remove('ai'));btn.classList.add('ai');buildSrcCPAChart(f);}
 
-// ── CELEB CHART ──
-let cCelebChart=null;
-const CEL_Y={all:{min:40,max:200},vitals:{min:40,max:160},biotic:{min:40,max:320}};
-function buildCelebChart(prod){
-  if(cCelebChart)cCelebChart.destroy();
-  const cel=D['CEL_CPA_'+prod.toUpperCase()+'']||D.CEL_CPA_ALL;
-  const ncel=D['NCEL_CPA_'+prod.toUpperCase()+'']||D.NCEL_CPA_ALL;
-  const share=D['CEL_SHARE_'+prod.toUpperCase()+'']||D.CEL_SHARE_ALL;
-  const y=CEL_Y[prod]||CEL_Y.all;
-  cCelebChart=new Chart(document.getElementById('cCeleb'),{type:'bar',
+// ── Celeb chart ──
+let cCelebChart = null;
+const CEL_Y = {all:{min:40,max:200},vitals:{min:40,max:160},biotic:{min:40,max:320}};
+function buildCelebChart(prod) {
+  if(cCelebChart) cCelebChart.destroy();
+  const keyMap = {all:['CEL_CPA_ALL','NCEL_CPA_ALL','CEL_SHARE_ALL'],vitals:['CEL_CPA_VIT','NCEL_CPA_VIT','CEL_SHARE_VIT'],biotic:['CEL_CPA_BIO','NCEL_CPA_BIO','CEL_SHARE_BIO']};
+  const [ck,nk,sk] = keyMap[prod] || keyMap.all;
+  const y = CEL_Y[prod] || CEL_Y.all;
+  cCelebChart = new Chart(document.getElementById('cCeleb'),{type:'bar',
     data:{labels:D.ML,datasets:[
-      {label:'Celeb share %',data:share,backgroundColor:'rgba(26,95,168,.18)',borderColor:'rgba(26,95,168,.35)',borderWidth:1,borderRadius:3,yAxisID:'yL',order:2},
-      {label:'Celeb CPA',data:cel,type:'line',borderColor:'#1a5fa8',backgroundColor:'transparent',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#1a5fa8',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2,yAxisID:'yR',order:1,spanGaps:false},
-      {label:'Non-celeb CPA',data:ncel,type:'line',borderColor:'#bbb',backgroundColor:'transparent',borderWidth:1.5,pointRadius:4,pointBackgroundColor:'#bbb',pointBorderColor:'#fff',pointBorderWidth:1,tension:0.2,borderDash:[4,3],yAxisID:'yR',order:1,spanGaps:false}
+      {label:'Celeb share %',data:D[sk],backgroundColor:'rgba(26,95,168,.18)',borderColor:'rgba(26,95,168,.35)',borderWidth:1,borderRadius:3,yAxisID:'yL',order:2},
+      {label:'Celeb CPA',data:D[ck],type:'line',borderColor:'#1a5fa8',backgroundColor:'transparent',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#1a5fa8',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2,yAxisID:'yR',order:1,spanGaps:false},
+      {label:'Non-celeb CPA',data:D[nk],type:'line',borderColor:'#bbb',backgroundColor:'transparent',borderWidth:1.5,pointRadius:4,pointBackgroundColor:'#bbb',pointBorderColor:'#fff',pointBorderWidth:1,tension:0.2,borderDash:[4,3],yAxisID:'yR',order:1,spanGaps:false}
     ]},
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
       plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>{
         if(c.datasetIndex===0)return` Celeb share: ${c.raw}%`;
-        if(c.datasetIndex===1)return` Celeb CPA: £${c.raw}`;
-        return` Non-celeb CPA: £${c.raw}`;
+        return c.datasetIndex===1?` Celeb CPA: £${c.raw}`:` Non-celeb CPA: £${c.raw}`;
       }}}},
       scales:{x:{grid:{display:false},ticks:{font:{size:12,weight:'500'}}},
         yL:{position:'left',min:0,max:70,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}},
@@ -714,50 +689,48 @@ function buildCelebChart(prod){
 }
 function setCelebProd(f,btn){document.querySelectorAll('[data-cp]').forEach(b=>b.classList.remove('ai'));btn.classList.add('ai');buildCelebChart(f);}
 
-// ── AMBASSADOR DETAIL ──
-let cCelebDetailChart=null;
-const AMB_COLORS=['#1a5fa8','#bf3b2e','#1d7a4a','#7b3fa0','#b86800','#888'];
-const AMB_Y={vitals:{min:40,max:200},all:{min:40,max:240},biotic:{min:40,max:320},offer:{min:30,max:160}};
-function buildAmbChart(prod){
-  if(cCelebDetailChart)cCelebDetailChart.destroy();
-  const y=AMB_Y[prod]||AMB_Y.vitals;
-  cCelebDetailChart=new Chart(document.getElementById('cCelebDetail'),{type:'line',
+// ── Ambassador detail ──
+let cCelebDetailChart = null;
+const AMB_COLORS = ['#1a5fa8','#bf3b2e','#1d7a4a','#7b3fa0','#b86800','#888'];
+const AMB_Y = {vitals:{min:40,max:200},all:{min:40,max:240},biotic:{min:40,max:320},offer:{min:30,max:160}};
+function buildAmbChart(prod) {
+  if(cCelebDetailChart) cCelebDetailChart.destroy();
+  const y = AMB_Y[prod] || AMB_Y.vitals;
+  cCelebDetailChart = new Chart(document.getElementById('cCelebDetail'),{type:'line',
     data:{labels:D.ML,datasets:D.AMB_LABELS.map((lbl,i)=>({
-      label:lbl,data:D.AMB_PROD_CPA[lbl][prod],
-      borderColor:AMB_COLORS[i],backgroundColor:'transparent',
-      borderWidth:2,pointRadius:D.AMB_PROD_CPA[lbl][prod].map(v=>v?4:0),
-      pointBackgroundColor:AMB_COLORS[i],pointBorderColor:'#fff',pointBorderWidth:1.5,
-      tension:0.2,spanGaps:false
+      label:lbl, data:D.AMB_PROD_CPA[lbl][prod],
+      borderColor:AMB_COLORS[i], backgroundColor:'transparent',
+      borderWidth:2, pointRadius:D.AMB_PROD_CPA[lbl][prod].map(v=>v?4:0),
+      pointBackgroundColor:AMB_COLORS[i], pointBorderColor:'#fff', pointBorderWidth:1.5,
+      tension:0.2, spanGaps:false
     }))},
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{
-        label:c=>c.raw?` ${c.dataset.label}: £${c.raw}`:null,filter:c=>c.raw!==null
-      }}},
+      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.raw?` ${c.dataset.label}: £${c.raw}`:null,filter:c=>c.raw!==null}}},
       scales:{x:{grid:{display:false},ticks:{font:{size:12,weight:'500'}}},
         y:{min:y.min,max:y.max,grid:{color:GC},ticks:{callback:v=>'£'+v,font:{size:9},maxTicksLimit:6}}}}
   });
 }
 function buildAmbLegend(){
-  const leg=document.getElementById('celebDetailLeg');
+  const leg = document.getElementById('celebDetailLeg');
   D.AMB_LABELS.forEach((l,i)=>{
     leg.innerHTML+=`<div class="leg-item"><div class="l-ln" style="background:${AMB_COLORS[i]}"></div>${l}</div>`;
   });
 }
 function setAmbProd(f,btn){document.querySelectorAll('[data-ambp]').forEach(b=>b.classList.remove('ai'));btn.classList.add('ai');buildAmbChart(f);}
 
-// ── PRODUCT HIT CHARTS ──
-const prodCharts={};
-let currentOfferFilter='all';
-const prodCfg={
-  cVitHit:{key:'vitals_bundle',barBg:'rgba(173,200,230,.55)',barBd:'rgba(120,165,210,.8)',winBg:'rgba(26,95,168,.82)',winBd:'rgba(26,95,168,1)',maxY:0},
-  cBioHit:{key:'biotic',barBg:'rgba(255,185,160,.55)',barBd:'rgba(220,130,110,.8)',winBg:'rgba(191,59,46,.82)',winBd:'rgba(191,59,46,1)',maxY:0},
-  cThrHit:{key:'thrive',barBg:'rgba(180,150,220,.55)',barBd:'rgba(150,110,190,.8)',winBg:'rgba(123,63,160,.82)',winBd:'rgba(123,63,160,1)',maxY:0},
+// ── Product hit charts ──
+const prodCharts = {};
+let currentOfferFilter = 'all';
+const prodCfg = {
+  cVitHit:{key:'vitals_bundle',barBg:'rgba(173,200,230,.55)',barBd:'rgba(120,165,210,.8)',winBg:'rgba(26,95,168,.82)',winBd:'rgba(26,95,168,1)'},
+  cBioHit:{key:'biotic',barBg:'rgba(255,185,160,.55)',barBd:'rgba(220,130,110,.8)',winBg:'rgba(191,59,46,.82)',winBd:'rgba(191,59,46,1)'},
+  cThrHit:{key:'thrive',barBg:'rgba(180,150,220,.55)',barBd:'rgba(150,110,190,.8)',winBg:'rgba(123,63,160,.82)',winBd:'rgba(123,63,160,1)'},
 };
 function rebuildProdCharts(){
   Object.entries(prodCfg).forEach(([id,c])=>{
-    const arr=D.PROD_BY_OFFER[c.key][currentOfferFilter];
-    if(prodCharts[id])prodCharts[id].destroy();
-    prodCharts[id]=hitChart(id,arr[0],arr[1],arr[2],c.barBg,c.barBd,c.winBg,c.winBd,c.maxY);
+    const arr = D.PROD_BY_OFFER[c.key][currentOfferFilter];
+    if(prodCharts[id]) prodCharts[id].destroy();
+    prodCharts[id] = hitChart(id,arr[0],arr[1],arr[2],c.barBg,c.barBd,c.winBg,c.winBd);
   });
 }
 function setOfferFilter(f,btn){
@@ -768,41 +741,41 @@ function setOfferFilter(f,btn){
   rebuildSrcCharts();
 }
 
-// ── SOURCE HIT CHARTS ──
-const srcCharts={};
-let currentSrcProd='all',currentSrcOffer='all';
-const srcCfg={
-  cIntHit:{src:'Internal',barBg:'rgba(173,200,230,.55)',barBd:'rgba(120,165,210,.8)',winBg:'rgba(26,95,168,.82)',winBd:'rgba(26,95,168,1)',maxY:0},
-  cCelSrcHit:{src:'Celeb',barBg:'rgba(180,150,220,.55)',barBd:'rgba(150,110,190,.8)',winBg:'rgba(123,63,160,.82)',winBd:'rgba(123,63,160,1)',maxY:0},
-  cBshHit:{src:'Brightshift',barBg:'rgba(185,225,200,.55)',barBd:'rgba(120,190,150,.8)',winBg:'rgba(29,122,74,.82)',winBd:'rgba(29,122,74,1)',maxY:0},
-  cHamHit:{src:'Hambi',barBg:'rgba(250,220,165,.55)',barBd:'rgba(210,170,90,.8)',winBg:'rgba(184,104,0,.82)',winBd:'rgba(184,104,0,1)',maxY:0},
-  cInfHit:{src:'Influencer',barBg:'rgba(255,180,180,.55)',barBd:'rgba(220,130,130,.8)',winBg:'rgba(191,59,46,.82)',winBd:'rgba(191,59,46,1)',maxY:0},
+// ── Source hit charts ──
+const srcCharts = {};
+let currentSrcProd = 'all', currentSrcOffer = 'all';
+const srcCfg = {
+  cIntHit:{src:'Internal',barBg:'rgba(173,200,230,.55)',barBd:'rgba(120,165,210,.8)',winBg:'rgba(26,95,168,.82)',winBd:'rgba(26,95,168,1)'},
+  cCelSrcHit:{src:'Celeb',barBg:'rgba(180,150,220,.55)',barBd:'rgba(150,110,190,.8)',winBg:'rgba(123,63,160,.82)',winBd:'rgba(123,63,160,1)'},
+  cBshHit:{src:'Brightshift',barBg:'rgba(185,225,200,.55)',barBd:'rgba(120,190,150,.8)',winBg:'rgba(29,122,74,.82)',winBd:'rgba(29,122,74,1)'},
+  cHamHit:{src:'Hambi',barBg:'rgba(250,220,165,.55)',barBd:'rgba(210,170,90,.8)',winBg:'rgba(184,104,0,.82)',winBd:'rgba(184,104,0,1)'},
+  cInfHit:{src:'Influencer',barBg:'rgba(255,180,180,.55)',barBd:'rgba(220,130,130,.8)',winBg:'rgba(191,59,46,.82)',winBd:'rgba(191,59,46,1)'},
 };
 function rebuildSrcCharts(){
-  const of=currentSrcOffer==='all'?currentOfferFilter:currentSrcOffer;
+  const of = currentSrcOffer==='all' ? currentOfferFilter : currentSrcOffer;
   Object.entries(srcCfg).forEach(([id,c])=>{
-    const data=D.SRC_BY_PRODUCT[c.src][currentSrcProd][of];
-    if(srcCharts[id])srcCharts[id].destroy();
-    srcCharts[id]=hitChart(id,data.l,data.w,data.hr,c.barBg,c.barBd,c.winBg,c.winBd,c.maxY);
+    const data = D.SRC_BY_PRODUCT[c.src][currentSrcProd][of];
+    if(srcCharts[id]) srcCharts[id].destroy();
+    srcCharts[id] = hitChart(id,data.l,data.w,data.hr,c.barBg,c.barBd,c.winBg,c.winBd);
   });
 }
 function setSrcProd(f,btn){currentSrcProd=f;document.querySelectorAll('[data-sp]').forEach(b=>b.classList.remove('ai'));btn.classList.add('ai');rebuildSrcCharts();}
 function setSrcOffer(f,btn){currentSrcOffer=f;document.querySelectorAll('[data-so]').forEach(b=>b.classList.remove('ag'));btn.classList.add('ag');rebuildSrcCharts();}
 
-// ── WINNER TABLE ──
-let tblProd='all',tblOffer='all';
+// ── Winner table ──
+let tblProd='all', tblOffer='all';
 function filterTbl(dim,val,btn){
   if(dim==='p'){tblProd=val;document.querySelectorAll('[data-tp]').forEach(b=>b.classList.remove('ai'));btn.classList.add('ai');}
   else{tblOffer=val;document.querySelectorAll('[data-to]').forEach(b=>b.classList.remove('ag'));btn.classList.add('ag');}
   renderTable();
 }
 function renderTable(){
-  const tb=document.getElementById('tBody');tb.innerHTML='';
+  const tb = document.getElementById('tBody'); tb.innerHTML='';
   D.WINNERS.filter(w=>{
-    if(tblProd==='Vitals'&&!['Vitals','Bundle'].includes(w.product))return false;
-    if(tblProd!=='all'&&tblProd!=='Vitals'&&w.product!==tblProd)return false;
-    if(tblOffer==='offer'&&!w.offer)return false;
-    if(tblOffer==='non_offer'&&w.offer)return false;
+    if(tblProd==='Vitals'&&!['Vitals','Bundle'].includes(w.product)) return false;
+    if(tblProd!=='all'&&tblProd!=='Vitals'&&w.product!==tblProd) return false;
+    if(tblOffer==='offer'&&!w.offer) return false;
+    if(tblOffer==='non_offer'&&w.offer) return false;
     return true;
   }).forEach(w=>{
     const bc=w.bucket==='Fresh'?'g':w.bucket==='Prime'?'a':'r';
