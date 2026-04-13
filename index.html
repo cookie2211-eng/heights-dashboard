@@ -105,6 +105,10 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="kpi"><div class="kpi-lbl">New Vitals winners</div><div class="kpi-val" id="k-vw"></div><div class="kpi-diff n">30-day threshold</div><div class="kpi-sub">ads crossing £3K this week</div></div>
   <div class="kpi"><div class="kpi-lbl">New Biotic winners</div><div class="kpi-val" id="k-bw"></div><div class="kpi-diff n">30-day threshold</div><div class="kpi-sub">ads crossing £1K this week</div></div>
 </div>
+<div id="new-winner-detail" style="display:none;margin-bottom:12px">
+  <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">New winners this week — created w/e <span id="nwd-week"></span></div>
+  <div id="nwd-list" style="display:flex;flex-direction:column;gap:4px"></div>
+</div>
 
 <!-- 2. PLATFORM -->
 <div class="sec"><h2>2 · Platform performance</h2><span>Blended CPA &amp; spend · weekly &amp; monthly</span></div>
@@ -337,6 +341,22 @@ function init() {
   document.getElementById('k-vw').textContent = K.new_vit_winners;
   document.getElementById('k-bw').textContent = K.new_bio_winners;
 
+  // New winner detail
+  if (K.new_winner_detail && K.new_winner_detail.length > 0) {
+    document.getElementById('new-winner-detail').style.display = 'block';
+    document.getElementById('nwd-week').textContent = K.week_label;
+    const list = document.getElementById('nwd-list');
+    K.new_winner_detail.forEach(w => {
+      const colour = w.product === 'Biotic' ? 'var(--red)' : w.product === 'Thrive' ? 'var(--purple)' : 'var(--blue)';
+      list.innerHTML += `<div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--ink2)">
+        <span style="font-weight:600;color:${colour};min-width:44px">${w.product}</span>
+        <span style="color:var(--muted);white-space:nowrap">created ${w.created_week}</span>
+        <span style="font-variant-numeric:tabular-nums;color:var(--green);font-weight:600">£${w.spend_30d.toLocaleString()}</span>
+        <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${w.name}</span>
+      </div>`;
+    });
+  }
+
   // TLDR
   const cpaWord = K.cpa < K.prev_cpa ? `improving to £${K.cpa}` : `at £${K.cpa}`;
   document.getElementById('tldr-hl').textContent =
@@ -394,7 +414,9 @@ function buildAllCharts() {
     plugins:[{id:'bl',afterDraw(c){const{ctx,scales:{x,y}}=c;ctx.save();const by=y.getPixelForValue(100);ctx.strokeStyle='rgba(0,0,0,.12)';ctx.lineWidth=1;ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(x.left,by);ctx.lineTo(x.right,by);ctx.stroke();ctx.setLineDash([]);ctx.restore();}}]
   });
 
-  // CVR by product
+  // CVR by product — dynamic Y axis
+  const cvrMin = Math.floor(Math.min(...D.CVR_VIT, ...D.CVR_BIO) / 10) * 10 - 10;
+  const cvrMax = Math.ceil(Math.max(...D.CVR_VIT, ...D.CVR_BIO) / 10) * 10 + 10;
   new Chart(document.getElementById('cCVRProd'),{type:'line',
     data:{labels:WL,datasets:[
       {label:'Vitals CVR',data:CVR_VIT,borderColor:'#1a5fa8',backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:0.3,yAxisID:'yL'},
@@ -404,7 +426,7 @@ function buildAllCharts() {
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
       plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.datasetIndex<2?` ${c.dataset.label}: ${c.raw}`:` Biotic share: ${c.raw}%`}}},
       scales:{x:{grid:{display:false},ticks:{font:{size:9},maxTicksLimit:13}},
-        yL:{position:'left',min:40,max:140,grid:{color:GC},ticks:{font:{size:9}}},
+        yL:{position:'left',min:cvrMin,max:cvrMax,grid:{color:GC},ticks:{font:{size:9}}},
         yR:{position:'right',min:0,max:30,grid:{display:false},ticks:{callback:v=>v+'%',font:{size:9}}}}}
   });
 
