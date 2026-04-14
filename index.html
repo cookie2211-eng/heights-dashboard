@@ -106,6 +106,10 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Confirmed winners this week — 30-day window closed w/e <span id="nwd-week"></span></div>
   <div id="nwd-list" style="display:flex;flex-direction:column;gap:4px"></div>
 </div>
+<div id="spend-spike-card" style="display:none;background:rgba(184,104,0,.07);border:1px solid rgba(184,104,0,.25);border-radius:6px;padding:12px 16px;margin-bottom:12px">
+  <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:6px">🚀 Spend spikes this week — large increase vs prior 3-week average</div>
+  <div id="spike-list" style="display:flex;flex-direction:column;gap:5px"></div>
+</div>
 
 <div class="sec"><h2>2 · Platform performance</h2><span>Blended CPA &amp; spend · weekly &amp; monthly</span></div>
 <div class="card">
@@ -281,6 +285,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
     </div>
     <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.3)"></div>Free Mag % (left)</div><div class="leg-item"><div class="l-ln" style="background:#1d7a4a"></div>Free Mag CPA (right)</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.3)"></div>Intro Bundle % (left)</div><div class="leg-item"><div class="l-ln" style="background:#b86800"></div>Intro Bundle CPA (right)</div></div>
     <div class="chart-wrap" style="height:200px"><canvas id="cOfferDetail"></canvas></div>
+    <div style="font-size:10px;color:var(--muted);margin-top:6px">CPA from ad-level data — campaign total includes ~12% unclassified spend so absolute figures may vary slightly from Ads Manager.</div>
   </div>
 </div>
 
@@ -343,22 +348,76 @@ function init(){
     });
   }
   document.getElementById('tldr-hl').textContent=`CPA £${K.cpa} w/e ${K.week_label}. Winner share ${K.winner_share}%. Fresh pool at ${D.AGE_F[D.AGE_F.length-1]}%.`;
-  // Velocity flags — ads with >150% spend increase in last week vs prior 3-week avg
+
+  // Helper: extract a readable short name from ad name
+  function shortAdName(name) {
+    if (name.match(/^\d{4}-/)) {
+      // New naming: extract pd and concept
+      const pd = (name.match(/_pd:([^_]+)/) || [])[1] || '';
+      const v  = (name.match(/_v:([^_]+)/)  || [])[1] || '';
+      return [pd, v].filter(Boolean).join(' · ');
+    }
+    const parts = name.split('|').map(s=>s.trim()).filter(Boolean);
+    // Find bracketed concept part e.g. [C1]_[Vitals]_[D2C Diaries Podcast 1]
+    const concept = parts.find(p => p.includes('[') && p.includes('_['));
+    if (concept) {
+      const m = concept.match(/\[([^\]]+)\]/g);
+      if (m && m.length >= 3) {
+        // Return last bracket (concept name) + source from parts
+        const src = parts.find(p => ['Hambi','Brightshift','Internal','Celeb'].some(s=>p.includes(s)));
+        const label = m[m.length-1].replace(/[\[\]]/g,'');
+        return src ? `${src} · ${label}` : label;
+      }
+    }
+    // Fallback: first two meaningful parts
+    const meaningful = parts.filter(p => !['Video','Image','Static','Hi-fi','Lo-fi'].includes(p));
+    return meaningful.slice(0,2).join(' · ');
+  }
+
+  // Velocity flags — >150% spike, min £5K last week spend, meaningful name
   const velocityFlags = D.WINNERS
-    .filter(w => w.velocity !== null && w.velocity !== undefined && w.velocity > 150)
-    .sort((a,b) => b.velocity - a.velocity)
-    .slice(0,3);
-  const velBullet = velocityFlags.length > 0
-    ? `🚀 Spend spike this week: ${velocityFlags.map(w=>`<strong>${w.name.split('|').slice(0,3).join('|').trim()}</strong> +${w.velocity}% (£${w.spend_w4.toLocaleString()})`).join(' · ')}`
-    : null;
-  document.getElementById('tldr-bullets').innerHTML=[
-    `${K.new_vit_winners} new Vitals winners, ${K.new_bio_winners} new Biotic winners confirmed this week (30-day windows closed)`,
-    `Biotic CPA £${D.BIO_CPA[D.BIO_CPA.length-1]} at ${D.BIO_SHARE[D.BIO_SHARE.length-1]}% of spend — structural drag on blended CPA`,
-    `Fresh winner spend = ${D.AGE_F[D.AGE_F.length-1]}% of winner pool — pipeline rebuilding required`,
-    ...(velBullet ? [velBullet] : []),
-  ].map(b=>`<li style="margin-bottom:2px">${b}</li>`).join('');
-  buildAllCharts();
+    .filter(w => w.velocity && w.velocity > 150 && w.spend_w4 >= 5000)
+    .sort((a,b) => b.spend_w4 - a.spend_w4);
+
+  const cpaDir = K.cpa <= K.prev_cpa ? 'g' : 'r';
+  const cpaTxt = K.cpa <= K.prev_cpa ? `↓ CPA improving to £${K.cpa}` : `↑ CPA at £${K.cpa} — elevated`;
+  const freshDir = D.AGE_F[D.AGE_F.length-1] < 20 ? 'r' : D.AGE_F[D.AGE_F.length-1] < 35 ? 'a' : 'g';
+
+  const bullets = [
+    {col:'rgba(255,255,255,.5)',txt: `${K.new_vit_winners} new Vitals winners, ${K.new_bio_winners} new Biotic winners this week (30-day windows closed)`},
+    {col:cpaDir==='g'?'rgba(100,220,140,.9)':'rgba(255,100,80,.9)', txt: cpaTxt},
+    {col:'rgba(255,100,80,.9)', txt: `Biotic £${D.BIO_CPA[D.BIO_CPA.length-1]} CPA at ${D.BIO_SHARE[D.BIO_SHARE.length-1]}% of spend — drag on blended CPA`},
+    {col:freshDir==='r'?'rgba(255,100,80,.9)':freshDir==='a'?'rgba(255,180,60,.9)':'rgba(100,220,140,.9)', txt: `Fresh winner pool: ${D.AGE_F[D.AGE_F.length-1]}% of winner spend — ${D.AGE_F[D.AGE_F.length-1]<20?'critically low, pipeline action needed':D.AGE_F[D.AGE_F.length-1]<35?'below target':'healthy'}`},
+    ...velocityFlags.map(w=>({col:'rgba(255,180,60,.9)', txt:`🚀 Spend spike: <strong style="color:#fff">${shortAdName(w.name)}</strong> +${w.velocity}% vs prior 3wks (£${w.spend_w4.toLocaleString()} last week)`})),
+  ];
+
+  document.getElementById('tldr-bullets').innerHTML = bullets
+    .map(b=>`<li style="margin-bottom:4px;display:flex;gap:8px;align-items:baseline"><span style="width:6px;height:6px;border-radius:50%;background:${b.col};flex-shrink:0;margin-top:6px"></span><span>${b.txt}</span></li>`)
+    .join('');
+  // Spend spike card in snapshot
+  const spikes = D.WINNERS
+    .filter(w => w.velocity && w.velocity > 150 && w.spend_w4 >= 5000)
+    .sort((a,b) => b.spend_w4 - a.spend_w4);
+  if (spikes.length > 0) {
+    document.getElementById('spend-spike-card').style.display = 'block';
+    const slist = document.getElementById('spike-list');
+    spikes.forEach(w => {
+      const prevAvg = Math.round((w.spend_w1 + w.spend_w2 + w.spend_w3) / 3);
+      const barWidth = Math.min(95, Math.round(w.spend_w4 / (w.spend_w4 + prevAvg) * 100));
+      slist.innerHTML += `<div style="margin-bottom:6px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:3px">
+          <span style="font-size:11px;font-weight:600;color:var(--ink);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${shortAdName(w.name)}</span>
+          <span style="font-size:11px;color:var(--amber);font-weight:700;white-space:nowrap">+${w.velocity}%</span>
+          <span style="font-size:10px;color:var(--muted);white-space:nowrap">£${w.spend_w4.toLocaleString()} vs £${prevAvg.toLocaleString()} avg</span>
+        </div>
+        <div style="display:flex;height:5px;border-radius:3px;overflow:hidden;background:rgba(184,104,0,.15)">
+          <div style="width:${barWidth}%;background:rgba(184,104,0,.65);border-radius:3px;transition:width .3s"></div>
+        </div>
+      </div>`;
+    });
+  }
   buildAmbLegend();
+  buildAllCharts();
   renderTable();
 }
 
@@ -404,25 +463,26 @@ function buildAllCharts(){
       yL:{position:'left',min:0,grid:{color:GC},ticks:{callback:v=>(v*100).toFixed(1)+'%',font:{size:9}}},
       yR:{position:'right',min:0,max:30,grid:{display:false},ticks:{callback:v=>v+'%',font:{size:9}}}}}});
 
-  // Weekly winner age — Ageing(bottom) → Prime → Fresh(top)
-  new Chart(document.getElementById('cAge'),{type:'bar',data:{labels:WL,datasets:[
-    {label:'Ageing 11+wks',data:AGE_A,backgroundColor:'rgba(184,104,0,.55)',borderColor:'rgba(184,104,0,.8)',borderWidth:1},
-    {label:'Prime 5–10wks', data:AGE_P,backgroundColor:'rgba(26,95,168,.5)', borderColor:'rgba(26,95,168,.75)',borderWidth:1},
-    {label:'Fresh 0–4wks',  data:AGE_F,backgroundColor:'rgba(29,122,74,.7)', borderColor:'rgba(29,122,74,.95)',borderWidth:1},
+  // Weekly winner age — stacked area: Fresh(top) → Prime → Ageing(bottom)
+  new Chart(document.getElementById('cAge'),{type:'line',data:{labels:WL,datasets:[
+    {label:'Fresh 0–4wks',  data:AGE_F,backgroundColor:'rgba(29,122,74,.5)', borderColor:'rgba(29,122,74,.85)', borderWidth:2,fill:true,tension:0.3,pointRadius:0},
+    {label:'Prime 5–10wks', data:AGE_P,backgroundColor:'rgba(26,95,168,.4)', borderColor:'rgba(26,95,168,.75)', borderWidth:1.5,fill:true,tension:0.3,pointRadius:0},
+    {label:'Ageing 11+wks', data:AGE_A,backgroundColor:'rgba(184,104,0,.4)', borderColor:'rgba(184,104,0,.7)',  borderWidth:1.5,fill:true,tension:0.3,pointRadius:0},
   ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}%`}}},
+    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}%`,
+      footer:items=>`  Total: ${items.reduce((s,c)=>s+c.raw,0).toFixed(0)}%`}}},
     scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:9},maxTicksLimit:13}},
       y:{min:0,max:100,stacked:true,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}}}},
-  plugins:[{id:'ageL',afterDraw(c){
-    const{ctx,scales:{x,y},chartArea}=c;ctx.save();ctx.textAlign='center';
-    ctx.beginPath();ctx.rect(chartArea.left,chartArea.top,chartArea.width,chartArea.height);ctx.clip();
-    AGE_F.forEach((_,i)=>{
-      if(i%4!==0&&i!==AGE_F.length-1)return;
+  plugins:[{id:'ageAnn',afterDraw(c){
+    // Annotate first and last point with Fresh %
+    const{ctx,scales:{x,y},chartArea}=c; ctx.save();
+    [[0,'left'],[AGE_F.length-1,'right']].forEach(([i,align])=>{
+      if(AGE_F[i]<3) return;
       const px=x.getPixelForValue(i);
-      ctx.font='600 10px DM Sans,sans-serif';
-      if(AGE_F[i]>=5){ctx.fillStyle='rgba(255,255,255,.95)';ctx.fillText(AGE_F[i].toFixed(0)+'%',px,y.getPixelForValue(AGE_A[i]+AGE_P[i]+AGE_F[i]/2)+4);}
-      if(AGE_P[i]>=8){ctx.fillStyle='rgba(255,255,255,.9)'; ctx.fillText(AGE_P[i].toFixed(0)+'%',px,y.getPixelForValue(AGE_A[i]+AGE_P[i]/2)+4);}
-      if(AGE_A[i]>=8){ctx.fillStyle='rgba(255,255,255,.85)';ctx.fillText(AGE_A[i].toFixed(0)+'%',px,y.getPixelForValue(AGE_A[i]/2)+4);}
+      const freshTop=y.getPixelForValue(AGE_A[i]+AGE_P[i]+AGE_F[i]);
+      ctx.font='600 10px DM Sans,sans-serif'; ctx.textAlign=align==='left'?'left':'right';
+      ctx.fillStyle='rgba(29,122,74,.9)';
+      ctx.fillText(AGE_F[i].toFixed(0)+'%', align==='left'?px+4:px-4, freshTop+14);
     });
     ctx.restore();
   }}]});
@@ -769,8 +829,8 @@ function renderTable(){
   }).forEach(w=>{
     const bc=w.bucket==='Fresh'?'g':w.bucket==='Prime'?'a':'r';
     const cc=w.cpa<75?'g':w.cpa>110?'r':'a';
-    const velBadge = w.velocity && w.velocity > 150
-      ? `<span title="+${w.velocity}% spend vs prior 3-week avg" style="font-size:9px;background:rgba(29,122,74,.12);color:var(--green);border-radius:3px;padding:1px 5px;margin-left:4px;font-weight:600;cursor:help">🚀+${w.velocity}%</span>`
+    const velBadge = w.velocity && w.velocity > 150 && w.spend_w4 >= 5000
+      ? `<span title="+${w.velocity}% spend vs prior 3-week avg" style="font-size:9px;background:rgba(184,104,0,.12);color:var(--amber);border-radius:3px;padding:1px 5px;margin-left:4px;font-weight:600;cursor:help">🚀+${w.velocity}%</span>`
       : '';
     const unicornLabel = w.unicorn && w.launch_month
       ? `<span title="Unicorn — launched ${w.launch_month}" style="cursor:help">🦄</span>`
