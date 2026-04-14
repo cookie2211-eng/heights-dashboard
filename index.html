@@ -260,16 +260,16 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 </div>
 <div class="grid2">
   <div class="card">
-    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2px">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px">
       <div>
         <div class="card-lbl">Vitals — offer vs non-offer CPA + offer share within Vitals</div>
         <div class="card-hl">Offer ~30% of Vitals spend — non-offer CPA rising sharply</div>
       </div>
-      <div class="view-toggle"><button class="active" onclick="setVitOfferView('m',this)">Monthly</button><button onclick="setVitOfferView('w',this)">Weekly</button></div>
+      <div class="view-toggle" style="flex-shrink:0;margin-left:12px"><button class="active" onclick="setVitOfferView('m',this)">Monthly</button><button onclick="setVitOfferView('w',this)">Weekly</button></div>
     </div>
-    <div class="card-sub">Offer % = all offer creative within Vitals+Bundle, including celeb offer ads (e.g. Ben Shephard Door to Door). The creative type chart above puts celeb ads in the Celeb bucket — so the two numbers differ slightly by design.</div>
     <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.2)"></div>Offer % of Vitals (left)</div><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Vitals offer CPA (right)</div><div class="leg-item"><div class="l-ln" style="background:#aaa"></div>Vitals non-offer CPA (right)</div></div>
     <div class="chart-wrap" style="height:200px"><canvas id="cVitOffer"></canvas></div>
+    <div style="font-size:10px;color:var(--muted);margin-top:6px">⚠ Offer % includes celeb offer ads (e.g. Ben Shephard Door to Door) — so differs slightly from the Celeb-priority segment chart above.</div>
   </div>
   <div class="card">
     <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2px">
@@ -284,7 +284,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   </div>
 </div>
 
-<div class="sec"><h2>7 · Top 25 winners — last 4 weeks</h2><span>● active last week &nbsp;○ not spending &nbsp;🦄 unicorn</span></div>
+<div class="sec"><h2>7 · Top 25 winners — last 4 weeks</h2><span>● active &nbsp;○ not spending &nbsp;🦄 unicorn · launched month shown &nbsp;🚀 spend spike this week</span></div>
 <div class="filter-bar" style="border-top:none;margin-top:0;margin-bottom:10px">
   <span class="toggle-label">Product</span>
   <button class="tog ai" data-tp="all" onclick="filterTbl('p','all',this)">All</button>
@@ -343,11 +343,20 @@ function init(){
     });
   }
   document.getElementById('tldr-hl').textContent=`CPA £${K.cpa} w/e ${K.week_label}. Winner share ${K.winner_share}%. Fresh pool at ${D.AGE_F[D.AGE_F.length-1]}%.`;
+  // Velocity flags — ads with >150% spend increase in last week vs prior 3-week avg
+  const velocityFlags = D.WINNERS
+    .filter(w => w.velocity !== null && w.velocity !== undefined && w.velocity > 150)
+    .sort((a,b) => b.velocity - a.velocity)
+    .slice(0,3);
+  const velBullet = velocityFlags.length > 0
+    ? `🚀 Spend spike this week: ${velocityFlags.map(w=>`<strong>${w.name.split('|').slice(0,3).join('|').trim()}</strong> +${w.velocity}% (£${w.spend_w4.toLocaleString()})`).join(' · ')}`
+    : null;
   document.getElementById('tldr-bullets').innerHTML=[
     `${K.new_vit_winners} new Vitals winners, ${K.new_bio_winners} new Biotic winners confirmed this week (30-day windows closed)`,
     `Biotic CPA £${D.BIO_CPA[D.BIO_CPA.length-1]} at ${D.BIO_SHARE[D.BIO_SHARE.length-1]}% of spend — structural drag on blended CPA`,
     `Fresh winner spend = ${D.AGE_F[D.AGE_F.length-1]}% of winner pool — pipeline rebuilding required`,
-  ].map(b=>`<li>${b}</li>`).join('');
+    ...(velBullet ? [velBullet] : []),
+  ].map(b=>`<li style="margin-bottom:2px">${b}</li>`).join('');
   buildAllCharts();
   buildAmbLegend();
   renderTable();
@@ -760,7 +769,13 @@ function renderTable(){
   }).forEach(w=>{
     const bc=w.bucket==='Fresh'?'g':w.bucket==='Prime'?'a':'r';
     const cc=w.cpa<75?'g':w.cpa>110?'r':'a';
-    tb.innerHTML+=`<tr><td style="padding-left:12px"><div class="dot ${w.active?'on':'off'}"></div></td><td style="font-size:12px">${w.unicorn?'🦄 ':''}</td><td style="max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px">${w.name}</td><td style="text-align:right;font-variant-numeric:tabular-nums">£${w.spend.toLocaleString()}</td><td style="text-align:right;font-variant-numeric:tabular-nums" class="${cc}">£${w.cpa}</td><td style="text-align:right;color:#888;font-size:11px">${w.age}w</td><td style="text-align:right;padding-right:12px"><span class="badge ${bc}">${w.bucket}</span></td></tr>`;
+    const velBadge = w.velocity && w.velocity > 150
+      ? `<span title="+${w.velocity}% spend vs prior 3-week avg" style="font-size:9px;background:rgba(29,122,74,.12);color:var(--green);border-radius:3px;padding:1px 5px;margin-left:4px;font-weight:600;cursor:help">🚀+${w.velocity}%</span>`
+      : '';
+    const unicornLabel = w.unicorn && w.launch_month
+      ? `<span title="Unicorn — launched ${w.launch_month}" style="cursor:help">🦄</span>`
+      : w.unicorn ? '🦄' : '';
+    tb.innerHTML+=`<tr><td style="padding-left:12px"><div class="dot ${w.active?'on':'off'}"></div></td><td style="font-size:12px">${unicornLabel}</td><td style="max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px">${w.name}${velBadge}</td><td style="text-align:right;font-variant-numeric:tabular-nums">£${w.spend.toLocaleString()}</td><td style="text-align:right;font-variant-numeric:tabular-nums" class="${cc}">£${w.cpa}</td><td style="text-align:right;color:#888;font-size:11px">${w.age}w</td><td style="text-align:right;padding-right:12px"><span class="badge ${bc}">${w.bucket}</span></td></tr>`;
   });
 }
 </script>
