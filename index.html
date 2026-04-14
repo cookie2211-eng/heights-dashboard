@@ -164,6 +164,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 <div class="card">
   <div class="card-lbl">Monthly CPA by product</div>
   <div class="card-hl">Biotic <span class="r">nearly doubled</span> since Oct. Bundle creative consistently cheapest</div>
+  <div class="card-sub">CPA from ad-level data, benchmarked against campaign-level totals. Oct–Mar match campaign CSV exactly.</div>
   <div class="leg"><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Vitals</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Biotic</div><div class="leg-item"><div class="l-ln" style="background:#1d7a4a"></div>Bundle</div></div>
   <div class="chart-wrap" style="height:200px"><canvas id="cProdCPA"></canvas></div>
 </div>
@@ -305,7 +306,8 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <table class="wtbl">
     <thead><tr>
       <th style="width:20px;padding-left:12px"></th><th style="width:16px"></th>
-      <th>Ad name</th><th style="text-align:right">4-wk spend</th>
+      <th>Ad name</th><th style="width:80px"></th>
+      <th style="text-align:right">4-wk spend</th>
       <th style="text-align:right">CPA</th><th style="text-align:right">Age</th>
       <th style="text-align:right;padding-right:12px">Bucket</th>
     </tr></thead>
@@ -515,13 +517,18 @@ function buildAllCharts(){
   }}]});
 
   // Product CPA
-  new Chart(document.getElementById('cProdCPA'),{type:'line',data:{labels:ML,datasets:[
+  const UNCLASS_PCT = D.UNCLASS_PCT || [];
+  const prodCPALabels = ML.map((m,i) => UNCLASS_PCT[i] >= 5 ? `${m} ⚠` : m);
+  new Chart(document.getElementById('cProdCPA'),{type:'line',data:{labels:prodCPALabels,datasets:[
     {label:'Vitals',data:VIT_CPA,borderColor:'#1a5fa8',backgroundColor:'transparent',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#1a5fa8',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2},
     {label:'Biotic',data:BIO_CPA,borderColor:'#bf3b2e',backgroundColor:'transparent',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#bf3b2e',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2},
     {label:'Bundle',data:BUN_CPA,borderColor:'#1d7a4a',backgroundColor:'transparent',borderWidth:2,  pointRadius:4,pointBackgroundColor:'#1d7a4a',pointBorderColor:'#fff',pointBorderWidth:1,  tension:0.2},
   ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.raw?` ${c.dataset.label}: £${c.raw}`:null}}},
-    scales:{x:{grid:{display:false},ticks:{font:{size:12,weight:'500'}}},
+    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{
+      label:c=>c.raw?` ${c.dataset.label}: £${c.raw}`:null,
+      footer:items=>{const i=items[0]?.dataIndex; return UNCLASS_PCT[i]>=5?`⚠ ${UNCLASS_PCT[i]}% unclassified spend this month`:''}
+    }}},
+    scales:{x:{grid:{display:false},ticks:{font:{size:11,weight:'500'}}},
       y:{min:50,max:260,grid:{color:GC},ticks:{callback:v=>'£'+v,font:{size:10},maxTicksLimit:7}}}}});
 
   // Offer weekly
@@ -830,12 +837,12 @@ function renderTable(){
     const bc=w.bucket==='Fresh'?'g':w.bucket==='Prime'?'a':'r';
     const cc=w.cpa<75?'g':w.cpa>110?'r':'a';
     const velBadge = w.velocity && w.velocity > 150 && w.spend_w4 >= 5000
-      ? `<span title="+${w.velocity}% spend vs prior 3-week avg" style="font-size:9px;background:rgba(184,104,0,.12);color:var(--amber);border-radius:3px;padding:1px 5px;margin-left:4px;font-weight:600;cursor:help">🚀+${w.velocity}%</span>`
-      : '';
+      ? `<span title="+${w.velocity}% vs prior 3-week avg" style="font-size:9px;background:rgba(184,104,0,.15);color:var(--amber);border-radius:3px;padding:2px 6px;font-weight:700;cursor:help;white-space:nowrap">🚀+${w.velocity}%</span>`
+      : ``;
     const unicornLabel = w.unicorn && w.launch_month
       ? `<span title="Unicorn — launched ${w.launch_month}" style="cursor:help">🦄</span>`
       : w.unicorn ? '🦄' : '';
-    tb.innerHTML+=`<tr><td style="padding-left:12px"><div class="dot ${w.active?'on':'off'}"></div></td><td style="font-size:12px">${unicornLabel}</td><td style="max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px">${w.name}${velBadge}</td><td style="text-align:right;font-variant-numeric:tabular-nums">£${w.spend.toLocaleString()}</td><td style="text-align:right;font-variant-numeric:tabular-nums" class="${cc}">£${w.cpa}</td><td style="text-align:right;color:#888;font-size:11px">${w.age}w</td><td style="text-align:right;padding-right:12px"><span class="badge ${bc}">${w.bucket}</span></td></tr>`;
+    tb.innerHTML+=`<tr><td style="padding-left:12px"><div class="dot ${w.active?'on':'off'}"></div></td><td style="font-size:12px">${unicornLabel}</td><td style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px">${w.name}</td><td style="padding:0 6px">${velBadge}</td><td style="text-align:right;font-variant-numeric:tabular-nums">£${w.spend.toLocaleString()}</td><td style="text-align:right;font-variant-numeric:tabular-nums" class="${cc}">£${w.cpa}</td><td style="text-align:right;color:#888;font-size:11px">${w.age}w</td><td style="text-align:right;padding-right:12px"><span class="badge ${bc}">${w.bucket}</span></td></tr>`;
   });
 }
 </script>
