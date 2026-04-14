@@ -274,7 +274,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="card">
     <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2px">
       <div>
-        <div class="card-lbl">Vitals — Free Magnesium vs Intro Bundle, monthly</div>
+        <div class="card-lbl">Vitals — Free Magnesium vs Intro Bundle</div>
         <div class="card-hl">Free Mag cheapest — Intro Bundle larger share</div>
       </div>
       <div class="view-toggle"><button class="active" onclick="setFMIBView('m',this)">Monthly</button><button onclick="setFMIBView('w',this)">Weekly</button></div>
@@ -361,12 +361,15 @@ function setKPI(id,val,delta,sub){
   if(s)s.textContent=sub;
 }
 
+// Vitals offer toggle — declared here so buildAllCharts can call buildVitOfferChart/buildFMIBChart
+let cVitOfferChart=null;
+let cFMIBChart=null;
+
 function buildAllCharts(){
   const{WL,ML,W_CPA,W_SHARE,W_SPEND,W_CPM_IDX,W_CVR_IDX,W_CVR_VIT,W_CVR_BIO,
     MO_CPA,MO_WIN_SHARE,MO_SPEND_K,VIT_CPA,BIO_CPA,BUN_CPA,BIO_SHARE,
     AGE_F,AGE_P,AGE_A,MIX_F,MIX_P,MIX_A,MIX_NW,
-    OFF_CPA,NOFF_CPA,OFF_SHARE,FM_CPA_MO,IB_CPA_MO,FM_SHARE_MO,IB_SHARE_MO,
-    VIT_OFF_CPA,VIT_NOFF_CPA,VIT_OFF_PCT}=D;
+    OFF_CPA,NOFF_CPA,OFF_SHARE}=D;
 
   buildCPAChart('w');
   buildSpendChart('w');
@@ -475,8 +478,7 @@ function buildAllCharts(){
   rebuildSrcCharts();
 }
 
-// Vitals offer toggle
-let cVitOfferChart=null;
+// Vitals offer chart builder
 function buildVitOfferChart(v){
   if(cVitOfferChart)cVitOfferChart.destroy();
   const isW=v==='w';
@@ -497,8 +499,7 @@ function buildVitOfferChart(v){
 }
 function setVitOfferView(v,btn){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');buildVitOfferChart(v);}
 
-// Free Mag vs Intro Bundle toggle
-let cFMIBChart=null;
+// Free Mag vs Intro Bundle chart builder
 function buildFMIBChart(v){
   if(cFMIBChart)cFMIBChart.destroy();
   const isW=v==='w';
