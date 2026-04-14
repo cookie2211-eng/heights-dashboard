@@ -260,15 +260,25 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 </div>
 <div class="grid2">
   <div class="card">
-    <div class="card-lbl">Vitals — offer vs non-offer CPA + offer share within Vitals</div>
-    <div class="card-hl">Offer ~30% of Vitals spend — non-offer CPA rising sharply</div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2px">
+      <div>
+        <div class="card-lbl">Vitals — offer vs non-offer CPA + offer share within Vitals</div>
+        <div class="card-hl">Offer ~30% of Vitals spend — non-offer CPA rising sharply</div>
+      </div>
+      <div class="view-toggle"><button class="active" onclick="setVitOfferView('m',this)">Monthly</button><button onclick="setVitOfferView('w',this)">Weekly</button></div>
+    </div>
     <div class="card-sub">Offer % = all offer creative within Vitals+Bundle, including celeb offer ads (e.g. Ben Shephard Door to Door). The creative type chart above puts celeb ads in the Celeb bucket — so the two numbers differ slightly by design.</div>
     <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.2)"></div>Offer % of Vitals (left)</div><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Vitals offer CPA (right)</div><div class="leg-item"><div class="l-ln" style="background:#aaa"></div>Vitals non-offer CPA (right)</div></div>
     <div class="chart-wrap" style="height:200px"><canvas id="cVitOffer"></canvas></div>
   </div>
   <div class="card">
-    <div class="card-lbl">Vitals — Free Magnesium vs Intro Bundle, monthly</div>
-    <div class="card-hl">Free Mag cheapest — Intro Bundle larger share</div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2px">
+      <div>
+        <div class="card-lbl">Vitals — Free Magnesium vs Intro Bundle, monthly</div>
+        <div class="card-hl">Free Mag cheapest — Intro Bundle larger share</div>
+      </div>
+      <div class="view-toggle"><button class="active" onclick="setFMIBView('m',this)">Monthly</button><button onclick="setFMIBView('w',this)">Weekly</button></div>
+    </div>
     <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.3)"></div>Free Mag % (left)</div><div class="leg-item"><div class="l-ln" style="background:#1d7a4a"></div>Free Mag CPA (right)</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.3)"></div>Intro Bundle % (left)</div><div class="leg-item"><div class="l-ln" style="background:#b86800"></div>Intro Bundle CPA (right)</div></div>
     <div class="chart-wrap" style="height:200px"><canvas id="cOfferDetail"></canvas></div>
   </div>
@@ -453,30 +463,8 @@ function buildAllCharts(){
       yL:{position:'left',min:0,max:60,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}},
       yR:{position:'right',min:40,max:180,grid:{display:false},ticks:{callback:v=>'£'+v,font:{size:9}}}}}});
 
-  // Vitals offer
-  new Chart(document.getElementById('cVitOffer'),{type:'bar',data:{labels:ML,datasets:[
-    {label:'Offer % of Vitals',data:VIT_OFF_PCT,backgroundColor:'rgba(26,95,168,.18)',borderColor:'rgba(26,95,168,.38)',borderWidth:1,borderRadius:3,yAxisID:'yL',order:2},
-    {label:'Vitals offer CPA', data:VIT_OFF_CPA, type:'line',borderColor:'#1a5fa8',backgroundColor:'transparent',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#1a5fa8',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2,yAxisID:'yR'},
-    {label:'Non-offer CPA',    data:VIT_NOFF_CPA,type:'line',borderColor:'#bbb',  backgroundColor:'transparent',borderWidth:1.5,pointRadius:4,pointBackgroundColor:'#bbb',pointBorderColor:'#fff',pointBorderWidth:1,tension:0.2,borderDash:[4,3],yAxisID:'yR'},
-  ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.datasetIndex===0?` Offer % of Vitals: ${c.raw}%`:c.datasetIndex===1?` Offer CPA: £${c.raw}`:` Non-offer CPA: £${c.raw}`}}},
-    scales:{x:{grid:{display:false},ticks:{font:{size:12,weight:'500'}}},
-      yL:{position:'left',min:0,max:55,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}},
-      yR:{position:'right',min:40,max:160,grid:{display:false},ticks:{callback:v=>'£'+v,font:{size:9}}}}}});
-
-  // Free Mag vs Intro Bundle
-  new Chart(document.getElementById('cOfferDetail'),{type:'bar',data:{labels:ML,datasets:[
-    {label:'Free Mag %',    data:FM_SHARE_MO,backgroundColor:'rgba(29,122,74,.25)',borderColor:'rgba(29,122,74,.5)',borderWidth:1,borderRadius:3,yAxisID:'yL',order:3},
-    {label:'Intro Bundle %',data:IB_SHARE_MO,backgroundColor:'rgba(184,104,0,.2)', borderColor:'rgba(184,104,0,.4)',borderWidth:1,borderRadius:3,yAxisID:'yL',order:3},
-    {label:'Free Mag CPA',  data:FM_CPA_MO,  type:'line',borderColor:'#1d7a4a',backgroundColor:'transparent',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#1d7a4a',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2,yAxisID:'yR',spanGaps:false},
-    {label:'IB CPA',        data:IB_CPA_MO,  type:'line',borderColor:'#b86800',backgroundColor:'transparent',borderWidth:2,  pointRadius:4,pointBackgroundColor:'#b86800',pointBorderColor:'#fff',pointBorderWidth:1,  tension:0.2,yAxisID:'yR',borderDash:[4,3]},
-  ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{
-      label:c=>{const v=c.raw;if(v===null||v===undefined)return null;return c.datasetIndex<2?` ${c.dataset.label}: ${v}%`:` ${c.dataset.label}: £${v}`;},
-      filter:c=>c.raw!==null&&c.raw!==undefined}}},
-    scales:{x:{grid:{display:false},ticks:{font:{size:12,weight:'500'}}},
-      yL:{position:'left',min:0,max:32,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}},
-      yR:{position:'right',min:30,max:130,grid:{display:false},ticks:{callback:v=>'£'+v,font:{size:9},maxTicksLimit:6}}}}});
+  buildVitOfferChart('m');
+  buildFMIBChart('m');
 
   buildSegSpendChart('all');
   buildUnicornCharts('all');
@@ -486,6 +474,55 @@ function buildAllCharts(){
   rebuildProdCharts();
   rebuildSrcCharts();
 }
+
+// Vitals offer toggle
+let cVitOfferChart=null;
+function buildVitOfferChart(v){
+  if(cVitOfferChart)cVitOfferChart.destroy();
+  const isW=v==='w';
+  const labels=isW?D.WL:D.ML;
+  const pct=isW?D.W_VIT_OFF_PCT:D.VIT_OFF_PCT;
+  const offCPA=isW?D.W_VIT_OFF_CPA:D.VIT_OFF_CPA;
+  const noffCPA=isW?D.W_VIT_NOFF_CPA:D.VIT_NOFF_CPA;
+  const ptR=isW?0:5; const ptRn=isW?0:4;
+  cVitOfferChart=new Chart(document.getElementById('cVitOffer'),{type:'bar',data:{labels,datasets:[
+    {label:'Offer % of Vitals',data:pct,   backgroundColor:'rgba(26,95,168,.18)',borderColor:'rgba(26,95,168,.38)',borderWidth:1,borderRadius:3,yAxisID:'yL',order:2},
+    {label:'Vitals offer CPA', data:offCPA, type:'line',borderColor:'#1a5fa8',backgroundColor:'transparent',borderWidth:2.5,pointRadius:ptR, pointBackgroundColor:'#1a5fa8',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2,yAxisID:'yR'},
+    {label:'Non-offer CPA',    data:noffCPA,type:'line',borderColor:'#bbb',  backgroundColor:'transparent',borderWidth:1.5,pointRadius:ptRn,pointBackgroundColor:'#bbb',  pointBorderColor:'#fff',pointBorderWidth:1,  tension:0.2,borderDash:[4,3],yAxisID:'yR'},
+  ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.datasetIndex===0?` Offer % of Vitals: ${c.raw}%`:c.datasetIndex===1?` Offer CPA: £${c.raw}`:` Non-offer CPA: £${c.raw}`}}},
+    scales:{x:{grid:{display:false},ticks:{font:{size:isW?9:12,weight:'500'},maxTicksLimit:isW?13:7}},
+      yL:{position:'left',min:0,max:55,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}},
+      yR:{position:'right',min:40,max:160,grid:{display:false},ticks:{callback:v=>'£'+v,font:{size:9}}}}}});
+}
+function setVitOfferView(v,btn){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');buildVitOfferChart(v);}
+
+// Free Mag vs Intro Bundle toggle
+let cFMIBChart=null;
+function buildFMIBChart(v){
+  if(cFMIBChart)cFMIBChart.destroy();
+  const isW=v==='w';
+  const labels=isW?D.WL:D.ML;
+  const fmShare=isW?D.W_FM_SHARE:D.FM_SHARE_MO;
+  const ibShare=isW?D.W_IB_SHARE:D.IB_SHARE_MO;
+  const fmCPA=isW?D.W_FM_CPA:D.FM_CPA_MO;
+  const ibCPA=isW?D.W_IB_CPA:D.IB_CPA_MO;
+  const ptR=isW?0:5; const ptRn=isW?0:4;
+  const yLmax=isW?25:32;
+  cFMIBChart=new Chart(document.getElementById('cOfferDetail'),{type:'bar',data:{labels,datasets:[
+    {label:'Free Mag %',    data:fmShare,backgroundColor:'rgba(29,122,74,.25)',borderColor:'rgba(29,122,74,.5)',borderWidth:1,borderRadius:3,yAxisID:'yL',order:3},
+    {label:'Intro Bundle %',data:ibShare,backgroundColor:'rgba(184,104,0,.2)', borderColor:'rgba(184,104,0,.4)',borderWidth:1,borderRadius:3,yAxisID:'yL',order:3},
+    {label:'Free Mag CPA',  data:fmCPA,  type:'line',borderColor:'#1d7a4a',backgroundColor:'transparent',borderWidth:2.5,pointRadius:ptR, pointBackgroundColor:'#1d7a4a',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2,yAxisID:'yR',spanGaps:false},
+    {label:'IB CPA',        data:ibCPA,  type:'line',borderColor:'#b86800',backgroundColor:'transparent',borderWidth:2,  pointRadius:ptRn,pointBackgroundColor:'#b86800',pointBorderColor:'#fff',pointBorderWidth:1,  tension:0.2,yAxisID:'yR',borderDash:[4,3]},
+  ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{
+      label:c=>{const v=c.raw;if(v===null||v===undefined)return null;return c.datasetIndex<2?` ${c.dataset.label}: ${v}%`:` ${c.dataset.label}: £${v}`;},
+      filter:c=>c.raw!==null&&c.raw!==undefined}}},
+    scales:{x:{grid:{display:false},ticks:{font:{size:isW?9:12,weight:'500'},maxTicksLimit:isW?13:7}},
+      yL:{position:'left',min:0,max:yLmax,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}},
+      yR:{position:'right',min:30,max:130,grid:{display:false},ticks:{callback:v=>'£'+v,font:{size:9},maxTicksLimit:6}}}}});
+}
+function setFMIBView(v,btn){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');buildFMIBChart(v);}
 
 // CPA toggle
 let cCPAChart=null;
