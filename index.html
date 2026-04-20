@@ -344,9 +344,24 @@ function init(){
     document.getElementById('new-winner-detail').style.display='block';
     document.getElementById('nwd-week').textContent=K.week_label;
     const list=document.getElementById('nwd-list');
-    K.new_winner_detail.forEach(w=>{
-      const col=w.product==='Biotic'?'var(--red)':w.product==='Vitals & Biotic'?'var(--amber)':'var(--blue)';
-      list.innerHTML+=`<div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--ink2)"><span style="font-weight:600;color:${col};min-width:44px">${w.product}</span><span style="color:var(--muted);white-space:nowrap">created ${w.created_week}</span><span style="font-variant-numeric:tabular-nums;color:var(--green);font-weight:600">£${w.spend_30d.toLocaleString()}</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${w.name}</span></div>`;
+    // Sort: Vitals first, then Bundle, then Biotic, then Vitals & Biotic
+    const order={Vitals:0,Bundle:1,Biotic:2,'Vitals & Biotic':3};
+    const sorted=[...K.new_winner_detail].sort((a,b)=>(order[a.product]??9)-(order[b.product]??9));
+    // Product colours + labels
+    const prodStyle={
+      'Vitals':       {col:'var(--blue)',   bg:'rgba(26,95,168,.08)',  label:'Vitals'},
+      'Bundle':       {col:'#1d7a4a',       bg:'rgba(29,122,74,.08)',  label:'Bundle'},
+      'Biotic':       {col:'var(--red)',    bg:'rgba(191,59,46,.08)',  label:'Biotic'},
+      'Vitals & Biotic':{col:'var(--amber)',bg:'rgba(184,104,0,.08)', label:'V+B'},
+    };
+    sorted.forEach(w=>{
+      const ps=prodStyle[w.product]||{col:'var(--muted)',bg:'transparent',label:w.product};
+      list.innerHTML+=`<div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--ink2);padding:3px 6px;border-radius:3px;background:${ps.bg}">
+        <span style="font-weight:700;color:${ps.col};min-width:38px;font-size:10px">${ps.label}</span>
+        <span style="color:var(--muted);white-space:nowrap;font-size:10px">created ${w.created_week}</span>
+        <span style="font-variant-numeric:tabular-nums;color:var(--green);font-weight:700;white-space:nowrap">£${w.spend_30d.toLocaleString()}</span>
+        <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">${w.name}</span>
+      </div>`;
     });
   }
   document.getElementById('tldr-hl').textContent=`CPA £${K.cpa} w/e ${K.week_label}. Winner share ${K.winner_share}%. Fresh pool at ${D.AGE_F[D.AGE_F.length-1]}%.`;
@@ -465,14 +480,27 @@ function buildAllCharts(){
       yL:{position:'left',min:0,grid:{color:GC},ticks:{callback:v=>(v*100).toFixed(1)+'%',font:{size:9}}},
       yR:{position:'right',min:0,max:30,grid:{display:false},ticks:{callback:v=>v+'%',font:{size:9}}}}}});
 
-  // Weekly winner age — stacked area: Fresh(top) → Prime → Ageing(bottom)
+  // Weekly winner age — 100% stacked area using cumulative values
+  // Stack order bottom→top: Ageing, Prime, Fresh
+  // Cumulative: dataset0=AGE_A, dataset1=AGE_A+AGE_P, dataset2=AGE_A+AGE_P+AGE_F
+  const AGE_CUM1 = AGE_A.map((v,i)=>v);
+  const AGE_CUM2 = AGE_A.map((v,i)=>v+AGE_P[i]);
+  const AGE_CUM3 = AGE_A.map((v,i)=>v+AGE_P[i]+AGE_F[i]);
   new Chart(document.getElementById('cAge'),{type:'line',data:{labels:WL,datasets:[
-    {label:'Ageing 11+wks', data:AGE_A,backgroundColor:'rgba(184,104,0,.35)', borderColor:'rgba(184,104,0,.6)',  borderWidth:1.5,fill:true, tension:0.3,pointRadius:0,order:3},
-    {label:'Prime 5–10wks', data:AGE_P,backgroundColor:'rgba(26,95,168,.35)', borderColor:'rgba(26,95,168,.65)', borderWidth:1.5,fill:'-1',tension:0.3,pointRadius:0,order:2},
-    {label:'Fresh 0–4wks',  data:AGE_F,backgroundColor:'rgba(29,122,74,.55)', borderColor:'rgba(29,122,74,.9)',  borderWidth:2,  fill:'-1',tension:0.3,pointRadius:0,order:1},
+    {label:'Ageing 11+wks', data:AGE_CUM1,backgroundColor:'rgba(184,104,0,.4)', borderColor:'rgba(184,104,0,.65)', borderWidth:1.5,fill:'origin',tension:0.3,pointRadius:0},
+    {label:'Prime 5–10wks', data:AGE_CUM2,backgroundColor:'rgba(26,95,168,.4)', borderColor:'rgba(26,95,168,.65)', borderWidth:1.5,fill:'-1',   tension:0.3,pointRadius:0},
+    {label:'Fresh 0–4wks',  data:AGE_CUM3,backgroundColor:'rgba(29,122,74,.55)',borderColor:'rgba(29,122,74,.9)',  borderWidth:2,  fill:'-1',   tension:0.3,pointRadius:0},
   ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}%`,
-      footer:items=>`  Total: ${items.reduce((s,c)=>s+c.raw,0).toFixed(0)}%`}}},
+    plugins:{legend:{display:false},
+      tooltip:{...TT,position:'nearest',callbacks:{
+        label:(c)=>{
+          const labels=['Ageing 11+wks','Prime 5–10wks','Fresh 0–4wks'];
+          const vals=[AGE_A,AGE_P,AGE_F];
+          const i=c.datasetIndex;
+          return ` ${labels[i]}: ${vals[i][c.dataIndex]}%`;
+        },
+        footer:items=>`  Total: ${(AGE_A[items[0].dataIndex]+AGE_P[items[0].dataIndex]+AGE_F[items[0].dataIndex]).toFixed(0)}%`
+      }}},
     scales:{x:{grid:{display:false},ticks:{font:{size:9},maxTicksLimit:13}},
       y:{min:0,max:100,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}}}},
   plugins:[{id:'ageAnn',afterDraw(c){
@@ -480,10 +508,9 @@ function buildAllCharts(){
     [[0,'left'],[AGE_F.length-1,'right']].forEach(([i,align])=>{
       if(AGE_F[i]<3) return;
       const px=x.getPixelForValue(i);
-      // Fresh sits at the very top — label just above the top border of the chart
-      const total=AGE_A[i]+AGE_P[i]+AGE_F[i];
-      const freshMid=y.getPixelForValue(AGE_A[i]+AGE_P[i]+(AGE_F[i]/2));
-      ctx.font='700 11px DM Sans,sans-serif'; ctx.textAlign=align==='left'?'left':'right';
+      const freshMid=y.getPixelForValue(AGE_CUM2[i]+(AGE_F[i]/2));
+      ctx.font='700 11px DM Sans,sans-serif';
+      ctx.textAlign=align==='left'?'left':'right';
       ctx.fillStyle='rgba(29,122,74,1)';
       ctx.fillText(AGE_F[i].toFixed(0)+'%', align==='left'?px+5:px-5, freshMid+4);
     });
@@ -497,7 +524,7 @@ function buildAllCharts(){
     {label:'Prime',     data:MIX_P, backgroundColor:'rgba(26,95,168,.45)', borderColor:'rgba(26,95,168,.7)',  borderWidth:1},
     {label:'Fresh',     data:MIX_F, backgroundColor:'rgba(29,122,74,.55)', borderColor:'rgba(29,122,74,.85)', borderWidth:1},
   ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}%`}}},
+    plugins:{legend:{display:false},tooltip:{...TT,position:'nearest',callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}%`}}},
     scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:12,weight:'500'}}},
       y:{min:0,max:100,stacked:true,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}}}},
   plugins:[{id:'mixL',afterDraw(c){
@@ -508,7 +535,7 @@ function buildAllCharts(){
      {d:MIX_NW,offs:[],                  col:'rgba(80,80,80,.65)',   bold:false},
     ].forEach(({d,offs,col,bold})=>{
       d.forEach((v,i)=>{
-        if(v<5)return;
+        if(v<3)return;
         const base=offs.reduce((s,a)=>s+a[i],0);
         ctx.font=`${bold?'700':'600'} ${bold?'11':'10'}px DM Sans,sans-serif`;
         ctx.fillStyle=col;
