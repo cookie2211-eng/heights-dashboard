@@ -83,7 +83,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="page-hdr-r">
     <strong>Heights</strong>
     Sep 2025 – <span id="hdr-date"></span><br>
-    Winner ≥£3K first 30 days (Biotic/Thrive ≥£1K)<br>
+    Winner ≥£3K first 30 days (Biotic ≥£1K)<br>
     🦄 Unicorn = ≥5% daily spend within 14 days · Oct 2025+
   </div>
 </div>
@@ -165,7 +165,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="card-lbl">Monthly CPA by product</div>
   <div class="card-hl">Biotic <span class="r">nearly doubled</span> since Oct. Bundle creative consistently cheapest</div>
   <div class="card-sub">CPA from ad-level data, benchmarked against campaign-level totals. Oct–Mar match campaign CSV exactly.</div>
-  <div class="leg"><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Vitals</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Biotic</div><div class="leg-item"><div class="l-ln" style="background:#1d7a4a"></div>Bundle</div></div>
+  <div class="leg"><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Vitals</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Biotic</div><div class="leg-item"><div class="l-ln" style="background:#1d7a4a"></div>Bundle</div><div class="leg-item"><div class="l-ln" style="background:#b86800"></div>Vitals &amp; Biotic</div></div>
   <div class="chart-wrap" style="height:200px"><canvas id="cProdCPA"></canvas></div>
 </div>
 <div class="filter-bar" style="border-top:none;margin-top:4px;margin-bottom:4px">
@@ -179,12 +179,12 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="card"><div class="card-lbl">Biotic · launches vs winners vs hit rate</div><div class="card-hl">Winner = ≥£1K in first 30 days</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(255,185,160,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cBioHit"></canvas></div></div>
 </div>
 <div class="grid2">
-  <div class="card"><div class="card-lbl">Thrive · launches vs winners vs hit rate</div><div class="card-hl">Winner = ≥£1K — early stage</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(180,150,220,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(123,63,160,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cThrHit"></canvas></div></div>
+  <div class="card"><div class="card-lbl">Vitals &amp; Biotic · launches vs winners vs hit rate</div><div class="card-hl">Ultimate Gut &amp; Energy Bundle — Winner = ≥£1K</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(250,200,130,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cVbHit"></canvas></div></div>
   <div class="card">
     <div class="card-lbl">🦄 Unicorn ads — monthly count by product</div>
     <div class="card-hl">8 total (Oct 2025+) — <span class="a">last: Free Mag lo-fi price, Mar 2026</span></div>
     <div class="card-sub">≥5% of daily account spend within 14 days of launch. Mar unicorn hit 7.6% on day 2.</div>
-    <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.55)"></div>Vitals</div><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.55)"></div>Bundle</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.5)"></div>Biotic</div><div class="leg-item"><div class="l-sq" style="background:rgba(123,63,160,.5)"></div>Thrive</div></div>
+    <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.55)"></div>Vitals</div><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.55)"></div>Bundle</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.5)"></div>Biotic</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.5)"></div>Vitals &amp; Biotic</div></div>
     <div class="filter-bar"><span class="toggle-label">Creative type</span><button class="tog ag" data-uo="all" onclick="setUnicornOffer('all',this)">All</button><button class="tog" data-uo="non_offer" onclick="setUnicornOffer('non_offer',this)">Non-offer</button><button class="tog" data-uo="offer" onclick="setUnicornOffer('offer',this)">Offer</button></div>
     <div class="chart-wrap" style="height:165px;margin-top:8px"><canvas id="cUnicorn"></canvas></div>
   </div>
@@ -203,7 +203,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <button class="tog ai" data-sp="all" onclick="setSrcProd('all',this)">All</button>
   <button class="tog" data-sp="vitals_bundle" onclick="setSrcProd('vitals_bundle',this)">Vitals &amp; Bundle</button>
   <button class="tog" data-sp="biotic" onclick="setSrcProd('biotic',this)">Biotic</button>
-  <button class="tog" data-sp="thrive" onclick="setSrcProd('thrive',this)">Thrive</button>
+  <button class="tog" data-sp="vitals_biotic" onclick="setSrcProd('vitals_biotic',this)">Vitals &amp; Biotic</button>
   <span class="toggle-label" style="margin-left:10px">Creative type</span>
   <button class="tog ag" data-so="all" onclick="setSrcOffer('all',this)">All</button>
   <button class="tog" data-so="non_offer" onclick="setSrcOffer('non_offer',this)">Non-offer</button>
@@ -296,7 +296,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <button class="tog ai" data-tp="all" onclick="filterTbl('p','all',this)">All</button>
   <button class="tog" data-tp="Vitals" onclick="filterTbl('p','Vitals',this)">Vitals &amp; Bundle</button>
   <button class="tog" data-tp="Biotic" onclick="filterTbl('p','Biotic',this)">Biotic</button>
-  <button class="tog" data-tp="Thrive" onclick="filterTbl('p','Thrive',this)">Thrive</button>
+  <button class="tog" data-tp="Vitals & Biotic" onclick="filterTbl('p','Vitals & Biotic',this)">Vitals &amp; Biotic</button>
   <span class="toggle-label" style="margin-left:10px">Creative type</span>
   <button class="tog ag" data-to="all" onclick="filterTbl('o','all',this)">All</button>
   <button class="tog" data-to="non_offer" onclick="filterTbl('o','non_offer',this)">Non-offer</button>
@@ -316,7 +316,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 </div>
 <div class="footer">
   <span>Heights · Meta UK · Internal · <span id="footer-date"></span></span>
-  <span>Winner ≥£3K first 30 days (Biotic/Thrive ≥£1K) · 🦄 ≥5% daily spend within 14 days · Oct 2025+</span>
+  <span>Winner ≥£3K first 30 days (Biotic ≥£1K) · 🦄 ≥5% daily spend within 14 days · Oct 2025+</span>
 </div>
 </div>
 
@@ -345,7 +345,7 @@ function init(){
     document.getElementById('nwd-week').textContent=K.week_label;
     const list=document.getElementById('nwd-list');
     K.new_winner_detail.forEach(w=>{
-      const col=w.product==='Biotic'?'var(--red)':w.product==='Thrive'?'var(--purple)':'var(--blue)';
+      const col=w.product==='Biotic'?'var(--red)':w.product==='Vitals & Biotic'?'var(--amber)':'var(--blue)';
       list.innerHTML+=`<div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--ink2)"><span style="font-weight:600;color:${col};min-width:44px">${w.product}</span><span style="color:var(--muted);white-space:nowrap">created ${w.created_week}</span><span style="font-variant-numeric:tabular-nums;color:var(--green);font-weight:600">£${w.spend_30d.toLocaleString()}</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${w.name}</span></div>`;
     });
   }
@@ -437,7 +437,7 @@ let cFMIBChart=null;
 
 function buildAllCharts(){
   const{WL,ML,W_CPA,W_SHARE,W_SPEND,W_CPM_IDX,W_CVR_IDX,W_CVR_VIT,W_CVR_BIO,
-    MO_CPA,MO_WIN_SHARE,MO_SPEND_K,VIT_CPA,BIO_CPA,BUN_CPA,BIO_SHARE,
+    MO_CPA,MO_WIN_SHARE,MO_SPEND_K,VIT_CPA,BIO_CPA,BUN_CPA,VB_CPA,BIO_SHARE,
     AGE_F,AGE_P,AGE_A,MIX_F,MIX_P,MIX_A,MIX_NW,
     OFF_CPA,NOFF_CPA,OFF_SHARE}=D;
 
@@ -520,9 +520,10 @@ function buildAllCharts(){
   const UNCLASS_PCT = D.UNCLASS_PCT || [];
   const prodCPALabels = ML.map((m,i) => UNCLASS_PCT[i] >= 5 ? `${m} ⚠` : m);
   new Chart(document.getElementById('cProdCPA'),{type:'line',data:{labels:prodCPALabels,datasets:[
-    {label:'Vitals',data:VIT_CPA,borderColor:'#1a5fa8',backgroundColor:'transparent',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#1a5fa8',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2},
-    {label:'Biotic',data:BIO_CPA,borderColor:'#bf3b2e',backgroundColor:'transparent',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#bf3b2e',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2},
-    {label:'Bundle',data:BUN_CPA,borderColor:'#1d7a4a',backgroundColor:'transparent',borderWidth:2,  pointRadius:4,pointBackgroundColor:'#1d7a4a',pointBorderColor:'#fff',pointBorderWidth:1,  tension:0.2},
+    {label:'Vitals',         data:VIT_CPA,borderColor:'#1a5fa8',backgroundColor:'transparent',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#1a5fa8',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2},
+    {label:'Biotic',         data:BIO_CPA,borderColor:'#bf3b2e',backgroundColor:'transparent',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#bf3b2e',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2},
+    {label:'Bundle',         data:BUN_CPA,borderColor:'#1d7a4a',backgroundColor:'transparent',borderWidth:2,  pointRadius:4,pointBackgroundColor:'#1d7a4a',pointBorderColor:'#fff',pointBorderWidth:1,  tension:0.2},
+    {label:'Vitals & Biotic',data:(D.VB_CPA||[]).map(v=>v||null),borderColor:'#b86800',backgroundColor:'transparent',borderWidth:2,pointRadius:4,pointBackgroundColor:'#b86800',pointBorderColor:'#fff',pointBorderWidth:1,tension:0.2,spanGaps:false},
   ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
     plugins:{legend:{display:false},tooltip:{...TT,callbacks:{
       label:c=>c.raw?` ${c.dataset.label}: £${c.raw}`:null,
@@ -667,10 +668,10 @@ function buildUnicornCharts(f){
   const pd=D.UNICORN.prod[f],sd=D.UNICORN.src[f];
   if(uniProd)uniProd.destroy();
   uniProd=new Chart(document.getElementById('cUnicorn'),{type:'bar',data:{labels:D.ML,datasets:[
-    {label:'Vitals',data:pd.Vitals,backgroundColor:'rgba(26,95,168,.55)',borderColor:'rgba(26,95,168,.8)',borderWidth:1,borderRadius:3},
-    {label:'Bundle',data:pd.Bundle,backgroundColor:'rgba(29,122,74,.55)',borderColor:'rgba(29,122,74,.8)',borderWidth:1,borderRadius:3},
-    {label:'Biotic',data:pd.Biotic,backgroundColor:'rgba(191,59,46,.5)', borderColor:'rgba(191,59,46,.75)',borderWidth:1,borderRadius:3},
-    {label:'Thrive',data:pd.Thrive,backgroundColor:'rgba(123,63,160,.5)',borderColor:'rgba(123,63,160,.75)',borderWidth:1,borderRadius:3},
+    {label:'Vitals',         data:pd.Vitals,              backgroundColor:'rgba(26,95,168,.55)',borderColor:'rgba(26,95,168,.8)', borderWidth:1,borderRadius:3},
+    {label:'Bundle',         data:pd.Bundle,              backgroundColor:'rgba(29,122,74,.55)',borderColor:'rgba(29,122,74,.8)', borderWidth:1,borderRadius:3},
+    {label:'Biotic',         data:pd.Biotic,              backgroundColor:'rgba(191,59,46,.5)', borderColor:'rgba(191,59,46,.75)',borderWidth:1,borderRadius:3},
+    {label:'Vitals & Biotic',data:(pd['Vitals & Biotic']||[]),backgroundColor:'rgba(184,104,0,.5)', borderColor:'rgba(184,104,0,.75)',borderWidth:1,borderRadius:3},
   ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
     plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.raw>0?` ${c.dataset.label}: ${c.raw}`:null,filter:i=>i.raw>0}}},
     scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:12,weight:'500'}}},
@@ -784,9 +785,9 @@ function setAmbProd(f,btn){document.querySelectorAll('[data-ambp]').forEach(b=>b
 const prodCharts={};
 let currentOfferFilter='all';
 const prodCfg={
-  cVitHit:{key:'vitals_bundle',barBg:'rgba(173,200,230,.55)',barBd:'rgba(120,165,210,.8)',winBg:'rgba(26,95,168,.82)',winBd:'rgba(26,95,168,1)'},
-  cBioHit:{key:'biotic',       barBg:'rgba(255,185,160,.55)',barBd:'rgba(220,130,110,.8)',winBg:'rgba(191,59,46,.82)',winBd:'rgba(191,59,46,1)'},
-  cThrHit:{key:'thrive',       barBg:'rgba(180,150,220,.55)',barBd:'rgba(150,110,190,.8)',winBg:'rgba(123,63,160,.82)',winBd:'rgba(123,63,160,1)'},
+  cVitHit:{key:'vitals_bundle', barBg:'rgba(173,200,230,.55)',barBd:'rgba(120,165,210,.8)',winBg:'rgba(26,95,168,.82)', winBd:'rgba(26,95,168,1)'},
+  cBioHit:{key:'biotic',        barBg:'rgba(255,185,160,.55)',barBd:'rgba(220,130,110,.8)',winBg:'rgba(191,59,46,.82)', winBd:'rgba(191,59,46,1)'},
+  cVbHit: {key:'vitals_biotic', barBg:'rgba(250,200,130,.55)',barBd:'rgba(210,160,70,.8)', winBg:'rgba(184,104,0,.82)', winBd:'rgba(184,104,0,1)'},
 };
 function rebuildProdCharts(){
   Object.entries(prodCfg).forEach(([id,cfg])=>{
