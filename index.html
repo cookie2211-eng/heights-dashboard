@@ -149,13 +149,13 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="card">
     <div class="card-lbl">Weekly spend through winners by age</div>
     <div class="card-hl">Fresh share <span class="r">at new low</span></div>
-    <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.75)"></div>Fresh (0–4 wks)</div><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.55)"></div>Prime (5–10 wks)</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.6)"></div>Ageing (11+ wks)</div></div>
+    <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.55)"></div>Fresh (0–4 wks)</div><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.45)"></div>Prime (5–10 wks)</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.5)"></div>Ageing (11+ wks)</div></div>
     <div class="chart-wrap" style="height:190px"><canvas id="cAge"></canvas></div>
   </div>
   <div class="card">
     <div class="card-lbl">Monthly spend mix by winner age</div>
     <div class="card-hl">Fresh winner share collapsing</div>
-    <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.75)"></div>Fresh</div><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.55)"></div>Prime</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.6)"></div>Ageing</div><div class="leg-item"><div class="l-sq" style="background:rgba(155,155,155,.35)"></div>Non-winner</div></div>
+    <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.55)"></div>Fresh</div><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.45)"></div>Prime</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.5)"></div>Ageing</div><div class="leg-item"><div class="l-sq" style="background:rgba(155,155,155,.25)"></div>Non-winner</div></div>
     <div class="chart-wrap" style="height:190px"><canvas id="cMix"></canvas></div>
   </div>
 </div>
@@ -467,49 +467,51 @@ function buildAllCharts(){
 
   // Weekly winner age — stacked area: Fresh(top) → Prime → Ageing(bottom)
   new Chart(document.getElementById('cAge'),{type:'line',data:{labels:WL,datasets:[
-    {label:'Fresh 0–4wks',  data:AGE_F,backgroundColor:'rgba(29,122,74,.5)', borderColor:'rgba(29,122,74,.85)', borderWidth:2,fill:true,tension:0.3,pointRadius:0},
-    {label:'Prime 5–10wks', data:AGE_P,backgroundColor:'rgba(26,95,168,.4)', borderColor:'rgba(26,95,168,.75)', borderWidth:1.5,fill:true,tension:0.3,pointRadius:0},
-    {label:'Ageing 11+wks', data:AGE_A,backgroundColor:'rgba(184,104,0,.4)', borderColor:'rgba(184,104,0,.7)',  borderWidth:1.5,fill:true,tension:0.3,pointRadius:0},
+    {label:'Ageing 11+wks', data:AGE_A,backgroundColor:'rgba(184,104,0,.35)', borderColor:'rgba(184,104,0,.6)',  borderWidth:1.5,fill:true, tension:0.3,pointRadius:0,order:3},
+    {label:'Prime 5–10wks', data:AGE_P,backgroundColor:'rgba(26,95,168,.35)', borderColor:'rgba(26,95,168,.65)', borderWidth:1.5,fill:'-1',tension:0.3,pointRadius:0,order:2},
+    {label:'Fresh 0–4wks',  data:AGE_F,backgroundColor:'rgba(29,122,74,.55)', borderColor:'rgba(29,122,74,.9)',  borderWidth:2,  fill:'-1',tension:0.3,pointRadius:0,order:1},
   ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
     plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}%`,
       footer:items=>`  Total: ${items.reduce((s,c)=>s+c.raw,0).toFixed(0)}%`}}},
-    scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:9},maxTicksLimit:13}},
-      y:{min:0,max:100,stacked:true,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}}}},
+    scales:{x:{grid:{display:false},ticks:{font:{size:9},maxTicksLimit:13}},
+      y:{min:0,max:100,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}}}},
   plugins:[{id:'ageAnn',afterDraw(c){
-    // Annotate first and last point with Fresh %
-    const{ctx,scales:{x,y},chartArea}=c; ctx.save();
+    const{ctx,scales:{x,y}}=c; ctx.save();
     [[0,'left'],[AGE_F.length-1,'right']].forEach(([i,align])=>{
       if(AGE_F[i]<3) return;
       const px=x.getPixelForValue(i);
-      const freshTop=y.getPixelForValue(AGE_A[i]+AGE_P[i]+AGE_F[i]);
-      ctx.font='600 10px DM Sans,sans-serif'; ctx.textAlign=align==='left'?'left':'right';
-      ctx.fillStyle='rgba(29,122,74,.9)';
-      ctx.fillText(AGE_F[i].toFixed(0)+'%', align==='left'?px+4:px-4, freshTop+14);
+      // Fresh sits at the very top — label just above the top border of the chart
+      const total=AGE_A[i]+AGE_P[i]+AGE_F[i];
+      const freshMid=y.getPixelForValue(AGE_A[i]+AGE_P[i]+(AGE_F[i]/2));
+      ctx.font='700 11px DM Sans,sans-serif'; ctx.textAlign=align==='left'?'left':'right';
+      ctx.fillStyle='rgba(29,122,74,1)';
+      ctx.fillText(AGE_F[i].toFixed(0)+'%', align==='left'?px+5:px-5, freshMid+4);
     });
     ctx.restore();
   }}]});
 
   // Monthly mix — Non-winner(bottom) → Ageing → Prime → Fresh(top)
   new Chart(document.getElementById('cMix'),{type:'bar',data:{labels:ML,datasets:[
-    {label:'Non-winner',data:MIX_NW,backgroundColor:'rgba(155,155,155,.3)',borderColor:'rgba(155,155,155,.5)',borderWidth:1},
-    {label:'Ageing',    data:MIX_A, backgroundColor:'rgba(184,104,0,.55)', borderColor:'rgba(184,104,0,.8)', borderWidth:1},
-    {label:'Prime',     data:MIX_P, backgroundColor:'rgba(26,95,168,.5)',  borderColor:'rgba(26,95,168,.75)',borderWidth:1},
-    {label:'Fresh',     data:MIX_F, backgroundColor:'rgba(29,122,74,.75)', borderColor:'rgba(29,122,74,.95)',borderWidth:1},
+    {label:'Non-winner',data:MIX_NW,backgroundColor:'rgba(155,155,155,.25)',borderColor:'rgba(155,155,155,.45)',borderWidth:1},
+    {label:'Ageing',    data:MIX_A, backgroundColor:'rgba(184,104,0,.5)',  borderColor:'rgba(184,104,0,.75)', borderWidth:1},
+    {label:'Prime',     data:MIX_P, backgroundColor:'rgba(26,95,168,.45)', borderColor:'rgba(26,95,168,.7)',  borderWidth:1},
+    {label:'Fresh',     data:MIX_F, backgroundColor:'rgba(29,122,74,.55)', borderColor:'rgba(29,122,74,.85)', borderWidth:1},
   ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
     plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}%`}}},
     scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:12,weight:'500'}}},
       y:{min:0,max:100,stacked:true,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}}}},
   plugins:[{id:'mixL',afterDraw(c){
     const{ctx,scales:{x,y}}=c;ctx.save();ctx.textAlign='center';
-    [{d:MIX_F,offs:[MIX_NW,MIX_A,MIX_P],col:'rgba(255,255,255,.95)'},
-     {d:MIX_P,offs:[MIX_NW,MIX_A],col:'rgba(255,255,255,.95)'},
-     {d:MIX_A,offs:[MIX_NW],col:'rgba(255,255,255,.9)'},
-     {d:MIX_NW,offs:[],col:'rgba(80,80,80,.7)'},
-    ].forEach(({d,offs,col})=>{
+    [{d:MIX_F, offs:[MIX_NW,MIX_A,MIX_P],col:'rgba(255,255,255,.98)',bold:true},
+     {d:MIX_P, offs:[MIX_NW,MIX_A],      col:'rgba(255,255,255,.95)',bold:false},
+     {d:MIX_A, offs:[MIX_NW],            col:'rgba(255,255,255,.9)', bold:false},
+     {d:MIX_NW,offs:[],                  col:'rgba(80,80,80,.65)',   bold:false},
+    ].forEach(({d,offs,col,bold})=>{
       d.forEach((v,i)=>{
-        if(v<4)return;
+        if(v<5)return;
         const base=offs.reduce((s,a)=>s+a[i],0);
-        ctx.font='600 10px DM Sans,sans-serif';ctx.fillStyle=col;
+        ctx.font=`${bold?'700':'600'} ${bold?'11':'10'}px DM Sans,sans-serif`;
+        ctx.fillStyle=col;
         ctx.fillText(v.toFixed(0)+'%',x.getPixelForValue(i),y.getPixelForValue(base+v/2)+4);
       });
     });
