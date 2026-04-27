@@ -369,10 +369,17 @@ function init(){
   // Helper: extract a readable short name from ad name
   function shortAdName(name) {
     if (name.match(/^\d{4}-/)) {
-      // New naming: extract pd and concept
-      const pd = (name.match(/_pd:([^_]+)/) || [])[1] || '';
-      const v  = (name.match(/_v:([^_]+)/)  || [])[1] || '';
-      return [pd, v].filter(Boolean).join(' · ');
+      // New naming: build a readable label from available tags
+      const pd   = (name.match(/_pd:([^_]+)/)  || [])[1] || '';
+      const per  = (name.match(/_per:([^_]+)/) || [])[1] || '';
+      const jtbd = (name.match(/_jtbd:([^_]+)/)|| [])[1] || '';
+      const v    = (name.match(/_v:([^_]+)/)   || [])[1] || '';
+      const code = (name.match(/^(\d{4}-\d{3}-\d{2})/) || [])[1] || '';
+      // Prefer per+jtbd for readability, fall back to v, then pd+code
+      if (per && jtbd) return `${per} · ${jtbd}`;
+      if (per) return `${pd} · ${per}`;
+      if (v)   return `${pd} · ${v}`;
+      return `${pd}${code ? ' · ' + code : ''}`;
     }
     const parts = name.split('|').map(s=>s.trim()).filter(Boolean);
     // Find bracketed concept part e.g. [C1]_[Vitals]_[D2C Diaries Podcast 1]
