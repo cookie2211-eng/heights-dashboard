@@ -131,13 +131,13 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 <div class="grid2">
   <div class="card">
     <div class="card-lbl">CPM vs blended CVR — indexed to period avg</div>
-    <div class="card-hl">CPM near average — <span class="r">CVR falling</span></div>
+    <div class="card-hl">CPM stable — CVR <span style="color:var(--green)">recovering</span></div>
     <div class="leg"><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>CPM index</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>CVR index</div><div class="leg-item" style="font-size:10px;color:var(--muted)">Period avg = 100</div></div>
     <div class="chart-wrap" style="height:190px"><canvas id="cCPMCVR"></canvas></div>
   </div>
   <div class="card">
     <div class="card-lbl">CVR by product — absolute</div>
-    <div class="card-hl">Both Vitals and Biotic CVR <span class="r">falling</span> — Biotic more volatile</div>
+    <div class="card-hl">Vitals CVR recovering — Biotic CVR <span class="r">still weak</span></div>
     <div class="card-sub">Absolute CVR. Biotic structurally lower than Vitals — not directly comparable.</div>
     <div class="leg"><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Vitals CVR</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Biotic CVR</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.2)"></div>Biotic share % (right)</div></div>
     <div class="chart-wrap" style="height:190px"><canvas id="cCVRProd"></canvas></div>
@@ -148,13 +148,13 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 <div class="grid2">
   <div class="card">
     <div class="card-lbl">Weekly spend through winners by age</div>
-    <div class="card-hl">Fresh share <span class="r">at new low</span></div>
+    <div class="card-hl" id="hl-age"></div>
     <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.55)"></div>Fresh (0–4 wks)</div><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.45)"></div>Prime (5–10 wks)</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.5)"></div>Ageing (11+ wks)</div></div>
     <div class="chart-wrap" style="height:190px"><canvas id="cAge"></canvas></div>
   </div>
   <div class="card">
     <div class="card-lbl">Monthly spend mix by winner age</div>
-    <div class="card-hl">Fresh winner share collapsing</div>
+    <div class="card-hl" id="hl-mix"></div>
     <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.55)"></div>Fresh</div><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.45)"></div>Prime</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.5)"></div>Ageing</div><div class="leg-item"><div class="l-sq" style="background:rgba(155,155,155,.25)"></div>Non-winner</div></div>
     <div class="chart-wrap" style="height:190px"><canvas id="cMix"></canvas></div>
   </div>
@@ -163,7 +163,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 <div class="sec"><h2>4 · Creative by product</h2><span>CPA, hit rates &amp; unicorns</span></div>
 <div class="card">
   <div class="card-lbl">Monthly CPA by product</div>
-  <div class="card-hl">Biotic <span class="r">nearly doubled</span> since Oct. Bundle creative consistently cheapest</div>
+  <div class="card-hl">Biotic CPA <span class="r">up 40%</span> since Oct. Bundle creative consistently cheapest</div>
   <div class="card-sub">CPA from ad-level data, benchmarked against campaign-level totals. Oct–Mar match campaign CSV exactly.</div>
   <div class="leg"><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Vitals</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Biotic</div><div class="leg-item"><div class="l-ln" style="background:#1d7a4a"></div>Bundle</div><div class="leg-item"><div class="l-ln" style="background:#b86800"></div>Vitals &amp; Biotic</div></div>
   <div class="chart-wrap" style="height:200px"><canvas id="cProdCPA"></canvas></div>
@@ -182,7 +182,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="card"><div class="card-lbl">Vitals &amp; Biotic · launches vs winners vs hit rate</div><div class="card-hl">Ultimate Gut &amp; Energy Bundle — Winner = ≥£1K</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(250,200,130,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cVbHit"></canvas></div></div>
   <div class="card">
     <div class="card-lbl">🦄 Unicorn ads — monthly count by product</div>
-    <div class="card-hl">8 total (Oct 2025+) — <span class="a">last: Free Mag lo-fi price, Mar 2026</span></div>
+    <div class="card-hl">8 total (Oct 2025+) — <span class="a">last: Free Mag Warm shot, Dec 2025</span></div>
     <div class="card-sub">≥5% of daily account spend within 14 days of launch. Mar unicorn hit 7.6% on day 2.</div>
     <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.55)"></div>Vitals</div><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.55)"></div>Bundle</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.5)"></div>Biotic</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.5)"></div>Vitals &amp; Biotic</div></div>
     <div class="filter-bar"><span class="toggle-label">Creative type</span><button class="tog ag" data-uo="all" onclick="setUnicornOffer('all',this)">All</button><button class="tog" data-uo="non_offer" onclick="setUnicornOffer('non_offer',this)">Non-offer</button><button class="tog" data-uo="offer" onclick="setUnicornOffer('offer',this)">Offer</button></div>
@@ -242,7 +242,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 <div class="grid2">
   <div class="card">
     <div class="card-lbl">Account — celeb vs non-celeb CPA &amp; share · monthly</div>
-    <div class="card-hl">Celeb CPA rising — gap vs non-celeb widening</div>
+    <div class="card-hl">Celeb and non-celeb CPA <span class="a">converging</span></div>
     <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.18)"></div>Celeb share % (left)</div><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Celeb CPA (right)</div><div class="leg-item"><div class="l-ln" style="background:#aaa"></div>Non-celeb CPA (right)</div></div>
     <div class="filter-bar"><span class="toggle-label">Product</span><button class="tog ai" data-cp="all" onclick="setCelebProd('all',this)">All</button><button class="tog" data-cp="vitals" onclick="setCelebProd('vitals',this)">Vitals &amp; Bundle</button><button class="tog" data-cp="biotic" onclick="setCelebProd('biotic',this)">Biotic</button></div>
     <div class="chart-wrap" style="height:190px;margin-top:8px"><canvas id="cCeleb"></canvas></div>
@@ -259,7 +259,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 <div class="sec-sub">Offer &amp; bundle creative</div>
 <div class="card">
   <div class="card-lbl">Account — offer vs non-offer CPA &amp; share · weekly</div>
-  <div class="card-hl">Offer CPA significantly below non-offer — widening gap</div>
+  <div class="card-hl">Offer CPA <span style="color:var(--green)">significantly cheaper</span> — £56 gap vs non-offer</div>
   <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.18)"></div>Offer share % (left)</div><div class="leg-item"><div class="l-ln" style="background:#1d7a4a"></div>Offer CPA (right)</div><div class="leg-item"><div class="l-ln" style="background:#aaa"></div>Non-offer CPA (right)</div></div>
   <div class="chart-wrap" style="height:200px"><canvas id="cOffer"></canvas></div>
 </div>
@@ -440,7 +440,27 @@ function init(){
       </div>`;
     });
   }
-  buildAmbLegend();
+  // Section 3 — Winner pool health headlines
+  const currFresh = D.AGE_F[D.AGE_F.length-1];
+  const prevFresh = D.AGE_F[D.AGE_F.length-2];
+  const recentLow = Math.min(...D.AGE_F.slice(-8));
+  const freshDelta = currFresh - prevFresh;
+  let ageHl, ageCol;
+  if(currFresh >= 35){ ageHl=`Fresh share healthy at <span style="color:var(--green)">${currFresh}%</span>`; }
+  else if(currFresh >= 25 && freshDelta > 0){ ageHl=`Fresh share <span style="color:var(--green)">recovering</span> — ${currFresh}% this week`; }
+  else if(currFresh >= 25){ ageHl=`Fresh share stabilising at ${currFresh}%`; }
+  else if(currFresh < 20){ ageHl=`Fresh share <span class="r">critically low</span> at ${currFresh}%`; }
+  else { ageHl=`Fresh share <span class="a">below target</span> — ${currFresh}% this week`; }
+  document.getElementById('hl-age').innerHTML = ageHl;
+
+  const currMixFresh = D.MIX_F[D.MIX_F.length-2]; // use Apr (last complete month)
+  const prevMixFresh = D.MIX_F[D.MIX_F.length-3];
+  const mixTrend = currMixFresh - prevMixFresh;
+  let mixHl;
+  if(mixTrend >= 3){ mixHl=`Fresh winner share <span style="color:var(--green)">recovering</span>`; }
+  else if(mixTrend <= -3){ mixHl=`Fresh winner share <span class="r">declining</span>`; }
+  else { mixHl=`Fresh winner share stabilising`; }
+  document.getElementById('hl-mix').innerHTML = mixHl;
   buildAllCharts();
   renderTable();
 }
