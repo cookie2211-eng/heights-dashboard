@@ -29,6 +29,16 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 .card-hl em{color:var(--green);font-style:normal;}
 .card-sub{font-size:11px;color:var(--ink2);line-height:1.65;margin-bottom:8px;}
 .muted-note{font-size:10px;color:var(--muted);margin:2px 0 6px;font-style:italic;}
+  .hit-detail{margin-top:10px;padding:10px 12px;background:rgba(0,0,0,.04);border-radius:4px;font-size:11px;border-top:2px solid rgba(0,0,0,.08);}
+  .hit-detail .hd-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+  .hit-detail .hd-close{font-size:14px;color:var(--muted);background:none;border:none;cursor:pointer;padding:0;line-height:1;opacity:.6;}
+  .hit-detail .hd-close:hover{opacity:1;}
+  .hit-detail .hd-row{display:flex;align-items:center;gap:10px;padding:4px 0;border-bottom:1px solid var(--rule);}
+  .hit-detail .hd-row:last-child{border-bottom:none;}
+  .hit-detail .hd-spend{font-variant-numeric:tabular-nums;font-weight:600;color:var(--ink);white-space:nowrap;min-width:60px;}
+  .hit-detail .hd-cpa{font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap;min-width:52px;}
+  .hit-detail .hd-name{color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;}
+  .hit-detail .hd-empty{color:var(--muted);font-style:italic;}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
 .kpi{background:var(--white);border:1px solid var(--rule);border-radius:6px;padding:14px 16px;}
@@ -175,11 +185,14 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <button class="tog" data-of="offer" onclick="setOfferFilter('offer',this)">Offer</button>
 </div>
 <div class="grid2">
-  <div class="card"><div class="card-lbl">Vitals &amp; Bundle · launches vs winners vs hit rate</div><div class="card-hl">Winner = ≥£3K in first 30 days</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(173,200,230,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cVitHit"></canvas></div></div>
-  <div class="card"><div class="card-lbl">Biotic · launches vs winners vs hit rate</div><div class="card-hl">Winner = ≥£1K in first 30 days</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(255,185,160,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cBioHit"></canvas></div></div>
+  <div class="card"><div class="card-lbl">Vitals &amp; Bundle · launches vs winners vs hit rate</div><div class="card-hl">Winner = ≥£3K in first 30 days</div><p class="muted-note">Current month partial · Click a bar to see winners</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(173,200,230,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cVitHit"></canvas></div>
+  <div id="cVitHit-detail" class="hit-detail" style="display:none"></div></div>
+  <div class="card"><div class="card-lbl">Biotic · launches vs winners vs hit rate</div><div class="card-hl">Winner = ≥£1K in first 30 days</div><p class="muted-note">Current month partial · Click a bar to see winners</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(255,185,160,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cBioHit"></canvas></div>
+  <div id="cBioHit-detail" class="hit-detail" style="display:none"></div></div>
 </div>
 <div class="grid2">
-  <div class="card"><div class="card-lbl">Vitals &amp; Biotic · launches vs winners vs hit rate</div><div class="card-hl">Ultimate Gut &amp; Energy Bundle — Winner = ≥£1K</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(250,200,130,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cVbHit"></canvas></div></div>
+  <div class="card"><div class="card-lbl">Vitals &amp; Biotic · launches vs winners vs hit rate</div><div class="card-hl">Ultimate Gut &amp; Energy Bundle — Winner = ≥£1K</div><p class="muted-note">Current month partial · Click a bar to see winners</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(250,200,130,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cVbHit"></canvas></div>
+  <div id="cVbHit-detail" class="hit-detail" style="display:none"></div></div>
   <div class="card">
     <div class="card-lbl">🦄 Unicorn ads — monthly count by product</div>
     <div class="card-hl">8 total (Oct 2025+) — <span class="a">last: Free Mag lo-fi price, Mar 2026</span></div>
@@ -462,6 +475,7 @@ function buildAllCharts(){
     MO_CPA,MO_WIN_SHARE,MO_SPEND_K,VIT_CPA,BIO_CPA,BUN_CPA,VB_CPA,BIO_SHARE,
     AGE_F,AGE_P,AGE_A,MIX_F,MIX_P,MIX_A,MIX_NW,
     OFF_CPA,NOFF_CPA,OFF_SHARE}=D;
+  const WINNER_DETAILS=D.WINNER_DETAILS||{};
 
   buildCPAChart('w');
   buildSpendChart('w');
@@ -671,7 +685,25 @@ function buildSpendChart(v){
 function setSpendView(v,btn){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');buildSpendChart(v);}
 
 // Hit chart helper
-function hitChart(id,l,w,hr,barBg,barBd,winBg,winBd){
+function showHitDetail(panelId, prodKey, offerKey, monthIdx){
+  const panel = document.getElementById(panelId+'-detail');
+  if(!panel) return;
+  const winners = (WINNER_DETAILS[prodKey]||{})[offerKey]||[];
+  const monthWinners = winners[monthIdx]||[];
+  const month = D.ML[monthIdx]||'';
+  let html = `<div class="hd-hdr"><span>${month} winners (${monthWinners.length})</span><button class="hd-close" onclick="document.getElementById('${panelId}-detail').style.display='none'">✕</button></div>`;
+  if(monthWinners.length===0){
+    html += `<div class="hd-empty">No winners this month</div>`;
+  } else {
+    monthWinners.forEach(w=>{
+      html += `<div class="hd-row"><span class="hd-spend">£${w.spend.toLocaleString()}</span><span class="hd-cpa">CPA £${w.cpa}</span><span class="hd-name" title="${w.full}">${w.name}</span></div>`;
+    });
+  }
+  panel.innerHTML = html;
+  panel.style.display = 'block';
+}
+
+function hitChart(id,l,w,hr,barBg,barBd,winBg,winBd,prodKey,offerKey){
   const mxHR=Math.max(...hr.filter(v=>v>0),1);
   const yMax=Math.ceil(Math.max(...l.filter(v=>v>0))*1.35/50)*50||50;
   return new Chart(document.getElementById(id),{type:'bar',data:{labels:D.ML,datasets:[
@@ -679,11 +711,18 @@ function hitChart(id,l,w,hr,barBg,barBd,winBg,winBd){
     {label:'Winners', data:w,backgroundColor:winBg,borderColor:winBd,borderWidth:1.5,borderRadius:3,yAxisID:'yL',order:2,barPercentage:0.85,categoryPercentage:0.7},
     {label:'Hit rate',data:hr,type:'line',borderColor:'rgba(191,59,46,.65)',backgroundColor:'transparent',borderWidth:2,pointRadius:4,pointBackgroundColor:'rgba(191,59,46,.9)',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2,yAxisID:'yR'},
   ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.datasetIndex===0?` Launches: ${c.raw}`:c.datasetIndex===1?` Winners: ${c.raw}`:` Hit rate: ${c.raw}%`}}},
+    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.datasetIndex===0?` Launches: ${c.raw}`:c.datasetIndex===1?` Winners: ${c.raw}`:` Hit rate: ${c.raw}%`,
+      footer:items=>{const i=items[0]?.dataIndex;const ws=((WINNER_DETAILS[prodKey]||{})[offerKey]||[])[i]||[];return ws.length?`Click bar to see ${ws.length} winner${ws.length>1?'s':''}`:'';}}}},
     layout:{padding:{top:22}},
     scales:{x:{grid:{display:false},ticks:{font:{size:11,weight:'500'}}},
       yL:{position:'left',min:0,max:yMax,grid:{color:GC},ticks:{font:{size:9},maxTicksLimit:3}},
       yR:{position:'right',min:0,max:Math.max(30,Math.ceil(mxHR/5)*5+8),grid:{display:false},ticks:{display:false}}}},
+    onClick:(evt,els)=>{
+      if(els.length>0&&prodKey){
+        const i=els[0].index;
+        showHitDetail(id, prodKey, offerKey||currentOfferFilter, i);
+      }
+    }},
   plugins:[{id:'lbl'+id,afterDraw(c){
     const{ctx,scales:{x},chartArea}=c;ctx.save();ctx.textAlign='center';
     const hrY=chartArea.top-8;
@@ -826,10 +865,12 @@ const prodCfg={
   cVbHit: {key:'vitals_biotic', barBg:'rgba(250,200,130,.55)',barBd:'rgba(210,160,70,.8)', winBg:'rgba(184,104,0,.82)', winBd:'rgba(184,104,0,1)'},
 };
 function rebuildProdCharts(){
+  // Hide any open detail panels
+  document.querySelectorAll('.hit-detail').forEach(el=>el.style.display='none');
   Object.entries(prodCfg).forEach(([id,cfg])=>{
     const arr=D.PROD_BY_OFFER[cfg.key][currentOfferFilter];
     if(prodCharts[id])prodCharts[id].destroy();
-    prodCharts[id]=hitChart(id,arr[0],arr[1],arr[2],cfg.barBg,cfg.barBd,cfg.winBg,cfg.winBd);
+    prodCharts[id]=hitChart(id,arr[0],arr[1],arr[2],cfg.barBg,cfg.barBd,cfg.winBg,cfg.winBd,cfg.key,currentOfferFilter);
   });
 }
 function setOfferFilter(f,btn){currentOfferFilter=f;document.querySelectorAll('[data-of]').forEach(b=>b.classList.remove('ag'));btn.classList.add('ag');rebuildProdCharts();rebuildSrcCharts();}
