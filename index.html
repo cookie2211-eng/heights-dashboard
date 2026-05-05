@@ -193,7 +193,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 <div class="sec"><h2>5 · Creative winner performance by source</h2><span>CPA &amp; hit rates · by source &amp; product</span></div>
 <div class="card">
   <div class="card-lbl">Monthly CPA by source</div>
-  <div class="card-hl">All sources <span class="r">converging</span> — Brightshift sharpest collapse</div>
+  <div class="card-hl">All sources up from Jan lows — <em>Hambi cheapest</em>, Influencer accelerating</div>
   <div class="leg"><div class="leg-item"><div class="l-ln" style="background:#7b3fa0"></div>Celeb</div><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Internal</div><div class="leg-item"><div class="l-ln" style="background:#1d7a4a"></div>Brightshift</div><div class="leg-item"><div class="l-ln" style="background:#b86800"></div>Hambi</div><div class="leg-item"><div class="l-da" style="border-color:#bf3b2e"></div>Influencer</div></div>
   <div class="filter-bar"><span class="toggle-label">Product</span><button class="tog ai" data-srcp="all" onclick="setSrcCPAProd('all',this)">All</button><button class="tog" data-srcp="vitals" onclick="setSrcCPAProd('vitals',this)">Vitals &amp; Bundle</button><button class="tog" data-srcp="biotic" onclick="setSrcCPAProd('biotic',this)">Biotic</button><button class="tog" data-srcp="offer" onclick="setSrcCPAProd('offer',this)">Offer</button></div>
   <div class="chart-wrap" style="height:210px;margin-top:8px"><canvas id="cSrcCPA"></canvas></div>
@@ -818,7 +818,7 @@ function setCelebProd(f,btn){document.querySelectorAll('[data-cp]').forEach(b=>b
 
 // Ambassador detail
 let cAmbChart=null;
-const AMB_COLORS=['#1a5fa8','#bf3b2e','#1d7a4a','#7b3fa0','#b86800','#888'];
+const AMB_COLORS=['#1a5fa8','#bf3b2e','#1d7a4a','#7b3fa0','#b86800','#888','#2a9d8f'];
 const AMB_Y={vitals:{min:40,max:200},all:{min:40,max:240},biotic:{min:40,max:320},offer:{min:30,max:160}};
 function buildAmbChart(prod){
   if(cAmbChart)cAmbChart.destroy();
