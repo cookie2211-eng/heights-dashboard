@@ -335,7 +335,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 
 <script>
 let D;
-fetch('all_data.json').then(r=>r.json()).then(d=>{D=d;init();}).catch(()=>{document.getElementById('loading').innerHTML='⚠ all_data.json not found';});
+fetch('all_data.json').then(r=>r.json()).then(d=>{D=d;try{init();}catch(e){document.getElementById('loading').innerHTML='⚠ Dashboard error: '+e.message+'<br><small style="font-size:12px">'+e.stack?.split('\n')[1]+'</small>';}}).catch(()=>{document.getElementById('loading').innerHTML='⚠ all_data.json not found';});
 
 Chart.defaults.font.family="'DM Sans',sans-serif";
 const GC='#e8e5df';
