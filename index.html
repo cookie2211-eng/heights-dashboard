@@ -191,13 +191,6 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 </div>
 
 <div class="sec"><h2>5 · Creative winner performance by source</h2><span>CPA &amp; hit rates · by source &amp; product</span></div>
-<div class="card">
-  <div class="card-lbl">Monthly CPA by source</div>
-  <div class="card-hl">All sources up from Jan lows — <em>Hambi cheapest</em>, Influencer accelerating</div>
-  <div class="leg"><div class="leg-item"><div class="l-ln" style="background:#7b3fa0"></div>Celeb</div><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Internal</div><div class="leg-item"><div class="l-ln" style="background:#1d7a4a"></div>Brightshift</div><div class="leg-item"><div class="l-ln" style="background:#b86800"></div>Hambi</div><div class="leg-item"><div class="l-da" style="border-color:#bf3b2e"></div>Influencer</div></div>
-  <div class="filter-bar"><span class="toggle-label">Product</span><button class="tog ai" data-srcp="all" onclick="setSrcCPAProd('all',this)">All</button><button class="tog" data-srcp="vitals" onclick="setSrcCPAProd('vitals',this)">Vitals &amp; Bundle</button><button class="tog" data-srcp="biotic" onclick="setSrcCPAProd('biotic',this)">Biotic</button><button class="tog" data-srcp="offer" onclick="setSrcCPAProd('offer',this)">Offer</button></div>
-  <div class="chart-wrap" style="height:210px;margin-top:8px"><canvas id="cSrcCPA"></canvas></div>
-</div>
 <div class="filter-bar" style="border-top:none;margin-top:4px;margin-bottom:4px">
   <span class="toggle-label">Product</span>
   <button class="tog ai" data-sp="all" onclick="setSrcProd('all',this)">All</button>
@@ -236,6 +229,31 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(155,155,155,.5)"></div>BAU</div><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.6)"></div>Offer</div><div class="leg-item"><div class="l-sq" style="background:rgba(123,63,160,.6)"></div>Celeb</div><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.6)"></div>Influencer</div></div>
   <div class="filter-bar"><span class="toggle-label">Product</span><button class="tog ai" data-segp="all" onclick="setSegProd('all',this)">All</button><button class="tog" data-segp="vit" onclick="setSegProd('vit',this)">Vitals &amp; Bundle</button><button class="tog" data-segp="bio" onclick="setSegProd('bio',this)">Biotic</button></div>
   <div class="chart-wrap" style="height:220px;margin-top:8px"><canvas id="cSegSpend"></canvas></div>
+</div>
+
+<div class="card">
+  <div class="card-lbl">Vitals · monthly spend &amp; CPA by source bucket</div>
+  <div class="card-hl"><span id="vit-src-table-headline">Vitals only — Influencer, Celeb &amp; BAU</span></div>
+  <div class="card-sub">Vitals product only. <strong>Influencer</strong> = Paid Influencer + Affiliate / Gifting (combined). <strong>Celeb / Ambassadors</strong> = named persons (Spencer Matthews, Ben Shephard, Carol Vorderman, Rylan, Matt Willis, Vogue Williams, Jake Humphrey, Alexandra Burke, Ambassador Mashup) + cn: codes + v:celebrity catch-all. <strong>BAU</strong> = ad name contains "vitals" without offer markers (free magnesium, intro bundle, sleep &amp; energy, starter kit). Priority order: Paid Inf → Affiliate → Celeb → BAU. Historical rows hardcoded to spec; current month is live.</div>
+  <table class="vit-src-tbl" style="width:100%;border-collapse:collapse;margin-top:12px;font-size:12px">
+    <thead>
+      <tr style="border-bottom:2px solid var(--ink)">
+        <th rowspan="2" style="text-align:left;padding:8px 10px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Month</th>
+        <th colspan="2" style="text-align:center;padding:6px 10px 2px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#3B8C5A">① Influencer</th>
+        <th colspan="2" style="text-align:center;padding:6px 10px 2px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#C0392B">② Celeb / Ambassadors</th>
+        <th colspan="2" style="text-align:center;padding:6px 10px 2px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#1F5FA6">③ Vitals Standard BAU</th>
+      </tr>
+      <tr style="border-bottom:1px solid var(--rule)">
+        <th style="text-align:right;padding:0 10px 6px;font-size:10px;font-weight:500;color:var(--muted)">Spend</th>
+        <th style="text-align:right;padding:0 10px 6px;font-size:10px;font-weight:500;color:var(--muted)">CPA</th>
+        <th style="text-align:right;padding:0 10px 6px;font-size:10px;font-weight:500;color:var(--muted)">Spend</th>
+        <th style="text-align:right;padding:0 10px 6px;font-size:10px;font-weight:500;color:var(--muted)">CPA</th>
+        <th style="text-align:right;padding:0 10px 6px;font-size:10px;font-weight:500;color:var(--muted)">Spend</th>
+        <th style="text-align:right;padding:0 10px 6px;font-size:10px;font-weight:500;color:var(--muted)">CPA</th>
+      </tr>
+    </thead>
+    <tbody id="vit-src-tbl-body"></tbody>
+  </table>
 </div>
 
 <div class="sec-sub">Ambassador &amp; celebrity</div>
@@ -605,7 +623,8 @@ function buildAllCharts(){
   buildSegSpendChart('all');
   _uniHeadlines();
   buildUnicornCharts('all');
-  buildSrcCPAChart('all');
+  // buildSrcCPAChart removed — chart replaced by VIT_SOURCE_TABLE below.
+  renderVitSourceTable();
   buildCelebChart('all');
   buildAmbChart('vitals');
   rebuildProdCharts();
@@ -718,6 +737,35 @@ function hitChart(id,l,w,hr,barBg,barBd,winBg,winBd){
     });
     ctx.restore();
   }}]});
+}
+
+// Vitals · monthly source bucket spend & CPA table
+function renderVitSourceTable(){
+  const t = D.VIT_SOURCE_TABLE;
+  const tbody = document.getElementById('vit-src-tbl-body');
+  if(!t || !tbody) return;
+  const fmtSpend = n => '£' + Number(n).toLocaleString();
+  const fmtCpa = n => '£' + Number(n).toLocaleString();
+  const colors = {
+    'Influencer':           '#3B8C5A',
+    'Celeb / Ambassadors':  '#C0392B',
+    'Vitals Standard BAU':  '#1F5FA6',
+  };
+  let html = '';
+  for (let i = 0; i < t.labels.length; i++) {
+    const isMtd = String(t.labels[i]).toLowerCase().includes('mtd');
+    const trStyle = isMtd ? 'color:var(--muted);font-style:italic;' : '';
+    html += `<tr style="${trStyle}border-bottom:1px solid var(--rule)">`;
+    html += `<td style="padding:9px 10px;font-weight:500">${t.labels[i]}</td>`;
+    for (const b of ['Influencer','Celeb / Ambassadors','Vitals Standard BAU']) {
+      const sp = t.rows[b].spend[i];
+      const cp = t.rows[b].cpa[i];
+      html += `<td style="padding:9px 10px;text-align:right;font-variant-numeric:tabular-nums">${fmtSpend(sp)}</td>`;
+      html += `<td style="padding:9px 10px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600;color:${colors[b]}">${fmtCpa(cp)}</td>`;
+    }
+    html += '</tr>';
+  }
+  tbody.innerHTML = html;
 }
 
 // Unicorn charts
