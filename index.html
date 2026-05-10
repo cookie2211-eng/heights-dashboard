@@ -160,11 +160,39 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   </div>
 </div>
 
-<div class="sec"><h2>4 · Creative by product</h2><span>CPA, hit rates &amp; unicorn scalers</span></div>
-<div class="card">
-  <div class="card-lbl">Monthly CPA by product</div>
+<div class="sec"><h2>4 · Performance by product</h2><span>Monthly Meta CPA &amp; spend by product bucket</span></div>
+<div class="grid2">
+  <div class="card">
+    <div class="card-lbl">Monthly Meta CPA</div>
+    <div class="card-hl"><span id="meta-cpa-headline">…</span></div>
+    <div class="card-sub">Classified at ad + campaign level. Biotic > Free Mag > Intro Bundle > Standard Vitals priority. Unclassified excluded from CPA chart.</div>
+    <div class="leg">
+      <div class="leg-item"><div class="l-ln" style="background:#D85A30"></div>Biotic</div>
+      <div class="leg-item"><div class="l-ln" style="background:#378ADD"></div>Standard Vitals</div>
+      <div class="leg-item"><div class="l-ln" style="background:#1D9E75;border-top:1px dashed #1D9E75"></div>Intro Bundle</div>
+      <div class="leg-item"><div class="l-ln" style="background:#BA7517;border-top:1px dashed #BA7517"></div>Free Magnesium</div>
+    </div>
+    <div class="chart-wrap" style="height:230px"><canvas id="cMetaCpa"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-lbl">Monthly Meta spend</div>
+    <div class="card-hl"><span id="meta-spend-headline">…</span></div>
+    <div class="card-sub">Stacked. Includes Unclassified (whitelisting, generic ASC). Y axis in £k.</div>
+    <div class="leg">
+      <div class="leg-item"><div class="l-sq" style="background:rgba(216,90,48,0.7)"></div>Biotic</div>
+      <div class="leg-item"><div class="l-sq" style="background:rgba(55,138,221,0.6)"></div>Standard Vitals</div>
+      <div class="leg-item"><div class="l-sq" style="background:rgba(29,158,117,0.6)"></div>Intro Bundle</div>
+      <div class="leg-item"><div class="l-sq" style="background:rgba(186,117,23,0.6)"></div>Free Magnesium</div>
+      <div class="leg-item"><div class="l-sq" style="background:rgba(180,178,170,0.5)"></div>Unclassified</div>
+    </div>
+    <div class="chart-wrap" style="height:230px"><canvas id="cMetaSpend"></canvas></div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <div class="card-lbl">Monthly CPA by product (legacy)</div>
   <div class="card-hl">Biotic CPA <span class="r">up 40%</span> since Oct. Bundle creative consistently cheapest</div>
-  <div class="card-sub">CPA from ad-level data, benchmarked against campaign-level totals. Oct–Mar match campaign CSV exactly.</div>
+  <div class="card-sub">Original product split (Vitals / Biotic / Bundle / V&amp;B). Kept for continuity; the new Meta CPA chart above uses tighter buckets.</div>
   <div class="leg"><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Vitals</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Biotic</div><div class="leg-item"><div class="l-ln" style="background:#1d7a4a"></div>Bundle</div><div class="leg-item"><div class="l-ln" style="background:#b86800"></div>Vitals &amp; Biotic</div></div>
   <div class="chart-wrap" style="height:200px"><canvas id="cProdCPA"></canvas></div>
 </div>
@@ -234,7 +262,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 <div class="card">
   <div class="card-lbl">Vitals · monthly spend &amp; CPA by source bucket</div>
   <div class="card-hl"><span id="vit-src-table-headline">Vitals only — Influencer, Celeb &amp; BAU</span></div>
-  <div class="card-sub">Click <strong>① Influencer</strong> to drill into Paid / Affiliate / Micro · CPA cells are tinted by column (lighter = better, darker = worse) · MoM Δ shown beneath each value</div>
+  <div class="card-sub">Click <strong>① Influencer</strong> to drill into Paid / Affiliate / Micro · CPA cells are tinted by column (greener = lower, redder = higher) · MoM Δ shown beneath each value · ⚠ Buckets are not always mutually exclusive — celeb-offer ads (e.g. Ben Shephard Free Mag) count in BOTH ② Celeb AND the Other (offer) row, so Inf+Celeb+BAU+Other ≠ Total Vitals</div>
   <table id="vit-src-tbl-table" class="vit-src-tbl" style="width:100%;border-collapse:collapse;margin-top:12px;font-size:12px">
     <thead id="vit-src-tbl-head"></thead>
     <tbody id="vit-src-tbl-body"></tbody>
@@ -611,10 +639,126 @@ function buildAllCharts(){
   buildUnicornCharts('all');
   // buildSrcCPAChart removed — chart replaced by VIT_SOURCE_TABLE below.
   renderVitSourceTable();
+  buildMetaProductCharts();
   buildCelebChart('all');
   buildAmbChart('vitals');
   rebuildProdCharts();
   rebuildSrcCharts();
+}
+
+// Performance-by-product: Monthly Meta CPA + Monthly Meta spend
+function buildMetaProductCharts(){
+  const mp = D.META_PROD;
+  if(!mp) return;
+  const labels = mp.labels;
+  const b = mp.buckets;
+  const N = labels.length;
+
+  // Plugin: end-of-line value labels for the CPA chart
+  const endLabelsPlugin = {
+    id: 'endLabels',
+    afterDatasetsDraw(chart){
+      const {ctx} = chart;
+      ctx.save();
+      ctx.font = '600 10px DM Sans, system-ui, sans-serif';
+      ctx.textBaseline = 'middle';
+      chart.data.datasets.forEach((ds, i) => {
+        const meta = chart.getDatasetMeta(i);
+        // Last non-null point
+        let lastIdx = -1;
+        for(let k = ds.data.length - 1; k >= 0; k--){
+          if(ds.data[k] != null){ lastIdx = k; break; }
+        }
+        if(lastIdx < 0) return;
+        const pt = meta.data[lastIdx];
+        if(!pt) return;
+        ctx.fillStyle = ds.borderColor || '#333';
+        ctx.fillText(`£${ds.data[lastIdx]}`, pt.x + 6, pt.y);
+      });
+      ctx.restore();
+    }
+  };
+
+  // CPA line chart (excludes Unclassified)
+  const cpaCtx = document.getElementById('cMetaCpa');
+  if(cpaCtx){
+    new Chart(cpaCtx, {
+      type:'line',
+      data:{labels, datasets:[
+        {label:'Biotic',          data:b.biotic.cpa,       borderColor:'#D85A30', backgroundColor:'transparent', borderWidth:3,   pointRadius:4, pointBackgroundColor:'#D85A30', pointBorderColor:'#fff', pointBorderWidth:1.5, tension:0.18, spanGaps:false},
+        {label:'Standard Vitals', data:b.std_vitals.cpa,   borderColor:'#378ADD', backgroundColor:'transparent', borderWidth:2.5, pointRadius:3, pointBackgroundColor:'#378ADD', pointBorderColor:'#fff', pointBorderWidth:1.5, tension:0.18, spanGaps:false},
+        {label:'Intro Bundle',    data:b.intro_bundle.cpa, borderColor:'#1D9E75', backgroundColor:'transparent', borderWidth:2.5, pointRadius:3, pointBackgroundColor:'#1D9E75', pointBorderColor:'#fff', pointBorderWidth:1.5, borderDash:[5,3], tension:0.18, spanGaps:false},
+        {label:'Free Magnesium',  data:b.free_mag.cpa,     borderColor:'#BA7517', backgroundColor:'transparent', borderWidth:2.5, pointRadius:3, pointBackgroundColor:'#BA7517', pointBorderColor:'#fff', pointBorderWidth:1.5, borderDash:[5,3], tension:0.18, spanGaps:false},
+      ]},
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        layout:{padding:{right:42}},  // headroom for end labels
+        interaction:{mode:'index', intersect:false},
+        plugins:{
+          legend:{display:false},
+          tooltip:{...TT, callbacks:{label: c => c.raw != null ? ` ${c.dataset.label}: £${c.raw}` : null}},
+        },
+        scales:{
+          x:{grid:{display:false}, ticks:{font:{size:9}, maxTicksLimit:18}},
+          y:{min:0, grid:{color:GC}, ticks:{callback:v => '£'+v, font:{size:10}}},
+        },
+      },
+      plugins:[endLabelsPlugin],
+    });
+  }
+
+  // Spend stacked bar chart
+  const spCtx = document.getElementById('cMetaSpend');
+  if(spCtx){
+    const k = arr => arr.map(v => v == null ? 0 : Math.round(v / 1000 * 10) / 10);
+    new Chart(spCtx, {
+      type:'bar',
+      data:{labels, datasets:[
+        {label:'Biotic',          data:k(b.biotic.spend),       backgroundColor:'rgba(216,90,48,0.7)',   borderWidth:0, stack:'s'},
+        {label:'Standard Vitals', data:k(b.std_vitals.spend),   backgroundColor:'rgba(55,138,221,0.6)',  borderWidth:0, stack:'s'},
+        {label:'Intro Bundle',    data:k(b.intro_bundle.spend), backgroundColor:'rgba(29,158,117,0.6)',  borderWidth:0, stack:'s'},
+        {label:'Free Magnesium',  data:k(b.free_mag.spend),     backgroundColor:'rgba(186,117,23,0.6)',  borderWidth:0, stack:'s'},
+        {label:'Unclassified',    data:k(b.unclassified.spend), backgroundColor:'rgba(180,178,170,0.5)', borderWidth:0, stack:'s'},
+      ]},
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        interaction:{mode:'index', intersect:false},
+        plugins:{
+          legend:{display:false},
+          tooltip:{...TT, callbacks:{
+            label: c => ` ${c.dataset.label}: £${c.raw}k`,
+            footer: items => {
+              const total = items.reduce((s, x) => s + (x.raw || 0), 0);
+              return `Total: £${Math.round(total)}k`;
+            },
+          }},
+        },
+        scales:{
+          x:{grid:{display:false}, ticks:{font:{size:9}, maxTicksLimit:18}, stacked:true},
+          y:{min:0, grid:{color:GC}, ticks:{callback:v => '£'+v+'k', font:{size:10}}, stacked:true},
+        },
+      },
+    });
+  }
+
+  // Headlines
+  const cpaHl = document.getElementById('meta-cpa-headline');
+  if(cpaHl){
+    const last = N - 1;
+    const bioFirst = b.biotic.cpa.find(v => v != null) || b.biotic.cpa[0];
+    const bioLast  = b.biotic.cpa[last];
+    if(bioFirst && bioLast){
+      const pct = Math.round((bioLast/bioFirst - 1) * 100);
+      cpaHl.textContent = `Biotic CPA £${bioLast} vs £${bioFirst} early-period (${pct >= 0 ? '+' : ''}${pct}%); Free Mag remains cheapest`;
+    }
+  }
+  const spHl = document.getElementById('meta-spend-headline');
+  if(spHl){
+    const last = N - 1;
+    const total = b.biotic.spend[last] + b.std_vitals.spend[last] + b.intro_bundle.spend[last] + b.free_mag.spend[last] + b.unclassified.spend[last];
+    const stdPct = total ? Math.round(b.std_vitals.spend[last] / total * 100) : 0;
+    spHl.textContent = `Standard Vitals ~${stdPct}% of latest-month spend`;
+  }
 }
 
 // Vitals offer chart builder
@@ -858,7 +1002,7 @@ function renderVitSourceTable(){
         <div>${fmt(sp)}</div>
         <div style="margin-top:1px">${fmtSpendDelta(sp, prev.sp)}</div>
       </td>`;
-      bodyHtml += `<td style="padding:7px 10px 4px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600;color:${col.color};line-height:1.15;${cpaTint(col, cp)}">
+      bodyHtml += `<td style="padding:7px 10px 4px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600;line-height:1.15;${cpaTint(col, cp)}">
         <div>${fmt(cp)}</div>
         <div style="margin-top:1px">${fmtDelta(cp, prev.cp)}</div>
       </td>`;
