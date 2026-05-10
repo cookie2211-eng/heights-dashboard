@@ -90,8 +90,21 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 
 <div style="background:var(--ink);color:#fff;border-radius:6px;padding:18px 22px;margin-bottom:22px">
   <div style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:7px">TLDR</div>
-  <div id="tldr-hl" style="font-family:'DM Serif Display',serif;font-size:18px;line-height:1.3;margin-bottom:11px"></div>
-  <ul id="tldr-bullets" style="margin:0 0 0 16px;padding:0;font-size:12px;line-height:1.8;color:rgba(255,255,255,.7)"></ul>
+  <div id="tldr-hl" style="font-family:'DM Serif Display',serif;font-size:18px;line-height:1.3;margin-bottom:14px"></div>
+  <div id="tldr-cols" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;font-size:12px;line-height:1.7;color:rgba(255,255,255,.75)">
+    <div>
+      <div style="font-size:9px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(100,220,140,.85);margin-bottom:6px;border-bottom:1px solid rgba(100,220,140,.25);padding-bottom:5px">▲ What's working</div>
+      <ul id="tldr-pos" style="margin:0;padding:0;list-style:none"></ul>
+    </div>
+    <div>
+      <div style="font-size:9px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,100,80,.85);margin-bottom:6px;border-bottom:1px solid rgba(255,100,80,.25);padding-bottom:5px">▼ What's hurting</div>
+      <ul id="tldr-neg" style="margin:0;padding:0;list-style:none"></ul>
+    </div>
+  </div>
+  <div id="tldr-watch-wrap" style="margin-top:12px;display:none">
+    <div style="font-size:9px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,180,60,.85);margin-bottom:6px;border-bottom:1px solid rgba(255,180,60,.25);padding-bottom:5px">▸ Watch list</div>
+    <ul id="tldr-watch" style="margin:0;padding:0;list-style:none;font-size:12px;line-height:1.7;color:rgba(255,255,255,.75);columns:2;column-gap:24px"></ul>
+  </div>
 </div>
 
 <div class="sec"><h2>1 · Last week snapshot</h2><span id="s1-span"></span></div>
@@ -547,9 +560,32 @@ function init(){
       txt:`🚀 Spend spike: <strong style="color:#fff">${sName}</strong> +${w.velocity}% vs prior 3wks (£${w.spend_w4.toLocaleString()})`});
   });
 
-  document.getElementById('tldr-bullets').innerHTML = bullets
-    .map(b=>`<li style="margin-bottom:4px;display:flex;gap:8px;align-items:baseline"><span style="width:6px;height:6px;border-radius:50%;background:${b.col};flex-shrink:0;margin-top:6px"></span><span>${b.txt}</span></li>`)
-    .join('');
+  // Split bullets into positive / negative / watch by colour sentiment
+  const renderBullet = b => `<li style="margin-bottom:5px;display:flex;gap:8px;align-items:baseline"><span style="width:6px;height:6px;border-radius:50%;background:${b.col};flex-shrink:0;margin-top:6px"></span><span>${b.txt}</span></li>`;
+  const isPos = c => c === COL_GOOD;
+  const isNeg = c => c === COL_BAD;
+  const isWatch = c => c === COL_AMBER;
+  const posBullets = bullets.filter(b => isPos(b.col));
+  const negBullets = bullets.filter(b => isNeg(b.col));
+  const watchBullets = bullets.filter(b => isWatch(b.col));
+  const neutBullets = bullets.filter(b => !isPos(b.col) && !isNeg(b.col) && !isWatch(b.col));
+  // Neutral bullets (CPA flat etc.) — split evenly to balance columns
+  neutBullets.forEach((b, i) => (i % 2 === 0 ? posBullets : negBullets).push(b));
+
+  const posEl = document.getElementById('tldr-pos');
+  const negEl = document.getElementById('tldr-neg');
+  if (posEl) posEl.innerHTML = posBullets.length ? posBullets.map(renderBullet).join('') : `<li style="color:rgba(255,255,255,.4);font-size:11px;font-style:italic">no clear tailwinds this week</li>`;
+  if (negEl) negEl.innerHTML = negBullets.length ? negBullets.map(renderBullet).join('') : `<li style="color:rgba(255,255,255,.4);font-size:11px;font-style:italic">no clear headwinds this week</li>`;
+  const watchEl = document.getElementById('tldr-watch');
+  const watchWrap = document.getElementById('tldr-watch-wrap');
+  if (watchEl && watchWrap) {
+    if (watchBullets.length > 0) {
+      watchWrap.style.display = 'block';
+      watchEl.innerHTML = watchBullets.map(renderBullet).join('');
+    } else {
+      watchWrap.style.display = 'none';
+    }
+  }
   // Spend spike card in snapshot
   const spikes = D.WINNERS
     .filter(w => w.velocity && w.velocity > 150 && w.spend_w4 >= 5000)
