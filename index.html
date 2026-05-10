@@ -122,7 +122,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 </div>
 <div class="card">
   <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2px">
-    <div><div class="card-lbl">Spend £ vs blended CPA</div><div class="card-hl">Jan: <em>£1.2M at £76</em> — scale and efficiency peaked together</div></div>
+    <div><div class="card-lbl">Spend £ vs blended CPA</div><div class="card-hl">Jan: <em>£1.2M at £75</em> — scale and efficiency peaked together</div></div>
     <div class="view-toggle"><button class="active" onclick="setSpendView('w',this)">Weekly</button><button onclick="setSpendView('m',this)">Monthly</button></div>
   </div>
   <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.3)"></div>Spend (left)</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>CPA £ (right)</div></div>
@@ -131,13 +131,13 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 <div class="grid2">
   <div class="card">
     <div class="card-lbl">CPM vs blended CVR — indexed to period avg</div>
-    <div class="card-hl">CPM stable — CVR <span style="color:var(--green)">recovering</span></div>
+    <div class="card-hl">CPM stable around <em>£15-19</em> — CVR <span class="r">slipped to 1.18% this week</span></div>
     <div class="leg"><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>CPM index</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>CVR index</div><div class="leg-item" style="font-size:10px;color:var(--muted)">Period avg = 100</div></div>
     <div class="chart-wrap" style="height:190px"><canvas id="cCPMCVR"></canvas></div>
   </div>
   <div class="card">
     <div class="card-lbl">CVR by product — absolute</div>
-    <div class="card-hl">Vitals CVR recovering — Biotic CVR <span class="r">still weak</span></div>
+    <div class="card-hl">Vitals CVR <span class="r">softening</span> — Biotic CVR <span class="r">still weak at 0.65%</span></div>
     <div class="card-sub">Absolute CVR. Biotic structurally lower than Vitals — not directly comparable.</div>
     <div class="leg"><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Vitals CVR</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Biotic CVR</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.2)"></div>Biotic share % (right)</div></div>
     <div class="chart-wrap" style="height:190px"><canvas id="cCVRProd"></canvas></div>
@@ -272,7 +272,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   </div>
   <div class="card">
     <div class="card-lbl">Vitals — CPA by individual ambassador, monthly</div>
-    <div class="card-hl">Every ambassador rising since Jan</div>
+    <div class="card-hl">Most ambassadors up since Jan — <em>Rylan +56%, Spencer +38%</em>; Carol &amp; Jake holding flat</div>
     <div class="leg" id="celebDetailLeg"></div>
     <div class="filter-bar"><span class="toggle-label">Product</span><button class="tog ai" data-ambp="vitals" onclick="setAmbProd('vitals',this)">Vitals &amp; Bundle</button><button class="tog" data-ambp="all" onclick="setAmbProd('all',this)">All</button><button class="tog" data-ambp="biotic" onclick="setAmbProd('biotic',this)">Biotic</button><button class="tog" data-ambp="offer" onclick="setAmbProd('offer',this)">Offer</button></div>
     <div class="chart-wrap" style="height:190px;margin-top:8px"><canvas id="cCelebDetail"></canvas></div>
@@ -282,7 +282,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 <div class="sec-sub">Offer &amp; bundle creative</div>
 <div class="card">
   <div class="card-lbl">Account — offer vs non-offer CPA &amp; share · weekly</div>
-  <div class="card-hl">Offer CPA <span style="color:var(--green)">significantly cheaper</span> — £56 gap vs non-offer</div>
+  <div class="card-hl">Offer CPA <span style="color:var(--green)">significantly cheaper</span> — £51 gap vs non-offer this week</div>
   <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.18)"></div>Offer share % (left)</div><div class="leg-item"><div class="l-ln" style="background:#1d7a4a"></div>Offer CPA (right)</div><div class="leg-item"><div class="l-ln" style="background:#aaa"></div>Non-offer CPA (right)</div></div>
   <div class="chart-wrap" style="height:200px"><canvas id="cOffer"></canvas></div>
 </div>
@@ -303,7 +303,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
     <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2px">
       <div>
         <div class="card-lbl">Vitals — Free Magnesium vs Intro Bundle</div>
-        <div class="card-hl">Free Mag cheapest — Intro Bundle larger share</div>
+        <div class="card-hl">Free Mag <span style="color:var(--green)">cheapest at £62</span> — and now larger share than Intro Bundle</div>
       </div>
       <div class="view-toggle"><button class="active" onclick="setFMIBView('m',this)">Monthly</button><button onclick="setFMIBView('w',this)">Weekly</button></div>
     </div>
