@@ -436,16 +436,21 @@ function init(){
     return meaningful.slice(0,2).join(' · ');
   }
 
-  // Velocity flags — >150% spike, min £5K last week spend, meaningful name
-  const velocityFlags = D.WINNERS
-    .filter(w => w.velocity && w.velocity > 150 && w.spend_w4 >= 5000)
-    .sort((a,b) => b.spend_w4 - a.spend_w4);
-
-  // ============ TLDR DRIVERS — top 5 things that moved the week ============
+  // ============ TLDR DRIVERS — single source of truth ============
+  // Prefer D.TLDR (computed in Python alongside Slack notify). Falls back
+  // to local JS computation if older data without D.TLDR is loaded.
   const COL_GOOD = 'rgba(100,220,140,.9)';
   const COL_BAD  = 'rgba(255,100,80,.9)';
   const COL_AMBER= 'rgba(255,180,60,.9)';
   const COL_NEUT = 'rgba(255,255,255,.5)';
+  const fmtMd = s => (s||'').replace(/\*([^*]+)\*/g, '<strong style="color:#fff">$1</strong>');
+
+  const useServerTldr = D.TLDR && (D.TLDR.positive || D.TLDR.negative || D.TLDR.watch);
+
+  // Always compute velocityFlags (used both for spike card and fallback bullets)
+  const velocityFlags = D.WINNERS
+    .filter(w => w.velocity && w.velocity > 150 && w.spend_w4 >= 5000)
+    .sort((a,b) => b.spend_w4 - a.spend_w4);
 
   // Helper: % delta with sign + colour for a metric where DOWN = good (CPA, CPM, etc.)
   const dPctDown = (cur, prev) => {
@@ -560,30 +565,38 @@ function init(){
       txt:`🚀 Spend spike: <strong style="color:#fff">${sName}</strong> +${w.velocity}% vs prior 3wks (£${w.spend_w4.toLocaleString()})`});
   });
 
-  // Split bullets into positive / negative / watch by colour sentiment
+  // ===== Render TLDR — prefer D.TLDR (server-computed), else split JS bullets =====
   const renderBullet = b => `<li style="margin-bottom:5px;display:flex;gap:8px;align-items:baseline"><span style="width:6px;height:6px;border-radius:50%;background:${b.col};flex-shrink:0;margin-top:6px"></span><span>${b.txt}</span></li>`;
-  const isPos = c => c === COL_GOOD;
-  const isNeg = c => c === COL_BAD;
-  const isWatch = c => c === COL_AMBER;
-  const posBullets = bullets.filter(b => isPos(b.col));
-  const negBullets = bullets.filter(b => isNeg(b.col));
-  const watchBullets = bullets.filter(b => isWatch(b.col));
-  const neutBullets = bullets.filter(b => !isPos(b.col) && !isNeg(b.col) && !isWatch(b.col));
-  // Neutral bullets (CPA flat etc.) — split evenly to balance columns
-  neutBullets.forEach((b, i) => (i % 2 === 0 ? posBullets : negBullets).push(b));
+  const renderTxt = (txt, col) => `<li style="margin-bottom:5px;display:flex;gap:8px;align-items:baseline"><span style="width:6px;height:6px;border-radius:50%;background:${col};flex-shrink:0;margin-top:6px"></span><span>${fmtMd(txt)}</span></li>`;
 
   const posEl = document.getElementById('tldr-pos');
   const negEl = document.getElementById('tldr-neg');
-  if (posEl) posEl.innerHTML = posBullets.length ? posBullets.map(renderBullet).join('') : `<li style="color:rgba(255,255,255,.4);font-size:11px;font-style:italic">no clear tailwinds this week</li>`;
-  if (negEl) negEl.innerHTML = negBullets.length ? negBullets.map(renderBullet).join('') : `<li style="color:rgba(255,255,255,.4);font-size:11px;font-style:italic">no clear headwinds this week</li>`;
   const watchEl = document.getElementById('tldr-watch');
   const watchWrap = document.getElementById('tldr-watch-wrap');
-  if (watchEl && watchWrap) {
-    if (watchBullets.length > 0) {
-      watchWrap.style.display = 'block';
-      watchEl.innerHTML = watchBullets.map(renderBullet).join('');
-    } else {
-      watchWrap.style.display = 'none';
+
+  if (useServerTldr) {
+    const pp = D.TLDR.positive || [], nn = D.TLDR.negative || [], ww = D.TLDR.watch || [];
+    if (posEl) posEl.innerHTML = pp.length ? pp.map(t => renderTxt(t, COL_GOOD)).join('') : `<li style="color:rgba(255,255,255,.4);font-size:11px;font-style:italic">no clear tailwinds this week</li>`;
+    if (negEl) negEl.innerHTML = nn.length ? nn.map(t => renderTxt(t, COL_BAD)).join('') : `<li style="color:rgba(255,255,255,.4);font-size:11px;font-style:italic">no clear headwinds this week</li>`;
+    if (watchEl && watchWrap) {
+      if (ww.length) { watchWrap.style.display = 'block'; watchEl.innerHTML = ww.map(t => renderTxt(t, COL_AMBER)).join(''); }
+      else { watchWrap.style.display = 'none'; }
+    }
+  } else {
+    // Fallback path: split locally-computed bullets by colour
+    const isPos = c => c === COL_GOOD;
+    const isNeg = c => c === COL_BAD;
+    const isWatch = c => c === COL_AMBER;
+    const posBullets = bullets.filter(b => isPos(b.col));
+    const negBullets = bullets.filter(b => isNeg(b.col));
+    const watchBullets = bullets.filter(b => isWatch(b.col));
+    const neutBullets = bullets.filter(b => !isPos(b.col) && !isNeg(b.col) && !isWatch(b.col));
+    neutBullets.forEach((b, i) => (i % 2 === 0 ? posBullets : negBullets).push(b));
+    if (posEl) posEl.innerHTML = posBullets.length ? posBullets.map(renderBullet).join('') : `<li style="color:rgba(255,255,255,.4);font-size:11px;font-style:italic">no clear tailwinds this week</li>`;
+    if (negEl) negEl.innerHTML = negBullets.length ? negBullets.map(renderBullet).join('') : `<li style="color:rgba(255,255,255,.4);font-size:11px;font-style:italic">no clear headwinds this week</li>`;
+    if (watchEl && watchWrap) {
+      if (watchBullets.length > 0) { watchWrap.style.display = 'block'; watchEl.innerHTML = watchBullets.map(renderBullet).join(''); }
+      else { watchWrap.style.display = 'none'; }
     }
   }
   // Spend spike card in snapshot
