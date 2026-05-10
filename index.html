@@ -428,17 +428,115 @@ function init(){
     .filter(w => w.velocity && w.velocity > 150 && w.spend_w4 >= 5000)
     .sort((a,b) => b.spend_w4 - a.spend_w4);
 
-  const cpaDir = K.cpa <= K.prev_cpa ? 'g' : 'r';
-  const cpaTxt = K.cpa <= K.prev_cpa ? `↓ CPA improving to £${K.cpa}` : `↑ CPA at £${K.cpa} — elevated`;
-  const freshDir = D.AGE_F[D.AGE_F.length-1] < 20 ? 'r' : D.AGE_F[D.AGE_F.length-1] < 35 ? 'a' : 'g';
+  // ============ TLDR DRIVERS — top 5 things that moved the week ============
+  const COL_GOOD = 'rgba(100,220,140,.9)';
+  const COL_BAD  = 'rgba(255,100,80,.9)';
+  const COL_AMBER= 'rgba(255,180,60,.9)';
+  const COL_NEUT = 'rgba(255,255,255,.5)';
 
-  const bullets = [
-    {col:'rgba(255,255,255,.5)',txt: `${K.new_vit_winners} new Vitals winners, ${K.new_bio_winners} new Biotic winners this week (30-day windows closed)`},
-    {col:cpaDir==='g'?'rgba(100,220,140,.9)':'rgba(255,100,80,.9)', txt: cpaTxt},
-    {col:'rgba(255,100,80,.9)', txt: `Biotic £${D.BIO_CPA[D.BIO_CPA.length-1]} CPA at ${D.BIO_SHARE[D.BIO_SHARE.length-1]}% of spend — drag on blended CPA`},
-    {col:freshDir==='r'?'rgba(255,100,80,.9)':freshDir==='a'?'rgba(255,180,60,.9)':'rgba(100,220,140,.9)', txt: `Fresh winner pool: ${D.AGE_F[D.AGE_F.length-1]}% of winner spend — ${D.AGE_F[D.AGE_F.length-1]<20?'critically low, pipeline action needed':D.AGE_F[D.AGE_F.length-1]<35?'below target':'healthy'}`},
-    ...velocityFlags.map(w=>({col:'rgba(255,180,60,.9)', txt:`🚀 Spend spike: <strong style="color:#fff">${shortAdName(w.name)}</strong> +${w.velocity}% vs prior 3wks (£${w.spend_w4.toLocaleString()} last week)`})),
-  ];
+  // Helper: % delta with sign + colour for a metric where DOWN = good (CPA, CPM, etc.)
+  const dPctDown = (cur, prev) => {
+    if (!prev) return null;
+    const pct = ((cur - prev) / prev) * 100;
+    return {pct: Math.round(pct), col: pct < -1 ? COL_GOOD : pct > 1 ? COL_BAD : COL_NEUT};
+  };
+  // Helper for metrics where UP = good (CVR, winner share, etc.)
+  const dPctUp = (cur, prev) => {
+    if (!prev) return null;
+    const pct = ((cur - prev) / prev) * 100;
+    return {pct: Math.round(pct), col: pct > 1 ? COL_GOOD : pct < -1 ? COL_BAD : COL_NEUT};
+  };
+
+  const bullets = [];
+
+  // 1. NEW WINNERS this week + delta vs prior 4w avg
+  {
+    const w = (K.new_vit_winners || 0) + (K.new_bio_winners || 0);
+    bullets.push({col: w > 0 ? COL_GOOD : COL_NEUT,
+      txt: `<strong style="color:#fff">${w} new winner${w === 1 ? '' : 's'} crossed threshold this week</strong> — ${K.new_vit_winners} Vitals/Bundle (£3K), ${K.new_bio_winners} Biotic (£1K)`});
+  }
+
+  // 2. CPA — direction + magnitude vs prior week + driver
+  {
+    const cpaD = dPctDown(K.cpa, K.prev_cpa);
+    const arrow = K.cpa < K.prev_cpa ? '↓' : K.cpa > K.prev_cpa ? '↑' : '→';
+    const verb = K.cpa < K.prev_cpa ? 'improved' : K.cpa > K.prev_cpa ? 'worsened' : 'flat';
+    const sign = cpaD && cpaD.pct >= 0 ? '+' : '';
+    const dTxt = cpaD ? ` (${sign}${cpaD.pct}% vs £${K.prev_cpa})` : '';
+    bullets.push({col: cpaD ? cpaD.col : COL_NEUT,
+      txt: `<strong style="color:#fff">${arrow} Blended CPA ${verb} to £${K.cpa}</strong>${dTxt} — winner share ${K.winner_share}% (${K.prev_winner_share}% prior)`});
+  }
+
+  // 3. CVR + CPM weekly direction
+  if (D.W_CVR_RAW && D.W_CPM_RAW && D.W_CVR_RAW.length >= 2) {
+    const cvrL = D.W_CVR_RAW[D.W_CVR_RAW.length-1];
+    const cvrP = D.W_CVR_RAW[D.W_CVR_RAW.length-2];
+    const cpmL = D.W_CPM_RAW[D.W_CPM_RAW.length-1];
+    const cpmP = D.W_CPM_RAW[D.W_CPM_RAW.length-2];
+    const cvrPct = ((cvrL - cvrP) / cvrP) * 100;
+    const cpmPct = ((cpmL - cpmP) / cpmP) * 100;
+    const cvrArrow = cvrPct > 1 ? '↑' : cvrPct < -1 ? '↓' : '→';
+    const cpmArrow = cpmPct > 1 ? '↑' : cpmPct < -1 ? '↓' : '→';
+    // CVR up = good, CPM up = bad; combined sentiment
+    const goodHere = (cvrPct > 1 && cpmPct < 1) || (cvrPct >= 0 && cpmPct < -1);
+    const badHere  = (cvrPct < -1 && cpmPct > 1) || (cvrPct < -3) || (cpmPct > 5);
+    const col = goodHere ? COL_GOOD : badHere ? COL_BAD : COL_NEUT;
+    bullets.push({col,
+      txt: `${cvrArrow} CVR ${(cvrL*100).toFixed(2)}% (${cvrPct >= 0 ? '+' : ''}${cvrPct.toFixed(0)}%) · ${cpmArrow} CPM £${cpmL.toFixed(1)} (${cpmPct >= 0 ? '+' : ''}${cpmPct.toFixed(0)}%)`});
+  }
+
+  // 4. BIOTIC drag — quantify how much it pulls blended CPA
+  if (D.BIO_CPA && D.BIO_SHARE && D.W_CVR_BIO) {
+    const bioCpa = D.BIO_CPA[D.BIO_CPA.length-1];
+    const bioShare = D.BIO_SHARE[D.BIO_SHARE.length-1];
+    const bioCvr = D.W_CVR_BIO[D.W_CVR_BIO.length-1];
+    const bioCvrP = D.W_CVR_BIO[D.W_CVR_BIO.length-2];
+    const bioCvrPct = bioCvrP ? ((bioCvr - bioCvrP) / bioCvrP) * 100 : 0;
+    const cvrArrow = bioCvrPct > 5 ? '↑' : bioCvrPct < -5 ? '↓' : '→';
+    // Drag estimate: if Biotic CPA > blended, removing it would lower blended
+    const drag = bioCpa - K.cpa;
+    const dragTxt = drag > 5 ? `pulling blended +£${Math.round(drag * bioShare/100)} above Vitals-only` :
+                    drag < -5 ? `LOWER than blended (helping)` : 'roughly neutral';
+    bullets.push({col: drag > 10 ? COL_BAD : COL_NEUT,
+      txt: `Biotic at <strong style="color:#fff">${bioShare}% of spend</strong>, £${bioCpa} CPA, CVR ${(bioCvr*100).toFixed(2)}% ${cvrArrow} — ${dragTxt}`});
+  }
+
+  // 5. OFFER impact
+  if (D.OFF_CPA && D.NOFF_CPA && D.OFF_SHARE) {
+    const offCpa = D.OFF_CPA[D.OFF_CPA.length-1];
+    const noffCpa = D.NOFF_CPA[D.NOFF_CPA.length-1];
+    const offShare = D.OFF_SHARE[D.OFF_SHARE.length-1];
+    const gap = noffCpa - offCpa;
+    const offShareP = D.OFF_SHARE[D.OFF_SHARE.length-2];
+    const shareArrow = offShare > offShareP + 1 ? '↑' : offShare < offShareP - 1 ? '↓' : '→';
+    bullets.push({col: gap > 30 ? COL_GOOD : COL_NEUT,
+      txt: `Offer ${shareArrow} ${offShare}% of spend at £${offCpa} CPA — <strong style="color:#fff">£${gap} cheaper</strong> than non-offer (£${noffCpa})`});
+  }
+
+  // BONUS: top spender shifts (only if material change). Show top 3 by w4 spend
+  // whose 4-week trajectory shifted notably.
+  const topSpenders = (D.WINNERS || [])
+    .filter(w => w.spend_w4 && w.spend_w4 >= 3000)
+    .sort((a, b) => b.spend_w4 - a.spend_w4)
+    .slice(0, 5);
+  topSpenders.forEach(w => {
+    const w4 = w.spend_w4 || 0;
+    const w3 = w.spend_w3 || 0;
+    const pct = w3 ? Math.round(((w4 - w3) / w3) * 100) : 0;
+    if (Math.abs(pct) < 30) return;  // only flag meaningful changes
+    const arrow = pct > 0 ? '↑' : '↓';
+    const col = pct > 0 ? COL_AMBER : COL_NEUT;
+    bullets.push({col,
+      txt: `${arrow} <strong style="color:#fff">${shortAdName(w.name)}</strong> £${w4.toLocaleString()} this wk (${pct >= 0 ? '+' : ''}${pct}% vs prior wk · CPA £${w.cpa})`});
+  });
+
+  // Velocity-spike flags (existing) — only if not already in topSpenders
+  const flaggedNames = new Set(topSpenders.map(s => s.name));
+  velocityFlags.forEach(w => {
+    if (flaggedNames.has(w.name)) return;
+    bullets.push({col: COL_AMBER,
+      txt:`🚀 Spend spike: <strong style="color:#fff">${shortAdName(w.name)}</strong> +${w.velocity}% vs prior 3wks (£${w.spend_w4.toLocaleString()})`});
+  });
 
   document.getElementById('tldr-bullets').innerHTML = bullets
     .map(b=>`<li style="margin-bottom:4px;display:flex;gap:8px;align-items:baseline"><span style="width:6px;height:6px;border-radius:50%;background:${b.col};flex-shrink:0;margin-top:6px"></span><span>${b.txt}</span></li>`)
