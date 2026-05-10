@@ -977,15 +977,26 @@ function buildMetaProductCharts(){
     });
   }
 
-  // Headlines
+  // Headlines — Biotic narrative: focus on the recent improvement from
+  // the peak rather than vs. early-period (which was Jan 25 = £49 with
+  // tiny spend, misleading anchor).
   const cpaHl = document.getElementById('meta-cpa-headline');
   if(cpaHl){
     const last = N - 1;
-    const bioFirst = b.biotic.cpa.find(v => v != null) || b.biotic.cpa[0];
-    const bioLast  = b.biotic.cpa[last];
-    if(bioFirst && bioLast){
-      const pct = Math.round((bioLast/bioFirst - 1) * 100);
-      cpaHl.textContent = `Biotic CPA £${bioLast} vs £${bioFirst} early-period (${pct >= 0 ? '+' : ''}${pct}%); Free Mag remains cheapest`;
+    const bioArr = b.biotic.cpa;
+    const bioLast = bioArr[last];
+    // Find the peak in the last 6 months (covers Mar 26 high)
+    const recentWindow = bioArr.slice(Math.max(0, last - 5), last + 1);
+    const peak = Math.max(...recentWindow.filter(v => v != null));
+    const peakIdx = bioArr.lastIndexOf(peak);
+    const peakLabel = (labels[peakIdx] || '').replace(' MTD','');
+    if(peak && bioLast){
+      const pct = Math.round((bioLast/peak - 1) * 100);
+      if(bioLast < peak) {
+        cpaHl.textContent = `Biotic CPA decreasing — £${bioLast} vs £${peak} ${peakLabel} peak (${pct}%); Free Mag remains cheapest`;
+      } else {
+        cpaHl.textContent = `Biotic CPA £${bioLast}, near recent peak £${peak} (${peakLabel}); Free Mag remains cheapest`;
+      }
     }
   }
   const spHl = document.getElementById('meta-spend-headline');
