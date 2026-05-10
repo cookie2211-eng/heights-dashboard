@@ -513,29 +513,38 @@ function init(){
       txt: `Offer ${shareArrow} ${offShare}% of spend at £${offCpa} CPA — <strong style="color:#fff">£${gap} cheaper</strong> than non-offer (£${noffCpa})`});
   }
 
-  // BONUS: top spender shifts (only if material change). Show top 3 by w4 spend
-  // whose 4-week trajectory shifted notably.
-  const topSpenders = (D.WINNERS || [])
+  // BONUS: top spender shifts (only if material change). Show top by w4 spend
+  // whose 4-week trajectory shifted ≥30%. Dedupe by short display name so the
+  // same creative concept doesn't appear twice (different ad_ids can collapse
+  // to the same shortAdName, e.g. multiple "Hambi · D2C Diaries Podcast 1" iterations).
+  const seenShort = new Set();
+  const topSpenderBullets = (D.WINNERS || [])
     .filter(w => w.spend_w4 && w.spend_w4 >= 3000)
     .sort((a, b) => b.spend_w4 - a.spend_w4)
+    .map(w => {
+      const w4 = w.spend_w4 || 0;
+      const w3 = w.spend_w3 || 0;
+      const pct = w3 ? Math.round(((w4 - w3) / w3) * 100) : 0;
+      if (Math.abs(pct) < 30) return null;
+      const sName = shortAdName(w.name);
+      if (seenShort.has(sName)) return null;  // dedup
+      seenShort.add(sName);
+      const arrow = pct > 0 ? '↑' : '↓';
+      const col = pct > 0 ? COL_AMBER : COL_NEUT;
+      return {col, w4, pct,
+        txt: `${arrow} <strong style="color:#fff">${sName}</strong> £${w4.toLocaleString()} this wk (${pct >= 0 ? '+' : ''}${pct}% vs prior wk · CPA £${w.cpa})`};
+    })
+    .filter(Boolean)
     .slice(0, 5);
-  topSpenders.forEach(w => {
-    const w4 = w.spend_w4 || 0;
-    const w3 = w.spend_w3 || 0;
-    const pct = w3 ? Math.round(((w4 - w3) / w3) * 100) : 0;
-    if (Math.abs(pct) < 30) return;  // only flag meaningful changes
-    const arrow = pct > 0 ? '↑' : '↓';
-    const col = pct > 0 ? COL_AMBER : COL_NEUT;
-    bullets.push({col,
-      txt: `${arrow} <strong style="color:#fff">${shortAdName(w.name)}</strong> £${w4.toLocaleString()} this wk (${pct >= 0 ? '+' : ''}${pct}% vs prior wk · CPA £${w.cpa})`});
-  });
+  topSpenderBullets.forEach(b => bullets.push(b));
 
-  // Velocity-spike flags (existing) — only if not already in topSpenders
-  const flaggedNames = new Set(topSpenders.map(s => s.name));
+  // Velocity-spike flags (existing) — also dedup against the seen list
   velocityFlags.forEach(w => {
-    if (flaggedNames.has(w.name)) return;
+    const sName = shortAdName(w.name);
+    if (seenShort.has(sName)) return;
+    seenShort.add(sName);
     bullets.push({col: COL_AMBER,
-      txt:`🚀 Spend spike: <strong style="color:#fff">${shortAdName(w.name)}</strong> +${w.velocity}% vs prior 3wks (£${w.spend_w4.toLocaleString()})`});
+      txt:`🚀 Spend spike: <strong style="color:#fff">${sName}</strong> +${w.velocity}% vs prior 3wks (£${w.spend_w4.toLocaleString()})`});
   });
 
   document.getElementById('tldr-bullets').innerHTML = bullets
