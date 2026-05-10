@@ -203,7 +203,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
     <div class="card-lbl">🦄 Unicorn Scalers — monthly count by product</div>
     <div class="card-hl"><span id="uni-prod-headline">…</span></div>
     <div class="card-sub">Spend ≥£15K (Vitals/Bundle) or ≥£5K (Biotic) in first 42 days from launch — i.e. 5× the winner-threshold bar. Captures sustained-scale ads, not just early spikes.</div>
-    <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.55)"></div>Vitals</div><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.55)"></div>Bundle</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.5)"></div>Biotic</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.5)"></div>Vitals &amp; Biotic</div></div>
+    <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.55)"></div>Vitals &amp; Bundle</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.5)"></div>Biotic</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.5)"></div>Vitals &amp; Biotic</div></div>
     <div class="filter-bar"><span class="toggle-label">Creative type</span><button class="tog ag" data-uo="all" onclick="setUnicornOffer('all',this)">All</button><button class="tog" data-uo="non_offer" onclick="setUnicornOffer('non_offer',this)">Non-offer</button><button class="tog" data-uo="offer" onclick="setUnicornOffer('offer',this)">Offer</button></div>
     <div class="chart-wrap" style="height:165px;margin-top:8px"><canvas id="cUnicorn"></canvas></div>
   </div>
@@ -1156,10 +1156,13 @@ function _uniHeadlines(){
 
 function buildUnicornCharts(f){
   const pd=D.UNICORN.prod[f],sd=D.UNICORN.src[f];
+  // Combine Vitals + Bundle into a single series — Heights treats Vitals
+  // bundles (Intro Bundle Vitals etc.) as Vitals SKUs, so Bundle is mostly
+  // empty after the classifier fix. Sum element-wise.
+  const vitsBundle = (pd.Vitals || []).map((v, i) => (v || 0) + ((pd.Bundle || [])[i] || 0));
   if(uniProd)uniProd.destroy();
   uniProd=new Chart(document.getElementById('cUnicorn'),{type:'bar',data:{labels:D.ML,datasets:[
-    {label:'Vitals',         data:pd.Vitals,              backgroundColor:'rgba(26,95,168,.55)',borderColor:'rgba(26,95,168,.8)', borderWidth:1,borderRadius:3},
-    {label:'Bundle',         data:pd.Bundle,              backgroundColor:'rgba(29,122,74,.55)',borderColor:'rgba(29,122,74,.8)', borderWidth:1,borderRadius:3},
+    {label:'Vitals & Bundle',data:vitsBundle,             backgroundColor:'rgba(26,95,168,.55)',borderColor:'rgba(26,95,168,.8)', borderWidth:1,borderRadius:3},
     {label:'Biotic',         data:pd.Biotic,              backgroundColor:'rgba(191,59,46,.5)', borderColor:'rgba(191,59,46,.75)',borderWidth:1,borderRadius:3},
     {label:'Vitals & Biotic',data:(pd['Vitals & Biotic']||[]),backgroundColor:'rgba(184,104,0,.5)', borderColor:'rgba(184,104,0,.75)',borderWidth:1,borderRadius:3},
   ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
