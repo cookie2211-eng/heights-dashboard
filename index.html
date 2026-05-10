@@ -99,11 +99,11 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="kpi"><div class="kpi-lbl">Weekly spend</div><div class="kpi-val" id="k-spend"></div><div class="kpi-diff" id="k-spend-d"></div><div class="kpi-sub" id="k-spend-s"></div></div>
   <div class="kpi"><div class="kpi-lbl">Blended CPA</div><div class="kpi-val r" id="k-cpa"></div><div class="kpi-diff" id="k-cpa-d"></div><div class="kpi-sub" id="k-cpa-s"></div></div>
   <div class="kpi"><div class="kpi-lbl">Winner spend share</div><div class="kpi-val a" id="k-wsh"></div><div class="kpi-diff" id="k-wsh-d"></div><div class="kpi-sub" id="k-wsh-s"></div></div>
-  <div class="kpi"><div class="kpi-lbl">New Vitals winners</div><div class="kpi-val" id="k-vw"></div><div class="kpi-diff n">£3K threshold</div><div class="kpi-sub">30-day windows closed this week</div></div>
-  <div class="kpi"><div class="kpi-lbl">New Biotic winners</div><div class="kpi-val" id="k-bw"></div><div class="kpi-diff n">£1K threshold</div><div class="kpi-sub">30-day windows closed this week</div></div>
+  <div class="kpi"><div class="kpi-lbl">New Vitals winners</div><div class="kpi-val" id="k-vw"></div><div class="kpi-diff n">£3K threshold</div><div class="kpi-sub">crossed threshold this week</div></div>
+  <div class="kpi"><div class="kpi-lbl">New Biotic winners</div><div class="kpi-val" id="k-bw"></div><div class="kpi-diff n">£1K threshold</div><div class="kpi-sub">crossed threshold this week</div></div>
 </div>
 <div id="new-winner-detail" style="display:none;margin-bottom:12px">
-  <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Confirmed winners this week — 30-day window closed w/e <span id="nwd-week"></span></div>
+  <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">New winners this week — crossed threshold w/e <span id="nwd-week"></span></div>
   <div id="nwd-list" style="display:flex;flex-direction:column;gap:4px"></div>
 </div>
 <div id="spend-spike-card" style="display:none;background:rgba(184,104,0,.07);border:1px solid rgba(184,104,0,.25);border-radius:6px;padding:12px 16px;margin-bottom:12px">
@@ -234,7 +234,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="card">
     <div class="card-lbl">🦄 Unicorn Scalers — monthly count by source</div>
     <div class="card-hl"><span id="uni-src-headline">…</span></div>
-    <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.6)"></div>Brightshift</div><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.5)"></div>Internal</div><div class="leg-item"><div class="l-sq" style="background:rgba(123,63,160,.5)"></div>Celeb</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.5)"></div>Hambi</div></div>
+    <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.6)"></div>Brightshift</div><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.5)"></div>Internal</div><div class="leg-item"><div class="l-sq" style="background:rgba(123,63,160,.5)"></div>Celeb</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.5)"></div>Hambi</div><div class="leg-item"><div class="l-sq" style="background:rgba(216,90,48,.55)"></div>Influencer</div></div>
     <div class="filter-bar"><span class="toggle-label">Creative type</span><button class="tog ag" data-uo="all" onclick="setUnicornOffer('all',this)">All</button><button class="tog" data-uo="non_offer" onclick="setUnicornOffer('non_offer',this)">Non-offer</button><button class="tog" data-uo="offer" onclick="setUnicornOffer('offer',this)">Offer</button></div>
     <div class="chart-wrap" style="height:165px"><canvas id="cUnicornSrc"></canvas></div>
   </div>
@@ -379,9 +379,11 @@ function init(){
     };
     sorted.forEach(w=>{
       const ps=prodStyle[w.product]||{col:'var(--muted)',bg:'transparent',label:w.product};
+      const fsd = w.first_spend || w.created_week;
+      const days = (w.days_to_winner != null) ? `${w.days_to_winner}d` : '';
       list.innerHTML+=`<div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--ink2);padding:3px 6px;border-radius:3px;background:${ps.bg}">
         <span style="font-weight:700;color:${ps.col};min-width:38px;font-size:10px">${ps.label}</span>
-        <span style="color:var(--muted);white-space:nowrap;font-size:10px">created ${w.created_week}</span>
+        <span style="color:var(--muted);white-space:nowrap;font-size:10px">first spend ${fsd} ${days?`<span style="color:var(--ink2)">(${days} to win)</span>`:''}</span>
         <span style="font-variant-numeric:tabular-nums;color:var(--green);font-weight:700;white-space:nowrap">£${w.spend_30d.toLocaleString()}</span>
         <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">${w.name}</span>
       </div>`;
@@ -1175,6 +1177,7 @@ function buildUnicornCharts(f){
     {label:'Internal',   data:sd.Internal,   backgroundColor:'rgba(26,95,168,.5)',borderColor:'rgba(26,95,168,.75)',borderWidth:1,borderRadius:3},
     {label:'Celeb',      data:sd.Celeb,      backgroundColor:'rgba(123,63,160,.5)',borderColor:'rgba(123,63,160,.75)',borderWidth:1,borderRadius:3},
     {label:'Hambi',      data:sd.Hambi,      backgroundColor:'rgba(184,104,0,.5)', borderColor:'rgba(184,104,0,.75)',borderWidth:1,borderRadius:3},
+    {label:'Influencer', data:sd.Influencer||[],backgroundColor:'rgba(216,90,48,.55)',borderColor:'rgba(216,90,48,.85)',borderWidth:1,borderRadius:3},
   ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
     plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.raw>0?` ${c.dataset.label}: ${c.raw}`:null,filter:i=>i.raw>0}}},
     scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:12,weight:'500'}}},
