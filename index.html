@@ -182,7 +182,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="card"><div class="card-lbl">Vitals &amp; Biotic · launches vs winners vs hit rate</div><div class="card-hl">Ultimate Gut &amp; Energy Bundle — Winner = ≥£1K</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(250,200,130,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cVbHit"></canvas></div></div>
   <div class="card">
     <div class="card-lbl">🦄 Unicorn Scalers — monthly count by product</div>
-    <div class="card-hl">8 total (Oct 2025+) — <span class="a">last: Free Mag Warm shot, Dec 2025</span></div>
+    <div class="card-hl"><span id="uni-prod-headline">…</span></div>
     <div class="card-sub">Spend ≥£15K (Vitals/Bundle) or ≥£5K (Biotic) in first 42 days from launch — i.e. 5× the winner-threshold bar. Captures sustained-scale ads, not just early spikes.</div>
     <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.55)"></div>Vitals</div><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.55)"></div>Bundle</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.5)"></div>Biotic</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.5)"></div>Vitals &amp; Biotic</div></div>
     <div class="filter-bar"><span class="toggle-label">Creative type</span><button class="tog ag" data-uo="all" onclick="setUnicornOffer('all',this)">All</button><button class="tog" data-uo="non_offer" onclick="setUnicornOffer('non_offer',this)">Non-offer</button><button class="tog" data-uo="offer" onclick="setUnicornOffer('offer',this)">Offer</button></div>
@@ -221,7 +221,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="card"><div class="card-lbl">Influencer</div><div class="card-hl">Scaling from Mar with new naming convention</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(255,180,180,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cInfHit"></canvas></div></div>
   <div class="card">
     <div class="card-lbl">🦄 Unicorn Scalers — monthly count by source</div>
-    <div class="card-hl">Internal and Brightshift the factories — <span class="a">none since Mar 2026</span></div>
+    <div class="card-hl"><span id="uni-src-headline">…</span></div>
     <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.6)"></div>Brightshift</div><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.5)"></div>Internal</div><div class="leg-item"><div class="l-sq" style="background:rgba(123,63,160,.5)"></div>Celeb</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.5)"></div>Hambi</div></div>
     <div class="filter-bar"><span class="toggle-label">Creative type</span><button class="tog ag" data-uo="all" onclick="setUnicornOffer('all',this)">All</button><button class="tog" data-uo="non_offer" onclick="setUnicornOffer('non_offer',this)">Non-offer</button><button class="tog" data-uo="offer" onclick="setUnicornOffer('offer',this)">Offer</button></div>
     <div class="chart-wrap" style="height:165px"><canvas id="cUnicornSrc"></canvas></div>
@@ -603,6 +603,7 @@ function buildAllCharts(){
   buildFMIBChart('m');
 
   buildSegSpendChart('all');
+  _uniHeadlines();
   buildUnicornCharts('all');
   buildSrcCPAChart('all');
   buildCelebChart('all');
