@@ -84,7 +84,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
     <strong>Heights</strong>
     Sep 2025 – <span id="hdr-date"></span><br>
     Winner ≥£3K first 30 days (Biotic ≥£1K)<br>
-    🦄 Unicorn Scaler = ≥5× winner threshold in 42 days (V/Bun ≥£15K, B ≥£5K) · Oct 2025+
+    🦄 Unicorn Scaler = ≥£15K spend (Vitals/Bundle) or ≥£5K (Biotic) in first 42 days · Oct 2025+
   </div>
 </div>
 
@@ -183,7 +183,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="card">
     <div class="card-lbl">🦄 Unicorn Scalers — monthly count by product</div>
     <div class="card-hl">8 total (Oct 2025+) — <span class="a">last: Free Mag Warm shot, Dec 2025</span></div>
-    <div class="card-sub">≥5× per-product winner threshold in first 42 days (Vitals/Bundle ≥£15K, Biotic ≥£5K). Captures sustained-scale ads, not just early spikes.</div>
+    <div class="card-sub">Spend ≥£15K (Vitals/Bundle) or ≥£5K (Biotic) in first 42 days from launch — i.e. 5× the winner-threshold bar. Captures sustained-scale ads, not just early spikes.</div>
     <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.55)"></div>Vitals</div><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.55)"></div>Bundle</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.5)"></div>Biotic</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.5)"></div>Vitals &amp; Biotic</div></div>
     <div class="filter-bar"><span class="toggle-label">Creative type</span><button class="tog ag" data-uo="all" onclick="setUnicornOffer('all',this)">All</button><button class="tog" data-uo="non_offer" onclick="setUnicornOffer('non_offer',this)">Non-offer</button><button class="tog" data-uo="offer" onclick="setUnicornOffer('offer',this)">Offer</button></div>
     <div class="chart-wrap" style="height:165px;margin-top:8px"><canvas id="cUnicorn"></canvas></div>
@@ -732,7 +732,7 @@ function buildUnicornCharts(f){
   ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
     plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.raw>0?` ${c.dataset.label}: ${c.raw}`:null,filter:i=>i.raw>0}}},
     scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:12,weight:'500'}}},
-      y:{min:0,max:8,stacked:true,grid:{color:GC},ticks:{font:{size:9},stepSize:1,callback:v=>v>0?v:''}}}}});
+      y:{min:0,suggestedMax:Math.max(8,Math.ceil(Math.max(...D.ML.map((_,i)=>Object.values(pd).reduce((s,arr)=>s+arr[i],0)))/2)*2+2),stacked:true,grid:{color:GC},ticks:{font:{size:9},stepSize:1,callback:v=>v>0?v:''}}}}});
   if(uniSrc)uniSrc.destroy();
   uniSrc=new Chart(document.getElementById('cUnicornSrc'),{type:'bar',data:{labels:D.ML,datasets:[
     {label:'Brightshift',data:sd.Brightshift,backgroundColor:'rgba(29,122,74,.6)',borderColor:'rgba(29,122,74,.85)',borderWidth:1,borderRadius:3},
@@ -742,7 +742,7 @@ function buildUnicornCharts(f){
   ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
     plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.raw>0?` ${c.dataset.label}: ${c.raw}`:null,filter:i=>i.raw>0}}},
     scales:{x:{grid:{display:false},stacked:true,ticks:{font:{size:12,weight:'500'}}},
-      y:{min:0,max:8,stacked:true,grid:{color:GC},ticks:{font:{size:9},stepSize:1,callback:v=>v>0?v:''}}}}});
+      y:{min:0,suggestedMax:Math.max(8,Math.ceil(Math.max(...D.ML.map((_,i)=>Object.values(sd).reduce((s,arr)=>s+arr[i],0)))/2)*2+2),stacked:true,grid:{color:GC},ticks:{font:{size:9},stepSize:1,callback:v=>v>0?v:''}}}}});
 }
 function setUnicornOffer(f,btn){document.querySelectorAll('[data-uo]').forEach(b=>b.classList.remove('ag'));btn.classList.add('ag');buildUnicornCharts(f);}
 
