@@ -165,7 +165,6 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="card">
     <div class="card-lbl">Monthly Meta CPA</div>
     <div class="card-hl"><span id="meta-cpa-headline">…</span></div>
-    <div class="card-sub">Classified at ad + campaign level. Biotic > Free Mag > Intro Bundle > Standard Vitals priority. Unclassified excluded from CPA chart.</div>
     <div class="leg">
       <div class="leg-item"><div class="l-ln" style="background:#D85A30"></div>Biotic</div>
       <div class="leg-item"><div class="l-ln" style="background:#378ADD"></div>Standard Vitals</div>
@@ -177,7 +176,6 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="card">
     <div class="card-lbl">Monthly Meta spend</div>
     <div class="card-hl"><span id="meta-spend-headline">…</span></div>
-    <div class="card-sub">Stacked. Includes Unclassified (whitelisting, generic ASC). Y axis in £k.</div>
     <div class="leg">
       <div class="leg-item"><div class="l-sq" style="background:rgba(216,90,48,0.7)"></div>Biotic</div>
       <div class="leg-item"><div class="l-sq" style="background:rgba(55,138,221,0.6)"></div>Standard Vitals</div>
@@ -189,13 +187,6 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   </div>
 </div>
 
-<div class="card" style="margin-top:12px">
-  <div class="card-lbl">Monthly CPA by product (legacy)</div>
-  <div class="card-hl">Biotic CPA <span class="r">up 40%</span> since Oct. Bundle creative consistently cheapest</div>
-  <div class="card-sub">Original product split (Vitals / Biotic / Bundle / V&amp;B). Kept for continuity; the new Meta CPA chart above uses tighter buckets.</div>
-  <div class="leg"><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Vitals</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Biotic</div><div class="leg-item"><div class="l-ln" style="background:#1d7a4a"></div>Bundle</div><div class="leg-item"><div class="l-ln" style="background:#b86800"></div>Vitals &amp; Biotic</div></div>
-  <div class="chart-wrap" style="height:200px"><canvas id="cProdCPA"></canvas></div>
-</div>
 <div class="filter-bar" style="border-top:none;margin-top:4px;margin-bottom:4px">
   <span class="toggle-label">Creative type</span>
   <button class="tog ag" data-of="all" onclick="setOfferFilter('all',this)">All</button>
@@ -262,7 +253,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 <div class="card">
   <div class="card-lbl">Vitals · monthly spend &amp; CPA by source bucket</div>
   <div class="card-hl"><span id="vit-src-table-headline">Vitals only — Influencer, Celeb &amp; BAU</span></div>
-  <div class="card-sub">Click <strong>① Influencer</strong> to drill into Paid / Affiliate / Micro · CPA cells are tinted by column (greener = lower, redder = higher) · MoM Δ shown beneath each value · ⚠ Buckets are not always mutually exclusive — celeb-offer ads (e.g. Ben Shephard Free Mag) count in BOTH ② Celeb AND the Other (offer) row, so Inf+Celeb+BAU+Other ≠ Total Vitals</div>
+  <div class="card-sub">Click <strong>① Influencer</strong> to drill into Paid / Affiliate / Micro · CPA cells tinted by column (greener = lower, redder = higher) · MoM Δ shown beneath each value · Inf + Celeb + BAU sum to ~70-85% of Total Vitals (rest is offer creative — see Performance by product above)</div>
   <table id="vit-src-tbl-table" class="vit-src-tbl" style="width:100%;border-collapse:collapse;margin-top:12px;font-size:12px">
     <thead id="vit-src-tbl-head"></thead>
     <tbody id="vit-src-tbl-body"></tbody>
@@ -604,21 +595,7 @@ function buildAllCharts(){
     ctx.restore();
   }}]});
 
-  // Product CPA
-  const UNCLASS_PCT = D.UNCLASS_PCT || [];
-  const prodCPALabels = ML.map((m,i) => UNCLASS_PCT[i] >= 5 ? `${m} ⚠` : m);
-  new Chart(document.getElementById('cProdCPA'),{type:'line',data:{labels:prodCPALabels,datasets:[
-    {label:'Vitals',         data:VIT_CPA,borderColor:'#1a5fa8',backgroundColor:'transparent',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#1a5fa8',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2},
-    {label:'Biotic',         data:BIO_CPA,borderColor:'#bf3b2e',backgroundColor:'transparent',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#bf3b2e',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2},
-    {label:'Bundle',         data:BUN_CPA,borderColor:'#1d7a4a',backgroundColor:'transparent',borderWidth:2,  pointRadius:4,pointBackgroundColor:'#1d7a4a',pointBorderColor:'#fff',pointBorderWidth:1,  tension:0.2},
-    {label:'Vitals & Biotic',data:(D.VB_CPA||[]).map(v=>v||null),borderColor:'#b86800',backgroundColor:'transparent',borderWidth:2,pointRadius:4,pointBackgroundColor:'#b86800',pointBorderColor:'#fff',pointBorderWidth:1,tension:0.2,spanGaps:false},
-  ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{
-      label:c=>c.raw?` ${c.dataset.label}: £${c.raw}`:null,
-      footer:items=>{const i=items[0]?.dataIndex; return UNCLASS_PCT[i]>=5?`⚠ ${UNCLASS_PCT[i]}% unclassified spend this month`:''}
-    }}},
-    scales:{x:{grid:{display:false},ticks:{font:{size:11,weight:'500'}}},
-      y:{min:50,max:260,grid:{color:GC},ticks:{callback:v=>'£'+v,font:{size:10},maxTicksLimit:7}}}}});
+  // (legacy "Monthly CPA by product" chart removed — superseded by Meta CPA chart in Section 4)
 
   // Offer weekly
   new Chart(document.getElementById('cOffer'),{type:'bar',data:{labels:WL,datasets:[
@@ -1011,23 +988,11 @@ function renderVitSourceTable(){
   }
   tbody.innerHTML = bodyHtml;
 
-  // ---- FOOT (Other + Total Vitals) ----
-  if(tfoot && t.other && t.total_vitals){
+  // ---- FOOT (Total Vitals only — Other row removed; see Performance-by-product
+  // section above for offer/non-offer detail with consistent CPA values) ----
+  if(tfoot && t.total_vitals){
     let footHtml = '';
-    // Spacer / divider
     footHtml += `<tr><td colspan="${1 + columns.length*2}" style="padding:6px 0 0"></td></tr>`;
-    // Other (offer bundles)
-    footHtml += `<tr style="color:var(--muted);font-size:11px;border-top:1px dashed var(--rule)">`;
-    footHtml += `<td style="padding:6px 10px">Vitals offer ads · all sources <span style="color:#aaa;font-weight:400">(matches VIT_OFF chart below)</span></td>`;
-    footHtml += `<td colspan="${columns.length*2}" style="padding:6px 10px">`;
-    footHtml += `<div style="display:flex;gap:14px;justify-content:flex-end;font-variant-numeric:tabular-nums">`;
-    for(let i=0;i<N;i++){
-      const sp = t.other.spend[i], cp = t.other.cpa[i];
-      const lbl = String(t.labels[i]).replace(' MTD','*').replace(' 25','').replace(' 26','');
-      footHtml += `<div style="text-align:right"><div style="font-size:9px;color:#aaa">${lbl}</div><div>${fmt(sp)}</div><div style="color:#777;font-weight:500">${fmt(cp)}</div></div>`;
-    }
-    footHtml += `</div></td></tr>`;
-    // Total Vitals
     footHtml += `<tr style="font-weight:600;border-top:2px solid var(--ink);background:rgba(0,0,0,0.03)">`;
     footHtml += `<td style="padding:8px 10px">Total Vitals</td>`;
     footHtml += `<td colspan="${columns.length*2}" style="padding:8px 10px">`;
