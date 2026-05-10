@@ -234,25 +234,11 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 <div class="card">
   <div class="card-lbl">Vitals · monthly spend &amp; CPA by source bucket</div>
   <div class="card-hl"><span id="vit-src-table-headline">Vitals only — Influencer, Celeb &amp; BAU</span></div>
-  <div class="card-sub">Vitals only · Influencer = Paid Inf + Affiliate combined · Celeb takes priority over BAU · BAU excludes offer ads.</div>
-  <table class="vit-src-tbl" style="width:100%;border-collapse:collapse;margin-top:12px;font-size:12px">
-    <thead>
-      <tr style="border-bottom:2px solid var(--ink)">
-        <th rowspan="2" style="text-align:left;padding:8px 10px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Month</th>
-        <th colspan="2" style="text-align:center;padding:6px 10px 2px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#3B8C5A">① Influencer</th>
-        <th colspan="2" style="text-align:center;padding:6px 10px 2px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#C0392B">② Celeb / Ambassadors</th>
-        <th colspan="2" style="text-align:center;padding:6px 10px 2px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#1F5FA6">③ Vitals Standard BAU</th>
-      </tr>
-      <tr style="border-bottom:1px solid var(--rule)">
-        <th style="text-align:right;padding:0 10px 6px;font-size:10px;font-weight:500;color:var(--muted)">Spend</th>
-        <th style="text-align:right;padding:0 10px 6px;font-size:10px;font-weight:500;color:var(--muted)">CPA</th>
-        <th style="text-align:right;padding:0 10px 6px;font-size:10px;font-weight:500;color:var(--muted)">Spend</th>
-        <th style="text-align:right;padding:0 10px 6px;font-size:10px;font-weight:500;color:var(--muted)">CPA</th>
-        <th style="text-align:right;padding:0 10px 6px;font-size:10px;font-weight:500;color:var(--muted)">Spend</th>
-        <th style="text-align:right;padding:0 10px 6px;font-size:10px;font-weight:500;color:var(--muted)">CPA</th>
-      </tr>
-    </thead>
+  <div class="card-sub">Click <strong>① Influencer</strong> to drill into Paid / Affiliate / Micro · CPA cells are tinted by column (lighter = better, darker = worse) · MoM Δ shown beneath each value</div>
+  <table id="vit-src-tbl-table" class="vit-src-tbl" style="width:100%;border-collapse:collapse;margin-top:12px;font-size:12px">
+    <thead id="vit-src-tbl-head"></thead>
     <tbody id="vit-src-tbl-body"></tbody>
+    <tfoot id="vit-src-tbl-foot"></tfoot>
   </table>
 </div>
 
@@ -740,32 +726,197 @@ function hitChart(id,l,w,hr,barBg,barBd,winBg,winBd){
 }
 
 // Vitals · monthly source bucket spend & CPA table
+let _vitSrcInfExpanded = false;
 function renderVitSourceTable(){
   const t = D.VIT_SOURCE_TABLE;
+  const head = document.getElementById('vit-src-tbl-head');
   const tbody = document.getElementById('vit-src-tbl-body');
-  if(!t || !tbody) return;
-  const fmtSpend = n => '£' + Number(n).toLocaleString();
-  const fmtCpa = n => '£' + Number(n).toLocaleString();
+  const tfoot = document.getElementById('vit-src-tbl-foot');
+  if(!t || !head || !tbody) return;
+
+  const fmt = n => (n==null||n===0) ? '—' : '£' + Number(n).toLocaleString();
   const colors = {
     'Influencer':           '#3B8C5A',
     'Celeb / Ambassadors':  '#C0392B',
     'Vitals Standard BAU':  '#1F5FA6',
+    'Other':                '#777',
+    'Total':                '#111',
+    'Paid':                 '#2A6B43',
+    'Affiliate':            '#4FA774',
+    'Micro':                '#7CC196',
   };
-  let html = '';
-  for (let i = 0; i < t.labels.length; i++) {
-    const isMtd = String(t.labels[i]).toLowerCase().includes('mtd');
-    const trStyle = isMtd ? 'color:var(--muted);font-style:italic;' : '';
-    html += `<tr style="${trStyle}border-bottom:1px solid var(--rule)">`;
-    html += `<td style="padding:9px 10px;font-weight:500">${t.labels[i]}</td>`;
-    for (const b of ['Influencer','Celeb / Ambassadors','Vitals Standard BAU']) {
-      const sp = t.rows[b].spend[i];
-      const cp = t.rows[b].cpa[i];
-      html += `<td style="padding:9px 10px;text-align:right;font-variant-numeric:tabular-nums">${fmtSpend(sp)}</td>`;
-      html += `<td style="padding:9px 10px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600;color:${colors[b]}">${fmtCpa(cp)}</td>`;
-    }
-    html += '</tr>';
+  // Sub-bucket display names
+  const SUB_LABELS = {Paid: 'Paid', Affiliate: 'Affiliate', Micro: 'Micro'};
+
+  // Build the column structure (depends on whether Influencer is expanded)
+  let columns;
+  if(_vitSrcInfExpanded && t.inf_sub) {
+    columns = [
+      {key: 'Paid',                src: 'inf_sub', label: 'Paid Inf',   color: colors.Paid,      icon: '①ᵃ'},
+      {key: 'Affiliate',           src: 'inf_sub', label: 'Affiliate',  color: colors.Affiliate, icon: '①ᵇ'},
+      {key: 'Micro',               src: 'inf_sub', label: 'Micro',      color: colors.Micro,     icon: '①ᶜ'},
+      {key: 'Celeb / Ambassadors', src: 'rows',    label: 'Celeb / Ambassadors', color: colors['Celeb / Ambassadors'], icon: '②'},
+      {key: 'Vitals Standard BAU', src: 'rows',    label: 'Vitals Standard BAU', color: colors['Vitals Standard BAU'], icon: '③'},
+    ];
+  } else {
+    columns = [
+      {key: 'Influencer',          src: 'rows', label: 'Influencer',           color: colors.Influencer,            icon: '①', expandable: true},
+      {key: 'Celeb / Ambassadors', src: 'rows', label: 'Celeb / Ambassadors',  color: colors['Celeb / Ambassadors'], icon: '②'},
+      {key: 'Vitals Standard BAU', src: 'rows', label: 'Vitals Standard BAU',  color: colors['Vitals Standard BAU'], icon: '③'},
+    ];
   }
-  tbody.innerHTML = html;
+
+  // Helper to look up spend/cpa for a column at month i
+  const get = (col, i) => {
+    const bucket = (col.src === 'rows') ? t.rows[col.key] : t[col.src][col.key];
+    return {sp: bucket.spend[i], cp: bucket.cpa[i]};
+  };
+
+  // Build CPA min/max per column (for heatmap, ignoring 0/null and MTD)
+  const N = t.labels.length;
+  const completeIdx = i => !String(t.labels[i]).toLowerCase().includes('mtd');
+  const cpaRange = {};
+  for(const col of columns){
+    const vals = [];
+    for(let i=0;i<N;i++){
+      if(!completeIdx(i)) continue;
+      const v = get(col, i).cp;
+      if(v && v > 0) vals.push(v);
+    }
+    cpaRange[col.key] = vals.length ? {min: Math.min(...vals), max: Math.max(...vals)} : {min:0, max:0};
+  }
+  // Heatmap colour: lighter green tint for low CPA, lighter red tint for high
+  const cpaTint = (col, val) => {
+    if(!val || val<=0) return '';
+    const r = cpaRange[col.key];
+    if(!r || r.max === r.min) return '';
+    const t01 = Math.max(0, Math.min(1, (val - r.min) / (r.max - r.min)));
+    // Green (low CPA) → red (high CPA), pastel
+    const alpha = 0.10 + t01 * 0.16;  // 0.10–0.26 opacity
+    if(t01 < 0.5){
+      // greener
+      const intensity = (1 - t01*2);
+      return `background:rgba(59,140,90,${(0.06 + intensity*0.14).toFixed(3)})`;
+    } else {
+      const intensity = (t01 - 0.5) * 2;
+      return `background:rgba(192,57,43,${(0.06 + intensity*0.14).toFixed(3)})`;
+    }
+  };
+
+  // ---- HEAD ----
+  let headHtml = '<tr style="border-bottom:2px solid var(--ink)">';
+  headHtml += '<th rowspan="2" style="text-align:left;padding:8px 10px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Month</th>';
+  for(const col of columns){
+    const expandable = col.expandable;
+    const cursor = expandable ? 'cursor:pointer' : '';
+    const click = expandable ? `onclick="toggleVitSrcInfExpand()"` : '';
+    const indicator = expandable ? ' ▾' : '';
+    const collapseIcon = (_vitSrcInfExpanded && col.key==='Paid')
+      ? `<span style="cursor:pointer;color:var(--muted);font-size:9px;margin-right:6px;font-weight:400" onclick="toggleVitSrcInfExpand()">↞ collapse</span>`
+      : '';
+    headHtml += `<th colspan="2" style="text-align:center;padding:6px 10px 2px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:${col.color};${cursor}" ${click}>${collapseIcon}${col.icon} ${col.label}${indicator}</th>`;
+  }
+  headHtml += '</tr><tr style="border-bottom:1px solid var(--rule)">';
+  for(const col of columns){
+    headHtml += '<th style="text-align:right;padding:0 10px 6px;font-size:10px;font-weight:500;color:var(--muted)">Spend</th>';
+    headHtml += '<th style="text-align:right;padding:0 10px 6px;font-size:10px;font-weight:500;color:var(--muted)">CPA</th>';
+  }
+  headHtml += '</tr>';
+  head.innerHTML = headHtml;
+
+  // ---- BODY (per-month rows) ----
+  const fmtDelta = (cur, prev) => {
+    if(cur==null || prev==null || prev===0 || cur===0) return '';
+    const pct = ((cur - prev) / prev) * 100;
+    if(Math.abs(pct) < 0.5) return `<span style="font-size:9px;color:#bbb">±0%</span>`;
+    const arrow = pct > 0 ? '▲' : '▼';
+    const colour = pct > 0 ? '#aa3a2c' : '#3B8C5A';  // up CPA bad, down CPA good (and we apply same to spend, then the meaning differs but visual is consistent)
+    return `<span style="font-size:9px;color:${colour}">${arrow} ${Math.abs(pct).toFixed(0)}%</span>`;
+  };
+  // Use neutral grey for spend deltas (up isn't always good)
+  const fmtSpendDelta = (cur, prev) => {
+    if(cur==null || prev==null || prev===0 || cur===0) return '';
+    const pct = ((cur - prev) / prev) * 100;
+    if(Math.abs(pct) < 0.5) return `<span style="font-size:9px;color:#bbb">±0%</span>`;
+    const arrow = pct > 0 ? '▲' : '▼';
+    return `<span style="font-size:9px;color:#888">${arrow} ${Math.abs(pct).toFixed(0)}%</span>`;
+  };
+
+  let bodyHtml = '';
+  for(let i=0;i<N;i++){
+    const isMtd = String(t.labels[i]).toLowerCase().includes('mtd');
+    const isAlt = i % 2 === 1;
+    const baseStyle = isMtd
+      ? 'color:var(--muted);font-style:italic;background:rgba(0,0,0,0.015)'
+      : (isAlt ? 'background:rgba(0,0,0,0.012)' : '');
+    bodyHtml += `<tr style="${baseStyle};border-bottom:1px solid var(--rule)">`;
+    bodyHtml += `<td style="padding:9px 10px;font-weight:${isMtd?'600':'500'}">${t.labels[i]}</td>`;
+    for(const col of columns){
+      const {sp, cp} = get(col, i);
+      const prev = i > 0 ? get(col, i-1) : {sp:null, cp:null};
+      bodyHtml += `<td style="padding:7px 10px 4px;text-align:right;font-variant-numeric:tabular-nums;line-height:1.15">
+        <div>${fmt(sp)}</div>
+        <div style="margin-top:1px">${fmtSpendDelta(sp, prev.sp)}</div>
+      </td>`;
+      bodyHtml += `<td style="padding:7px 10px 4px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600;color:${col.color};line-height:1.15;${cpaTint(col, cp)}">
+        <div>${fmt(cp)}</div>
+        <div style="margin-top:1px">${fmtDelta(cp, prev.cp)}</div>
+      </td>`;
+    }
+    bodyHtml += '</tr>';
+  }
+  tbody.innerHTML = bodyHtml;
+
+  // ---- FOOT (Other + Total Vitals) ----
+  if(tfoot && t.other && t.total_vitals){
+    let footHtml = '';
+    // Spacer / divider
+    footHtml += `<tr><td colspan="${1 + columns.length*2}" style="padding:6px 0 0"></td></tr>`;
+    // Other (offer bundles)
+    footHtml += `<tr style="color:var(--muted);font-size:11px;border-top:1px dashed var(--rule)">`;
+    footHtml += `<td style="padding:6px 10px">Other (Free Mag + Intro Bundle + Sleep & Energy)</td>`;
+    footHtml += `<td colspan="${columns.length*2}" style="padding:6px 10px">`;
+    footHtml += `<div style="display:flex;gap:14px;justify-content:flex-end;font-variant-numeric:tabular-nums">`;
+    for(let i=0;i<N;i++){
+      const sp = t.other.spend[i], cp = t.other.cpa[i];
+      const lbl = String(t.labels[i]).replace(' MTD','*').replace(' 25','').replace(' 26','');
+      footHtml += `<div style="text-align:right"><div style="font-size:9px;color:#aaa">${lbl}</div><div>${fmt(sp)}</div><div style="color:#777;font-weight:500">${fmt(cp)}</div></div>`;
+    }
+    footHtml += `</div></td></tr>`;
+    // Total Vitals
+    footHtml += `<tr style="font-weight:600;border-top:2px solid var(--ink);background:rgba(0,0,0,0.03)">`;
+    footHtml += `<td style="padding:8px 10px">Total Vitals</td>`;
+    footHtml += `<td colspan="${columns.length*2}" style="padding:8px 10px">`;
+    footHtml += `<div style="display:flex;gap:14px;justify-content:flex-end;font-variant-numeric:tabular-nums">`;
+    for(let i=0;i<N;i++){
+      const sp = t.total_vitals.spend[i], cp = t.total_vitals.cpa[i];
+      const lbl = String(t.labels[i]).replace(' MTD','*').replace(' 25','').replace(' 26','');
+      footHtml += `<div style="text-align:right"><div style="font-size:9px;color:#aaa;font-weight:500">${lbl}</div><div>${fmt(sp)}</div><div style="color:#111">${fmt(cp)}</div></div>`;
+    }
+    footHtml += `</div></td></tr>`;
+    tfoot.innerHTML = footHtml;
+  }
+
+  // Headline summary
+  const hl = document.getElementById('vit-src-table-headline');
+  if(hl && t.rows && t.rows.Influencer){
+    const inf = t.rows.Influencer.cpa;
+    const cel = t.rows['Celeb / Ambassadors'].cpa;
+    const bau = t.rows['Vitals Standard BAU'].cpa;
+    const last = t.labels.length - 1;
+    const infFirst = inf.find(v => v && v > 0) || inf[0];
+    const infMul = infFirst ? (inf[last] / infFirst).toFixed(1) : '?';
+    if(_vitSrcInfExpanded){
+      hl.textContent = `Influencer breakdown — Paid is dominant; Affiliate & Micro entered Mar 26`;
+    } else {
+      hl.textContent = `Influencer CPA scaled to £${inf[last]} (${infMul}× early-period); Celeb & BAU steadier in £100s`;
+    }
+  }
+}
+
+function toggleVitSrcInfExpand(){
+  _vitSrcInfExpanded = !_vitSrcInfExpanded;
+  renderVitSourceTable();
 }
 
 // Unicorn charts
