@@ -131,13 +131,13 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 <div class="grid2">
   <div class="card">
     <div class="card-lbl">CPM vs blended CVR — indexed to period avg</div>
-    <div class="card-hl">CPM stable around <em>£15-19</em> — CVR <span class="r">slipped to 1.18% this week</span></div>
+    <div class="card-hl"><span id="hl-cpm-cvr">…</span></div>
     <div class="leg"><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>CPM index</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>CVR index</div><div class="leg-item" style="font-size:10px;color:var(--muted)">Period avg = 100</div></div>
     <div class="chart-wrap" style="height:190px"><canvas id="cCPMCVR"></canvas></div>
   </div>
   <div class="card">
     <div class="card-lbl">CVR by product — absolute</div>
-    <div class="card-hl">Vitals CVR <span class="r">softening</span> — Biotic CVR <span class="r">still weak at 0.65%</span></div>
+    <div class="card-hl"><span id="hl-cvr-prod">…</span></div>
     <div class="card-sub">Absolute CVR. Biotic structurally lower than Vitals — not directly comparable.</div>
     <div class="leg"><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Vitals CVR</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Biotic CVR</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.2)"></div>Biotic share % (right)</div></div>
     <div class="chart-wrap" style="height:190px"><canvas id="cCVRProd"></canvas></div>
@@ -272,7 +272,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   </div>
   <div class="card">
     <div class="card-lbl">Vitals — CPA by individual ambassador, monthly</div>
-    <div class="card-hl">Most ambassadors up since Jan — <em>Rylan +56%, Spencer +38%</em>; Carol &amp; Jake holding flat</div>
+    <div class="card-hl"><span id="hl-amb">…</span></div>
     <div class="leg" id="celebDetailLeg"></div>
     <div class="filter-bar"><span class="toggle-label">Product</span><button class="tog ai" data-ambp="vitals" onclick="setAmbProd('vitals',this)">Vitals &amp; Bundle</button><button class="tog" data-ambp="all" onclick="setAmbProd('all',this)">All</button><button class="tog" data-ambp="biotic" onclick="setAmbProd('biotic',this)">Biotic</button><button class="tog" data-ambp="offer" onclick="setAmbProd('offer',this)">Offer</button></div>
     <div class="chart-wrap" style="height:190px;margin-top:8px"><canvas id="cCelebDetail"></canvas></div>
@@ -282,7 +282,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 <div class="sec-sub">Offer &amp; bundle creative</div>
 <div class="card">
   <div class="card-lbl">Account — offer vs non-offer CPA &amp; share · weekly</div>
-  <div class="card-hl">Offer CPA <span style="color:var(--green)">significantly cheaper</span> — £51 gap vs non-offer this week</div>
+  <div class="card-hl"><span id="hl-offer-gap">…</span></div>
   <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.18)"></div>Offer share % (left)</div><div class="leg-item"><div class="l-ln" style="background:#1d7a4a"></div>Offer CPA (right)</div><div class="leg-item"><div class="l-ln" style="background:#aaa"></div>Non-offer CPA (right)</div></div>
   <div class="chart-wrap" style="height:200px"><canvas id="cOffer"></canvas></div>
 </div>
@@ -291,7 +291,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
     <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px">
       <div>
         <div class="card-lbl">Vitals — offer vs non-offer CPA + offer share within Vitals</div>
-        <div class="card-hl">Offer ~30% of Vitals spend — non-offer CPA rising sharply</div>
+        <div class="card-hl"><span id="hl-vit-offer">…</span></div>
       </div>
       <div class="view-toggle" style="flex-shrink:0;margin-left:12px"><button class="active" onclick="setVitOfferView('m',this)">Monthly</button><button onclick="setVitOfferView('w',this)">Weekly</button></div>
     </div>
@@ -303,7 +303,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
     <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2px">
       <div>
         <div class="card-lbl">Vitals — Free Magnesium vs Intro Bundle</div>
-        <div class="card-hl">Free Mag <span style="color:var(--green)">cheapest at £62</span> — and now larger share than Intro Bundle</div>
+        <div class="card-hl"><span id="hl-fm-ib">…</span></div>
       </div>
       <div class="view-toggle"><button class="active" onclick="setFMIBView('m',this)">Monthly</button><button onclick="setFMIBView('w',this)">Weekly</button></div>
     </div>
@@ -621,6 +621,107 @@ function buildAllCharts(){
   buildAmbChart('vitals');
   rebuildProdCharts();
   rebuildSrcCharts();
+  refreshDynamicHeadlines();
+}
+
+// Auto-populate the formerly-hardcoded headlines from current data.
+// Called after charts build. Each one is a small text computation.
+function refreshDynamicHeadlines(){
+  const last = arr => arr ? arr[arr.length-1] : null;
+  const trend = (cur, prev) => cur > prev ? 'rising' : cur < prev ? 'easing' : 'flat';
+  const set = (id, html) => { const el = document.getElementById(id); if(el) el.innerHTML = html; };
+
+  // 1. CPM stable / CVR direction
+  if(D.W_CPM_RAW && D.W_CVR_RAW){
+    const cpmL = last(D.W_CPM_RAW);
+    const cpmRecent = D.W_CPM_RAW.slice(-5);
+    const cpmRange = `£${Math.min(...cpmRecent).toFixed(0)}-${Math.max(...cpmRecent).toFixed(0)}`;
+    const cvrL = last(D.W_CVR_RAW);
+    const cvrPrev = D.W_CVR_RAW[D.W_CVR_RAW.length-2];
+    const cvrPct = (cvrL*100).toFixed(2);
+    const cvrDir = cvrL > cvrPrev * 1.03 ? 'recovering' : cvrL < cvrPrev * 0.97 ? 'slipped' : 'flat';
+    const cvrCol = cvrDir === 'recovering' ? 'var(--green)' : cvrDir === 'slipped' ? 'var(--red,#bf3b2e)' : 'var(--muted)';
+    set('hl-cpm-cvr', `CPM stable around <em>${cpmRange}</em> — CVR <span style="color:${cvrCol}">${cvrDir} to ${cvrPct}%</span>`);
+  }
+
+  // 2. Vitals CVR vs Biotic CVR
+  if(D.W_CVR_VIT && D.W_CVR_BIO){
+    const vitL = last(D.W_CVR_VIT), vitP = D.W_CVR_VIT[D.W_CVR_VIT.length-2];
+    const bioL = last(D.W_CVR_BIO);
+    const vitDir = vitL > vitP * 1.03 ? 'recovering' : vitL < vitP * 0.97 ? 'softening' : 'flat';
+    const vitCol = vitDir === 'recovering' ? 'var(--green)' : vitDir === 'softening' ? 'var(--red,#bf3b2e)' : 'var(--muted)';
+    const bioPct = (bioL*100).toFixed(2);
+    const bioWeak = bioL < 0.01;  // <1% CVR
+    const bioCol = bioWeak ? 'var(--red,#bf3b2e)' : 'var(--muted)';
+    const bioWord = bioWeak ? `still weak at ${bioPct}%` : `at ${bioPct}%`;
+    set('hl-cvr-prod', `Vitals CVR <span style="color:${vitCol}">${vitDir}</span> — Biotic CVR <span style="color:${bioCol}">${bioWord}</span>`);
+  }
+
+  // 3. Ambassador trend (vs Jan)
+  if(D.AMB_PROD_CPA && D.AMB_LABELS){
+    const Jan = 3;  // ML index for Jan
+    const last_ = D.ML.length - 1;
+    const moves = D.AMB_LABELS.map(label => {
+      const arr = (D.AMB_PROD_CPA[label] || {}).vitals || [];
+      const j = arr[Jan];
+      let l = arr[last_]; if(l == null) l = arr[last_ - 1];
+      if(j == null || l == null || j === 0) return null;
+      const pct = Math.round((l - j) / j * 100);
+      return {label, pct};
+    }).filter(Boolean);
+    const up = moves.filter(m => m.pct > 5).sort((a,b) => b.pct - a.pct);
+    const flat = moves.filter(m => Math.abs(m.pct) <= 5);
+    const down = moves.filter(m => m.pct < -5);
+    let txt;
+    if(up.length >= moves.length - 1){
+      const top = up.slice(0, 2).map(m => `${m.label.split(' ')[0]} +${m.pct}%`).join(', ');
+      txt = `Most ambassadors up since Jan — <em>${top}</em>${(flat.length||down.length) ? `; ${flat.length+down.length} flat/down` : ''}`;
+    } else {
+      txt = `${up.length} ambassadors rising since Jan, ${flat.length} flat, ${down.length} easing`;
+    }
+    set('hl-amb', txt);
+  }
+
+  // 4. Account offer gap
+  if(D.OFF_CPA && D.NOFF_CPA){
+    const oL = last(D.OFF_CPA), nL = last(D.NOFF_CPA);
+    if(oL && nL){
+      const gap = nL - oL;
+      set('hl-offer-gap', `Offer CPA <span style="color:var(--green)">significantly cheaper</span> — £${gap} gap vs non-offer this week`);
+    }
+  }
+
+  // 5. Vitals offer share + non-offer trend
+  if(D.VIT_OFF_PCT && D.VIT_NOFF_CPA){
+    const pct = last(D.VIT_OFF_PCT);
+    const noff = D.VIT_NOFF_CPA;
+    const noffL = last(noff), noffOct = noff[0];
+    const trend2 = noffL > noffOct * 1.10 ? 'rising sharply'
+                 : noffL > noffOct * 1.03 ? 'still elevated'
+                 : noffL < noffOct * 0.97 ? 'easing' : 'flat';
+    const col = trend2.startsWith('rising') ? 'var(--red,#bf3b2e)' : 'var(--muted)';
+    set('hl-vit-offer', `Offer ~${Math.round(pct)}% of Vitals spend — non-offer CPA <span style="color:${col}">${trend2}</span>`);
+  }
+
+  // 6. Free Mag vs Intro Bundle
+  if(D.FM_CPA_MO && D.IB_CPA_MO && D.FM_SHARE_MO && D.IB_SHARE_MO){
+    const fmCpa = last(D.FM_CPA_MO);
+    const ibCpa = last(D.IB_CPA_MO);
+    const fmSh = last(D.FM_SHARE_MO);
+    const ibSh = last(D.IB_SHARE_MO);
+    if(fmCpa && ibCpa){
+      const cheaper = fmCpa < ibCpa ? 'Free Mag' : 'Intro Bundle';
+      const cheaperCpa = fmCpa < ibCpa ? fmCpa : ibCpa;
+      const larger  = fmSh > ibSh ? 'Free Mag' : 'Intro Bundle';
+      let txt;
+      if(cheaper === larger){
+        txt = `${cheaper} <span style="color:var(--green)">cheapest at £${cheaperCpa}</span> — and now larger share`;
+      } else {
+        txt = `${cheaper} <span style="color:var(--green)">cheapest at £${cheaperCpa}</span> — but ${larger} has larger share`;
+      }
+      set('hl-fm-ib', txt);
+    }
+  }
 }
 
 // Performance-by-product: Monthly Meta CPA + Monthly Meta spend
