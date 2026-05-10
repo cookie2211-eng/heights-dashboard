@@ -722,6 +722,29 @@ function hitChart(id,l,w,hr,barBg,barBd,winBg,winBd){
 
 // Unicorn charts
 let uniProd=null,uniSrc=null;
+
+function _uniHeadlines(){
+  if(!D.UNICORN || !D.UNICORN.prod || !D.UNICORN.src) return;
+  const pd=D.UNICORN.prod['all']||{}, sd=D.UNICORN.src['all']||{};
+  const totalProd=Object.values(pd).reduce((s,a)=>s+a.reduce((x,y)=>x+y,0),0);
+  const totalSrc=Object.values(sd).reduce((s,a)=>s+a.reduce((x,y)=>x+y,0),0);
+  let li=-1;
+  for(let i=D.ML.length-1;i>=0;i--){
+    const m=Object.values(pd).reduce((s,a)=>s+(a[i]||0),0);
+    if(m>0){li=i;break;}
+  }
+  let topP='—',topPN=0,topS='—',topSN=0;
+  if(li>=0){
+    for(const[p,a]of Object.entries(pd)){if((a[li]||0)>topPN){topP=p;topPN=a[li];}}
+    for(const[s,a]of Object.entries(sd)){if((a[li]||0)>topSN){topS=s;topSN=a[li];}}
+  }
+  const lm=li>=0?D.ML[li]:'—';
+  const ph=document.getElementById('uni-prod-headline');
+  const sh=document.getElementById('uni-src-headline');
+  if(ph)ph.innerHTML=`${totalProd} total — <span class="a">last activity ${lm}: ${topPN} ${topP}</span>`;
+  if(sh)sh.innerHTML=`${totalSrc} total — <span class="a">last activity ${lm}: ${topSN} ${topS}</span>`;
+}
+
 function buildUnicornCharts(f){
   const pd=D.UNICORN.prod[f],sd=D.UNICORN.src[f];
   if(uniProd)uniProd.destroy();
