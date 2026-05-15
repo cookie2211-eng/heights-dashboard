@@ -127,14 +127,6 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 <div class="sec"><h2>2 · Platform performance</h2><span>Blended CPA &amp; spend · weekly &amp; monthly</span></div>
 <div class="card">
   <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2px">
-    <div><div class="card-lbl">Blended CPA vs % spend through winners</div><div class="card-hl">CPA trend vs winner share</div></div>
-    <div class="view-toggle"><button class="active" onclick="setCPAView('w',this)">Weekly</button><button onclick="setCPAView('m',this)">Monthly</button></div>
-  </div>
-  <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.25)"></div>Winner share % (left)</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>CPA £ (right)</div></div>
-  <div class="chart-wrap" style="height:200px"><canvas id="cCPA"></canvas></div>
-</div>
-<div class="card">
-  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2px">
     <div><div class="card-lbl">Spend £ vs blended CPA</div><div class="card-hl">Jan: <em>£1.2M at £75</em> — scale and efficiency peaked together</div></div>
     <div class="view-toggle"><button class="active" onclick="setSpendView('w',this)">Weekly</button><button onclick="setSpendView('m',this)">Monthly</button></div>
   </div>
@@ -275,42 +267,28 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 </div>
 
 <div class="sec-sub">Ambassador &amp; celebrity</div>
-<div class="grid2">
-  <div class="card">
-    <div class="card-lbl">Account — celeb vs non-celeb CPA &amp; share · monthly</div>
-    <div class="card-hl">Celeb and non-celeb CPA <span class="a">converging</span></div>
-    <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.18)"></div>Celeb share % (left)</div><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Celeb CPA (right)</div><div class="leg-item"><div class="l-ln" style="background:#aaa"></div>Non-celeb CPA (right)</div></div>
-    <div class="filter-bar"><span class="toggle-label">Product</span><button class="tog ai" data-cp="all" onclick="setCelebProd('all',this)">All</button><button class="tog" data-cp="vitals" onclick="setCelebProd('vitals',this)">Vitals &amp; Bundle</button><button class="tog" data-cp="biotic" onclick="setCelebProd('biotic',this)">Biotic</button></div>
-    <div class="chart-wrap" style="height:190px;margin-top:8px"><canvas id="cCeleb"></canvas></div>
-  </div>
-  <div class="card">
-    <div class="card-lbl">Vitals — CPA by individual ambassador, monthly</div>
-    <div class="card-hl"><span id="hl-amb">…</span></div>
-    <div class="leg" id="celebDetailLeg"></div>
-    <div class="filter-bar"><span class="toggle-label">Product</span><button class="tog ai" data-ambp="vitals" onclick="setAmbProd('vitals',this)">Vitals &amp; Bundle</button><button class="tog" data-ambp="all" onclick="setAmbProd('all',this)">All</button><button class="tog" data-ambp="biotic" onclick="setAmbProd('biotic',this)">Biotic</button><button class="tog" data-ambp="offer" onclick="setAmbProd('offer',this)">Offer</button></div>
-    <div class="chart-wrap" style="height:190px;margin-top:8px"><canvas id="cCelebDetail"></canvas></div>
-  </div>
+<div class="card">
+  <div class="card-lbl">Account — celeb vs non-celeb CPA &amp; share · monthly</div>
+  <div class="card-hl">Celeb and non-celeb CPA <span class="a">converging</span></div>
+  <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.18)"></div>Celeb share % (left)</div><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Celeb CPA (right)</div><div class="leg-item"><div class="l-ln" style="background:#aaa"></div>Non-celeb CPA (right)</div></div>
+  <div class="filter-bar"><span class="toggle-label">Product</span><button class="tog ai" data-cp="all" onclick="setCelebProd('all',this)">All</button><button class="tog" data-cp="vitals" onclick="setCelebProd('vitals',this)">Vitals &amp; Bundle</button><button class="tog" data-cp="biotic" onclick="setCelebProd('biotic',this)">Biotic</button></div>
+  <div class="chart-wrap" style="height:190px;margin-top:8px"><canvas id="cCeleb"></canvas></div>
 </div>
 
 <div class="sec-sub">Offer &amp; bundle creative</div>
-<div class="card">
-  <div class="card-lbl">Account — offer vs non-offer CPA &amp; share · weekly</div>
-  <div class="card-hl"><span id="hl-offer-gap">…</span></div>
-  <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.18)"></div>Offer share % (left)</div><div class="leg-item"><div class="l-ln" style="background:#1d7a4a"></div>Offer CPA (right)</div><div class="leg-item"><div class="l-ln" style="background:#aaa"></div>Non-offer CPA (right)</div></div>
-  <div class="chart-wrap" style="height:200px"><canvas id="cOffer"></canvas></div>
-</div>
 <div class="grid2">
   <div class="card">
     <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px">
       <div>
-        <div class="card-lbl">Vitals — offer vs non-offer CPA + offer share within Vitals</div>
+        <div class="card-lbl"><span id="vit-offer-title">Vitals &amp; Bundle</span> — offer vs non-offer CPA + offer share</div>
         <div class="card-hl"><span id="hl-vit-offer">…</span></div>
       </div>
       <div class="view-toggle" style="flex-shrink:0;margin-left:12px"><button class="active" onclick="setVitOfferView('m',this)">Monthly</button><button onclick="setVitOfferView('w',this)">Weekly</button></div>
     </div>
-    <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.2)"></div>Offer % of Vitals (left)</div><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div>Vitals offer CPA (right)</div><div class="leg-item"><div class="l-ln" style="background:#aaa"></div>Vitals non-offer CPA (right)</div></div>
-    <div class="chart-wrap" style="height:200px"><canvas id="cVitOffer"></canvas></div>
-    <div style="font-size:10px;color:var(--muted);margin-top:6px">⚠ Offer % includes celeb offer ads (e.g. Ben Shephard Door to Door) — so differs slightly from the Celeb-priority segment chart above.</div>
+    <div class="filter-bar"><span class="toggle-label">Product</span><button class="tog ai" data-vop="vitals" onclick="setVitOfferProd('vitals',this)">Vitals &amp; Bundle</button><button class="tog" data-vop="biotic" onclick="setVitOfferProd('biotic',this)">Biotic</button></div>
+    <div class="leg" id="vit-offer-leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.2)"></div><span class="leg-pct-label">Offer % of Vitals</span> (left)</div><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div><span class="leg-off-label">Vitals offer CPA</span> (right)</div><div class="leg-item"><div class="l-ln" style="background:#aaa"></div><span class="leg-noff-label">Vitals non-offer CPA</span> (right)</div></div>
+    <div class="chart-wrap" style="height:200px;margin-top:8px"><canvas id="cVitOffer"></canvas></div>
+    <div id="vit-offer-footnote" style="font-size:10px;color:var(--muted);margin-top:6px">⚠ Offer % includes celeb offer ads (e.g. Ben Shephard Door to Door) — so differs slightly from the Celeb-priority segment chart above.</div>
   </div>
   <div class="card">
     <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2px">
@@ -664,7 +642,6 @@ function buildAllCharts(){
     AGE_F,AGE_P,AGE_A,MIX_F,MIX_P,MIX_A,MIX_NW,
     OFF_CPA,NOFF_CPA,OFF_SHARE}=D;
 
-  buildCPAChart('w');
   buildSpendChart('w');
 
   // CPM vs CVR indexed
@@ -755,17 +732,6 @@ function buildAllCharts(){
 
   // (legacy "Monthly CPA by product" chart removed — superseded by Meta CPA chart in Section 4)
 
-  // Offer weekly
-  new Chart(document.getElementById('cOffer'),{type:'bar',data:{labels:WL,datasets:[
-    {label:'Offer share %',data:OFF_SHARE,backgroundColor:'rgba(29,122,74,.18)',borderColor:'rgba(29,122,74,.38)',borderWidth:1,borderRadius:2,yAxisID:'yL',order:2},
-    {label:'Offer CPA',   data:OFF_CPA,  type:'line',borderColor:'#1d7a4a',backgroundColor:'transparent',borderWidth:2.5,pointRadius:0,tension:0.2,yAxisID:'yR'},
-    {label:'Non-offer CPA',data:NOFF_CPA,type:'line',borderColor:'#bbb',  backgroundColor:'transparent',borderWidth:1.5,pointRadius:0,tension:0.2,borderDash:[4,3],yAxisID:'yR'},
-  ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.datasetIndex===0?` Share: ${c.raw}%`:c.datasetIndex===1?` Offer CPA: £${c.raw}`:` Non-offer CPA: £${c.raw}`}}},
-    scales:{x:{grid:{display:false},ticks:{font:{size:9},maxTicksLimit:13}},
-      yL:{position:'left',min:0,max:60,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}},
-      yR:{position:'right',min:40,max:180,grid:{display:false},ticks:{callback:v=>'£'+v,font:{size:9}}}}}});
-
   buildVitOfferChart('m');
   buildFMIBChart('m');
 
@@ -776,7 +742,6 @@ function buildAllCharts(){
   renderVitSourceTable();
   buildMetaProductCharts();
   buildCelebChart('all');
-  buildAmbChart('vitals');
   rebuildProdCharts();
   rebuildSrcCharts();
   refreshDynamicHeadlines();
@@ -1009,25 +974,53 @@ function buildMetaProductCharts(){
 }
 
 // Vitals offer chart builder
+let _vitOfferView='m';
+let _vitOfferProd='vitals';
 function buildVitOfferChart(v){
   if(cVitOfferChart)cVitOfferChart.destroy();
   const isW=v==='w';
   const labels=isW?D.WL:D.ML;
-  const pct=isW?D.W_VIT_OFF_PCT:D.VIT_OFF_PCT;
-  const offCPA=isW?D.W_VIT_OFF_CPA:D.VIT_OFF_CPA;
-  const noffCPA=isW?D.W_VIT_NOFF_CPA:D.VIT_NOFF_CPA;
+  const isBio=_vitOfferProd==='biotic';
+  // Biotic: Rehydrate Offer campaign not yet launched, so offer share = 0
+  // and the non-offer line = total Biotic CPA. Weekly Biotic CPA not yet
+  // plumbed so weekly view falls back to monthly array for now.
+  let pct, offCPA, noffCPA;
+  if(isBio){
+    const noffSrc = D.BIO_CPA || [];
+    pct = noffSrc.map(_=>0);
+    offCPA = noffSrc.map(_=>null);
+    noffCPA = isW ? noffSrc.map(_=>null) : noffSrc;
+  } else {
+    pct=isW?D.W_VIT_OFF_PCT:D.VIT_OFF_PCT;
+    offCPA=isW?D.W_VIT_OFF_CPA:D.VIT_OFF_CPA;
+    noffCPA=isW?D.W_VIT_NOFF_CPA:D.VIT_NOFF_CPA;
+  }
+  const prodLbl = isBio ? 'Biotic' : 'Vitals';
   const ptR=isW?0:5; const ptRn=isW?0:4;
   cVitOfferChart=new Chart(document.getElementById('cVitOffer'),{type:'bar',data:{labels,datasets:[
-    {label:'Offer % of Vitals',data:pct,   backgroundColor:'rgba(26,95,168,.18)',borderColor:'rgba(26,95,168,.38)',borderWidth:1,borderRadius:3,yAxisID:'yL',order:2},
-    {label:'Vitals offer CPA', data:offCPA, type:'line',borderColor:'#1a5fa8',backgroundColor:'transparent',borderWidth:2.5,pointRadius:ptR, pointBackgroundColor:'#1a5fa8',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2,yAxisID:'yR'},
+    {label:`Offer % of ${prodLbl}`,data:pct,   backgroundColor:'rgba(26,95,168,.18)',borderColor:'rgba(26,95,168,.38)',borderWidth:1,borderRadius:3,yAxisID:'yL',order:2},
+    {label:`${prodLbl} offer CPA`, data:offCPA, type:'line',borderColor:'#1a5fa8',backgroundColor:'transparent',borderWidth:2.5,pointRadius:ptR, pointBackgroundColor:'#1a5fa8',pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2,yAxisID:'yR'},
     {label:'Non-offer CPA',    data:noffCPA,type:'line',borderColor:'#bbb',  backgroundColor:'transparent',borderWidth:1.5,pointRadius:ptRn,pointBackgroundColor:'#bbb',  pointBorderColor:'#fff',pointBorderWidth:1,  tension:0.2,borderDash:[4,3],yAxisID:'yR'},
   ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.datasetIndex===0?` Offer % of Vitals: ${c.raw}%`:c.datasetIndex===1?` Offer CPA: £${c.raw}`:` Non-offer CPA: £${c.raw}`}}},
+    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.datasetIndex===0?` Offer % of ${prodLbl}: ${c.raw}%`:c.datasetIndex===1?` Offer CPA: £${c.raw}`:` Non-offer CPA: £${c.raw}`}}},
     scales:{x:{grid:{display:false},ticks:{font:{size:isW?9:12,weight:'500'},maxTicksLimit:isW?13:7}},
       yL:{position:'left',min:0,max:55,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}},
       yR:{position:'right',min:40,max:160,grid:{display:false},ticks:{callback:v=>'£'+v,font:{size:9}}}}}});
+  // Update card title, legend, footnote based on product
+  const titleEl = document.getElementById('vit-offer-title');
+  if(titleEl) titleEl.textContent = isBio ? 'Biotic' : 'Vitals & Bundle';
+  document.querySelectorAll('.leg-pct-label').forEach(el=>el.textContent=`Offer % of ${prodLbl}`);
+  document.querySelectorAll('.leg-off-label').forEach(el=>el.textContent=`${prodLbl} offer CPA`);
+  document.querySelectorAll('.leg-noff-label').forEach(el=>el.textContent=`${prodLbl} non-offer CPA`);
+  const fn = document.getElementById('vit-offer-footnote');
+  if(fn){
+    fn.innerHTML = isBio
+      ? '⚠ Biotic offer = ads in the <em>Biotic — Rehydrate Offer</em> campaign. Campaign not yet launched, so offer share = 0% across all months; line shows total Biotic CPA.'
+      : '⚠ Offer % includes celeb offer ads (e.g. Ben Shephard Door to Door) — so differs slightly from the Celeb-priority segment chart above.';
+  }
 }
-function setVitOfferView(v,btn){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');buildVitOfferChart(v);}
+function setVitOfferView(v,btn){_vitOfferView=v;btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');buildVitOfferChart(v);}
+function setVitOfferProd(p,btn){_vitOfferProd=p;btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');buildVitOfferChart(_vitOfferView);}
 
 // Free Mag vs Intro Bundle chart builder
 function buildFMIBChart(v){
@@ -1054,22 +1047,6 @@ function buildFMIBChart(v){
       yR:{position:'right',min:30,max:130,grid:{display:false},ticks:{callback:v=>'£'+v,font:{size:9},maxTicksLimit:6}}}}});
 }
 function setFMIBView(v,btn){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');buildFMIBChart(v);}
-
-// CPA toggle
-let cCPAChart=null;
-function buildCPAChart(v){
-  if(cCPAChart)cCPAChart.destroy();
-  const labels=v==='w'?D.WL:D.ML,cpa=v==='w'?D.W_CPA:D.MO_CPA,share=v==='w'?D.W_SHARE:D.MO_WIN_SHARE;
-  cCPAChart=new Chart(document.getElementById('cCPA'),{type:'bar',data:{labels,datasets:[
-    {label:'Winner share %',data:share,backgroundColor:'rgba(26,95,168,.18)',borderColor:'rgba(26,95,168,.4)',borderWidth:1,borderRadius:3,yAxisID:'yL',order:2},
-    {label:'CPA',data:cpa,type:'line',borderColor:'#bf3b2e',backgroundColor:'transparent',borderWidth:2.5,pointRadius:v==='w'?2:5,pointBackgroundColor:'#bf3b2e',pointBorderColor:'#fff',pointBorderWidth:1,tension:0,yAxisID:'yR'},
-  ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.datasetIndex===0?` Share: ${c.raw}%`:` CPA: £${c.raw}`}}},
-    scales:{x:{grid:{display:false},ticks:{font:{size:v==='w'?9:12,weight:'500'},maxTicksLimit:v==='w'?13:7}},
-      yL:{position:'left',min:0,max:100,grid:{color:GC},ticks:{callback:v=>v+'%',font:{size:9}}},
-      yR:{position:'right',min:55,max:145,grid:{display:false},ticks:{callback:v=>'£'+v,font:{size:9}}}}}});
-}
-function setCPAView(v,btn){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');buildCPAChart(v);}
 
 // Spend toggle
 let cSpendChart=null;
@@ -1421,28 +1398,6 @@ function buildCelebChart(prod){
       yR:{position:'right',min:y.min,max:y.max,grid:{display:false},ticks:{callback:v=>'£'+v,font:{size:9},maxTicksLimit:6}}}}});
 }
 function setCelebProd(f,btn){document.querySelectorAll('[data-cp]').forEach(b=>b.classList.remove('ai'));btn.classList.add('ai');buildCelebChart(f);}
-
-// Ambassador detail
-let cAmbChart=null;
-const AMB_COLORS=['#1a5fa8','#bf3b2e','#1d7a4a','#7b3fa0','#b86800','#888','#2a9d8f'];
-const AMB_Y={vitals:{min:40,max:200},all:{min:40,max:240},biotic:{min:40,max:320},offer:{min:30,max:160}};
-function buildAmbChart(prod){
-  if(cAmbChart)cAmbChart.destroy();
-  const y=AMB_Y[prod]||AMB_Y.vitals;
-  cAmbChart=new Chart(document.getElementById('cCelebDetail'),{type:'line',data:{labels:D.ML,datasets:D.AMB_LABELS.map((lbl,i)=>({
-    label:lbl,data:D.AMB_PROD_CPA[lbl][prod],borderColor:AMB_COLORS[i],backgroundColor:'transparent',
-    borderWidth:2,pointRadius:D.AMB_PROD_CPA[lbl][prod].map(v=>v?4:0),
-    pointBackgroundColor:AMB_COLORS[i],pointBorderColor:'#fff',pointBorderWidth:1.5,tension:0.2,spanGaps:false}))},
-  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>c.raw?` ${c.dataset.label}: £${c.raw}`:null,filter:c=>c.raw!==null}}},
-    scales:{x:{grid:{display:false},ticks:{font:{size:12,weight:'500'}}},
-      y:{min:y.min,max:y.max,grid:{color:GC},ticks:{callback:v=>'£'+v,font:{size:9},maxTicksLimit:6}}}}});
-}
-function buildAmbLegend(){
-  const leg=document.getElementById('celebDetailLeg');
-  D.AMB_LABELS.forEach((l,i)=>{leg.innerHTML+=`<div class="leg-item"><div class="l-ln" style="background:${AMB_COLORS[i]}"></div>${l}</div>`;});
-}
-function setAmbProd(f,btn){document.querySelectorAll('[data-ambp]').forEach(b=>b.classList.remove('ai'));btn.classList.add('ai');buildAmbChart(f);}
 
 // Product hit charts
 const prodCharts={};
