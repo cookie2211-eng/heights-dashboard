@@ -7,20 +7,64 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-:root{--bg:#f5f4f0;--white:#fff;--ink:#111;--ink2:#444;--muted:#888;--rule:#dddbd5;--bg2:#eceae4;
+:root{
+  /* Brand */
+  --brand:#010071;--brand-lt:rgba(1,0,113,.08);--brand-tint:rgba(1,0,113,.55);
+  /* Surface */
+  --bg:#f5f4f0;--white:#fff;--ink:#111;--ink2:#444;--muted:#888;--rule:#dddbd5;--bg2:#eceae4;
+  /* Semantic — reserved for performance signals only */
   --green:#1d7a4a;--green-lt:rgba(29,122,74,.08);--red:#bf3b2e;--red-lt:rgba(191,59,46,.08);
-  --amber:#b86800;--amber-lt:rgba(184,104,0,.08);--blue:#1a5fa8;--blue-lt:rgba(26,95,168,.08);
-  --purple:#7b3fa0;--grid:#e8e5df;}
+  --amber:#b86800;--amber-lt:rgba(184,104,0,.08);
+  /* Identity — used by sources/products */
+  --blue:#1a5fa8;--blue-lt:rgba(26,95,168,.08);--purple:#7b3fa0;
+  --grid:#e8e5df;
+}
 *{box-sizing:border-box;margin:0;padding:0;}
 html{background:var(--bg);}
 body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-height:1.5;max-width:1180px;margin:0 auto;padding:40px 48px 80px;}
-.page-hdr{display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:18px;margin-bottom:24px;border-bottom:2px solid var(--ink);}
+.page-hdr{display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:18px;margin-bottom:24px;border-bottom:2px solid var(--brand);}
 .page-hdr-l .eyebrow{font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
 .page-hdr-l h1{font-family:'DM Serif Display',serif;font-size:34px;line-height:1.1;}
-.page-hdr-l h1 em{color:var(--green);font-style:normal;}
+.page-hdr-l h1 em{color:var(--brand);font-style:normal;}
 .page-hdr-r{text-align:right;font-size:11px;color:var(--muted);line-height:1.9;}
 .page-hdr-r strong{display:block;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin-bottom:2px;}
-.sec{display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:8px;margin:32px 0 14px;}
+.sec{display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid var(--brand);padding-bottom:8px;margin:32px 0 14px;}
+.sec.is-collapsible{cursor:pointer;user-select:none;}
+.sec.is-collapsible:hover{border-bottom-color:var(--brand-tint);}
+.sec-toggle{display:inline-flex;align-items:center;gap:5px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--brand);background:var(--white);border:1.5px solid var(--brand);border-radius:20px;padding:4px 12px;margin-left:12px;transition:all .15s;}
+.sec.is-collapsible:hover .sec-toggle{background:var(--brand);color:#fff;}
+.sec-toggle .chev{font-size:9px;line-height:1;}
+.sec-body[hidden]{display:none;}
+/* ── PERSONA TRACKER ── */
+.pt-row{border:1px solid var(--rule);border-radius:5px;margin-bottom:6px;overflow:hidden;transition:border-color .15s;}
+.pt-row:hover{border-color:#bbb;}
+.pt-row.pt-open{border-color:#999;}
+.pt-hdr{display:flex;align-items:center;gap:10px;padding:9px 14px;cursor:pointer;user-select:none;}
+.pt-hdr:hover{background:var(--bg);}
+.pt-name{font-size:12px;font-weight:600;flex:1;}
+.pt-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:3px;white-space:nowrap;}
+.pt-prog{flex:1;max-width:100px;}
+.pt-track{height:4px;background:var(--rule);border-radius:2px;overflow:hidden;}
+.pt-fill{height:100%;border-radius:2px;}
+.pt-dots{display:flex;gap:3px;}
+.pt-count{font-size:10px;color:var(--muted);min-width:24px;text-align:right;}
+.pt-live{font-size:10px;color:var(--muted);display:flex;align-items:center;gap:4px;}
+.pt-live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;}
+.pt-chev{font-size:9px;color:var(--muted);transition:transform .2s;}
+.pt-open .pt-chev{transform:rotate(180deg);}
+.pt-drawer{display:none;border-top:1px solid var(--rule);background:var(--bg);}
+.pt-open .pt-drawer{display:block;}
+.pt-tbl{width:100%;border-collapse:collapse;font-size:11px;}
+.pt-tbl th{text-align:left;padding:6px 12px 5px;border-bottom:1px solid var(--rule);font-size:9px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+.pt-tbl td{padding:5px 12px;border-bottom:1px solid var(--rule);color:var(--ink2);white-space:nowrap;}
+.pt-tbl tr:last-child td{border-bottom:none;}
+.pt-tbl tr:hover td{background:#eceae4;}
+.pt-code{font-family:monospace;font-size:10px;color:var(--muted)!important;}
+.pt-cpa-g{color:var(--green)!important;font-weight:600;}
+.pt-cpa-a{color:var(--amber)!important;font-weight:600;}
+.pt-cpa-r{color:var(--red)!important;font-weight:600;}
+.pt-winner-row td{background:var(--green-lt)!important;}
+.pt-winner-row:hover td{background:rgba(29,122,74,.14)!important;}
 .sec h2{font-size:13px;font-weight:600;color:var(--ink);}
 .sec span{font-size:11px;color:var(--muted);}
 .card{background:var(--white);border:1px solid var(--rule);border-radius:6px;padding:18px 20px;margin-bottom:12px;}
@@ -31,6 +75,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 .muted-note{font-size:10px;color:var(--muted);margin:2px 0 6px;font-style:italic;}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+.grid6{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;}
 .kpi{background:var(--white);border:1px solid var(--rule);border-radius:6px;padding:14px 16px;}
 .kpi-lbl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
 .kpi-val{font-family:'DM Serif Display',serif;font-size:28px;line-height:1;}
@@ -76,19 +121,30 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 <div id="app" style="display:none">
 
 <div class="page-hdr">
-  <div class="page-hdr-l">
-    <div class="eyebrow">Creative · Product</div>
-    <h1>Meta <em>Performance Dashboard</em></h1>
+  <div class="page-hdr-l" style="display:flex;align-items:flex-end;gap:18px">
+    <a href="https://www.heights.com" aria-label="Heights" style="display:inline-flex;align-self:flex-start;margin-top:4px">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 98 52" height="44" width="83" aria-hidden="true">
+        <path fill="#010071" d="M8.09077 22.784H6.36197V1.13952C6.35398 1.03213 6.3077 0.931171 6.23156 0.855023C6.15541 0.778875 6.05445 0.732597 5.94706 0.724609H0.414911C0.307518 0.732597 0.206562 0.778875 0.130414 0.855023C0.0542656 0.931171 0.00798721 1.03213 0 1.13952L0 50.7906C0.00798721 50.8979 0.0542656 50.9989 0.130414 51.075C0.206562 51.1512 0.307518 51.1975 0.414911 51.2055H5.94706C6.05445 51.1975 6.15541 51.1512 6.23156 51.075C6.3077 50.9989 6.35398 50.8979 6.36197 50.7906V29.2152H8.09077V50.7906C8.09875 50.8979 8.14503 50.9989 8.22118 51.075C8.29733 51.1512 8.39828 51.1975 8.50568 51.2055H14.0378C14.1452 51.1975 14.2462 51.1512 14.3223 51.075C14.3985 50.9989 14.4447 50.8979 14.4527 50.7906V1.13952C14.4447 1.03213 14.3985 0.931171 14.3223 0.855023C14.2462 0.778875 14.1452 0.732597 14.0378 0.724609H8.50568C8.39828 0.732597 8.29733 0.778875 8.22118 0.855023C8.14503 0.931171 8.09875 1.03213 8.09077 1.13952V22.784ZM32.9163 51.2055H38.4484C38.5558 51.1975 38.6568 51.1512 38.7329 51.075C38.8091 50.9989 38.8554 50.8979 38.8633 50.7906V1.13952C38.8554 1.03213 38.8091 0.931171 38.7329 0.855023C38.6568 0.778875 38.5558 0.732597 38.4484 0.724609L32.9163 0.724609C32.8089 0.732597 32.7079 0.778875 32.6318 0.855023C32.5556 0.931171 32.5094 1.03213 32.5014 1.13952V50.7906C32.4933 50.8469 32.4984 50.9044 32.5164 50.9584C32.5344 51.0125 32.5647 51.0616 32.605 51.1018C32.6453 51.1421 32.6944 51.1724 32.7484 51.1904C32.8024 51.2084 32.8599 51.2136 32.9163 51.2055ZM72.2637 1.13952V6.67167C72.2717 6.77906 72.3179 6.88002 72.3941 6.95617C72.4702 7.03231 72.5712 7.07859 72.6786 7.08658H74.1999V50.7906C74.2079 50.8979 74.2542 50.9989 74.3304 51.075C74.4065 51.1512 74.5075 51.1975 74.6148 51.2055H80.147C80.2544 51.1975 80.3553 51.1512 80.4315 51.075C80.5076 50.9989 80.5539 50.8979 80.5619 50.7906V7.15573H82.0832C82.1906 7.14774 82.2916 7.10147 82.3677 7.02532C82.4439 6.94917 82.4902 6.84821 82.4982 6.74082V1.20867C82.4902 1.10128 82.4439 1.00032 82.3677 0.924175C82.2916 0.848027 82.1906 0.801748 82.0832 0.793761H72.6786C72.6278 0.783377 72.5753 0.784559 72.525 0.79722C72.4747 0.80988 72.4279 0.833695 72.388 0.866901C72.3482 0.900106 72.3163 0.94185 72.2948 0.989042C72.2733 1.03623 72.2626 1.08766 72.2637 1.13952ZM24.3415 22.784H22.6127V7.36319H24.3415V22.784ZM30.3577 30.8748H24.8255C24.7181 30.8828 24.6172 30.9291 24.541 31.0052C24.4649 31.0814 24.4186 31.1823 24.4106 31.2897V44.5669H22.6818V30.2524C22.679 30.1155 22.7039 29.9793 22.755 29.8522C22.8061 29.7251 22.8824 29.6096 22.9793 29.5127C23.0762 29.4158 23.1917 29.3395 23.3188 29.2884C23.4459 29.2372 23.5821 29.2123 23.7191 29.2152H28.6289C29.1963 29.2115 29.7394 28.9845 30.1407 28.5833C30.5419 28.182 30.7689 27.6389 30.7726 27.0715V6.0493C30.7726 5.35005 30.6348 4.65765 30.3673 4.01163C30.0997 3.36561 29.7074 2.77862 29.213 2.28418C28.7186 1.78973 28.1316 1.39752 27.4856 1.12993C26.8395 0.862337 26.1471 0.724609 25.4479 0.724609L21.5754 0.724609C20.1632 0.724609 18.8088 1.2856 17.8103 2.28418C16.8117 3.28275 16.2507 4.63711 16.2507 6.0493V45.8808C16.2507 47.293 16.8117 48.6473 17.8103 49.6459C18.8088 50.6445 20.1632 51.2055 21.5754 51.2055H25.4479C26.1471 51.2055 26.8395 51.0677 27.4856 50.8001C28.1316 50.5326 28.7186 50.1403 29.213 49.6459C29.7074 49.1514 30.0997 48.5645 30.3673 47.9184C30.6348 47.2724 30.7726 46.58 30.7726 45.8808V31.3589C30.7785 31.2404 30.7388 31.1242 30.6616 31.0341C30.5844 30.9441 30.4756 30.8871 30.3577 30.8748ZM85.5408 29.2152H90.4506C90.5876 29.2123 90.7238 29.2372 90.8509 29.2884C90.978 29.3395 91.0935 29.4158 91.1904 29.5127C91.2873 29.6096 91.3636 29.7251 91.4147 29.8522C91.4658 29.9793 91.4907 30.1155 91.4879 30.2524V44.5669H89.7591V31.3589C89.7511 31.2515 89.7048 31.1505 89.6287 31.0744C89.5525 30.9982 89.4516 30.952 89.3442 30.944H83.812C83.7046 30.952 83.6037 30.9982 83.5275 31.0744C83.4514 31.1505 83.4051 31.2515 83.3971 31.3589V45.8808C83.3971 47.293 83.9581 48.6473 84.9567 49.6459C85.9553 50.6445 87.3096 51.2055 88.7218 51.2055H92.5943C94.0065 51.2055 95.3609 50.6445 96.3595 49.6459C97.358 48.6473 97.919 47.293 97.919 45.8808V24.9278C97.9154 24.3603 97.6884 23.8172 97.2871 23.4159C96.8859 23.0147 96.3427 22.7877 95.7753 22.784H90.9347C90.7977 22.7869 90.6615 22.762 90.5344 22.7108C90.4073 22.6597 90.2918 22.5834 90.1949 22.4865C90.098 22.3896 90.0217 22.2742 89.9706 22.147C89.9195 22.0199 89.8946 21.8838 89.8974 21.7468V7.36319H91.6262V20.6403C91.6342 20.7477 91.6805 20.8487 91.7566 20.9248C91.8328 21.001 91.9337 21.0473 92.0411 21.0553H97.5733C97.6807 21.0473 97.7816 21.001 97.8578 20.9248C97.9339 20.8487 97.9802 20.7477 97.9882 20.6403V6.11845C97.9882 4.70626 97.4272 3.3519 96.4286 2.35333C95.43 1.35475 94.0757 0.793761 92.6635 0.793761H88.791C87.3788 0.793761 86.0244 1.35475 85.0258 2.35333C84.0273 3.3519 83.4663 4.70626 83.4663 6.11845V27.0715C83.457 27.3497 83.5038 27.6269 83.6039 27.8866C83.704 28.1463 83.8553 28.3833 84.0489 28.5833C84.2425 28.7833 84.4743 28.9424 84.7306 29.0509C84.9869 29.1595 85.2625 29.2153 85.5408 29.2152ZM53.0395 22.784H48.3371C48.2298 22.792 48.1288 22.8383 48.0526 22.9145C47.9765 22.9906 47.9302 23.0916 47.9222 23.199V28.7311C47.9302 28.8385 47.9765 28.9395 48.0526 29.0156C48.1288 29.0918 48.2298 29.138 48.3371 29.146H48.7521V44.5669H47.0233V7.36319H48.7521V20.6403C48.76 20.7477 48.8063 20.8487 48.8825 20.9248C48.9586 21.001 49.0596 21.0473 49.167 21.0553H54.6991C54.8065 21.0473 54.9075 21.001 54.9836 20.9248C55.0598 20.8487 55.106 20.7477 55.114 20.6403V6.11845C55.114 4.70626 54.553 3.3519 53.5545 2.35333C52.5559 1.35475 51.2015 0.793761 49.7893 0.793761H45.986C44.5738 0.793761 43.2194 1.35475 42.2209 2.35333C41.2223 3.3519 40.6613 4.70626 40.6613 6.11845V45.9499C40.6613 46.6492 40.799 47.3416 41.0666 47.9876C41.3342 48.6336 41.7264 49.2206 42.2209 49.715C42.7153 50.2095 43.3023 50.6017 43.9483 50.8693C44.5943 51.1369 45.2867 51.2746 45.986 51.2746H49.8585C50.5577 51.2746 51.2501 51.1369 51.8962 50.8693C52.5422 50.6017 53.1292 50.2095 53.6236 49.715C54.1181 49.2206 54.5103 48.6336 54.7779 47.9876C55.0454 47.3416 55.1832 46.6492 55.1832 45.9499V24.9278C55.1796 24.3603 54.9525 23.8172 54.5513 23.4159C54.1501 23.0147 53.6069 22.7877 53.0395 22.784ZM65.0027 22.784H63.2739V1.13952C63.266 1.03213 63.2197 0.931171 63.1435 0.855023C63.0674 0.778875 62.9664 0.732597 62.859 0.724609L57.3269 0.724609C57.2195 0.732597 57.1185 0.778875 57.0424 0.855023C56.9662 0.931171 56.92 1.03213 56.912 1.13952V50.7906C56.92 50.8979 56.9662 50.9989 57.0424 51.075C57.1185 51.1512 57.2195 51.1975 57.3269 51.2055H62.859C62.9664 51.1975 63.0674 51.1512 63.1435 51.075C63.2197 50.9989 63.266 50.8979 63.2739 50.7906V29.2152H65.0027V50.7906C65.0107 50.8979 65.057 50.9989 65.1331 51.075C65.2093 51.1512 65.3103 51.1975 65.4176 51.2055H70.9498C71.0572 51.1975 71.1581 51.1512 71.2343 51.075C71.3104 50.9989 71.3567 50.8979 71.3647 50.7906V1.13952C71.3567 1.03213 71.3104 0.931171 71.2343 0.855023C71.1581 0.778875 71.0572 0.732597 70.9498 0.724609L65.4176 0.724609C65.3103 0.732597 65.2093 0.778875 65.1331 0.855023C65.057 0.931171 65.0107 1.03213 65.0027 1.13952V22.784Z"/>
+      </svg>
+    </a>
+    <div>
+      <div class="eyebrow">Creative · Product</div>
+      <h1>Meta <em>Performance Dashboard</em></h1>
+    </div>
   </div>
   <div class="page-hdr-r">
-    <strong>Heights</strong>
     Sep 2025 – <span id="hdr-date"></span><br>
     Winner ≥£3K first 30 days (Biotic ≥£1K)<br>
     🦄 Unicorn Scaler = ≥£15K spend (Vitals/Bundle) or ≥£5K (Biotic) in first 42 days · Oct 2025+
   </div>
 </div>
 
-<div style="background:var(--ink);color:#fff;border-radius:6px;padding:18px 22px;margin-bottom:22px">
+<div id="data-freshness" style="display:flex;justify-content:flex-end;align-items:center;gap:8px;font-size:10px;color:var(--muted);margin:-12px 0 14px">
+  <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--brand)"></span>
+  Data through w/e <span id="freshness-date"></span> · current month is partial
+</div>
+
+<div style="background:var(--brand);color:#fff;border-radius:6px;padding:18px 22px;margin-bottom:22px">
   <div style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:7px">TLDR</div>
   <div id="tldr-hl" style="font-family:'DM Serif Display',serif;font-size:18px;line-height:1.3;margin-bottom:14px"></div>
   <div id="tldr-cols" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;font-size:12px;line-height:1.7;color:rgba(255,255,255,.75)">
@@ -108,11 +164,12 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 </div>
 
 <div class="sec"><h2>1 · Last week snapshot</h2><span id="s1-span"></span></div>
-<div class="grid5" style="margin-bottom:12px">
+<div class="grid6" style="margin-bottom:12px">
   <div class="kpi"><div class="kpi-lbl">Weekly spend</div><div class="kpi-val" id="k-spend"></div><div class="kpi-diff" id="k-spend-d"></div><div class="kpi-sub" id="k-spend-s"></div></div>
   <div class="kpi"><div class="kpi-lbl">Blended CPA</div><div class="kpi-val r" id="k-cpa"></div><div class="kpi-diff" id="k-cpa-d"></div><div class="kpi-sub" id="k-cpa-s"></div></div>
-  <div class="kpi"><div class="kpi-lbl">Winner spend share</div><div class="kpi-val a" id="k-wsh"></div><div class="kpi-diff" id="k-wsh-d"></div><div class="kpi-sub" id="k-wsh-s"></div></div>
+  <div class="kpi"><div class="kpi-lbl">Vitals CPA</div><div class="kpi-val" id="k-vit-cpa"></div><div class="kpi-diff" id="k-vit-cpa-d"></div><div class="kpi-sub" id="k-vit-cpa-s"></div></div>
   <div class="kpi"><div class="kpi-lbl">New Vitals winners</div><div class="kpi-val" id="k-vw"></div><div class="kpi-diff n">£3K threshold</div><div class="kpi-sub">crossed threshold this week</div></div>
+  <div class="kpi"><div class="kpi-lbl">Biotic CPA</div><div class="kpi-val" id="k-bio-cpa"></div><div class="kpi-diff" id="k-bio-cpa-d"></div><div class="kpi-sub" id="k-bio-cpa-s"></div></div>
   <div class="kpi"><div class="kpi-lbl">New Biotic winners</div><div class="kpi-val" id="k-bw"></div><div class="kpi-diff n">£1K threshold</div><div class="kpi-sub">crossed threshold this week</div></div>
 </div>
 <div id="new-winner-detail" style="display:none;margin-bottom:12px">
@@ -149,7 +206,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   </div>
 </div>
 
-<div class="sec"><h2>3 · Winner pool health</h2><span>Age &amp; pipeline</span></div>
+<div class="sec"><h2>3 · Audience Health</h2><span></span></div>
 <div class="grid2">
   <div class="card">
     <div class="card-lbl">Weekly spend through winners by age</div>
@@ -162,6 +219,17 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
     <div class="card-hl" id="hl-mix"></div>
     <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.55)"></div>Fresh</div><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.45)"></div>Prime</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.5)"></div>Ageing</div><div class="leg-item"><div class="l-sq" style="background:rgba(155,155,155,.25)"></div>Non-winner</div></div>
     <div class="chart-wrap" style="height:190px"><canvas id="cMix"></canvas></div>
+  </div>
+</div>
+<div class="card" style="padding:18px 22px">
+  <div class="card-lbl">New persona expansion · Stage 1 gate = 2 ads at ≥£3k in first 30 days · Vitals/Bundle only, excludes Burned-Out Pro (core)</div>
+  <div class="card-hl" id="hl-persona">Pipeline pending — data not yet computed</div>
+  <p class="card-sub">Click a row to expand. Winner = ad that reached ≥£3k spend within 30 days of creation. Personas shown if creative launched in last 60 days.</p>
+  <div id="personaTracker"></div>
+  <div class="leg" style="margin-top:12px">
+    <div class="leg-item"><span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--green)"></span> Unlocked Stage 1</div>
+    <div class="leg-item"><span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--amber)"></span> Emerging</div>
+    <div class="leg-item"><span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:#fff;border:1.5px solid #ccc"></span> Early testing</div>
   </div>
 </div>
 
@@ -192,6 +260,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   </div>
 </div>
 
+<div class="sec"><h2>5 · Creative Winners (by product)</h2><span></span></div>
 <div class="filter-bar" style="border-top:none;margin-top:4px;margin-bottom:4px">
   <span class="toggle-label">Creative type</span>
   <button class="tog ag" data-of="all" onclick="setOfferFilter('all',this)">All</button>
@@ -199,22 +268,23 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <button class="tog" data-of="offer" onclick="setOfferFilter('offer',this)">Offer</button>
 </div>
 <div class="grid2">
-  <div class="card"><div class="card-lbl">Vitals &amp; Bundle · launches vs winners vs hit rate</div><div class="card-hl">Winner = ≥£3K in first 30 days</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(173,200,230,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cVitHit"></canvas></div></div>
-  <div class="card"><div class="card-lbl">Biotic · launches vs winners vs hit rate</div><div class="card-hl">Winner = ≥£1K in first 30 days</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(255,185,160,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cBioHit"></canvas></div></div>
+  <div class="card"><div class="card-lbl">Vitals &amp; Bundle · launches vs winners vs hit rate</div><div class="card-hl"><span id="hl-vit-hit">…</span></div><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(173,200,230,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cVitHit"></canvas></div></div>
+  <div class="card"><div class="card-lbl">Biotic · launches vs winners vs hit rate</div><div class="card-hl"><span id="hl-bio-hit">…</span></div><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(255,185,160,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cBioHit"></canvas></div></div>
 </div>
-<div class="grid2">
-  <div class="card"><div class="card-lbl">Vitals &amp; Biotic · launches vs winners vs hit rate</div><div class="card-hl">Ultimate Gut &amp; Energy Bundle — Winner = ≥£1K</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(250,200,130,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cVbHit"></canvas></div></div>
-  <div class="card">
-    <div class="card-lbl">🦄 Unicorn Scalers — monthly count by product</div>
-    <div class="card-hl"><span id="uni-prod-headline">…</span></div>
-    <div class="card-sub">Spend ≥£15K (Vitals/Bundle) or ≥£5K (Biotic) in first 42 days from launch — i.e. 5× the winner-threshold bar. Captures sustained-scale ads, not just early spikes.</div>
-    <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.55)"></div>Vitals &amp; Bundle</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.5)"></div>Biotic</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.5)"></div>Vitals &amp; Biotic</div></div>
-    <div class="filter-bar"><span class="toggle-label">Creative type</span><button class="tog ag" data-uo="all" onclick="setUnicornOffer('all',this)">All</button><button class="tog" data-uo="non_offer" onclick="setUnicornOffer('non_offer',this)">Non-offer</button><button class="tog" data-uo="offer" onclick="setUnicornOffer('offer',this)">Offer</button></div>
-    <div class="chart-wrap" style="height:165px;margin-top:8px"><canvas id="cUnicorn"></canvas></div>
-  </div>
+<div class="card">
+  <div class="card-lbl">🦄 Unicorn Scalers — monthly count by product</div>
+  <div class="card-hl"><span id="uni-prod-headline">…</span></div>
+  <div class="card-sub">Spend ≥£15K (Vitals/Bundle) or ≥£5K (Biotic) in first 42 days from launch — i.e. 5× the winner-threshold bar. Captures sustained-scale ads, not just early spikes.</div>
+  <div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.55)"></div>Vitals &amp; Bundle</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.5)"></div>Biotic</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.5)"></div>Vitals &amp; Biotic</div></div>
+  <div class="filter-bar"><span class="toggle-label">Creative type</span><button class="tog ag" data-uo="all" onclick="setUnicornOffer('all',this)">All</button><button class="tog" data-uo="non_offer" onclick="setUnicornOffer('non_offer',this)">Non-offer</button><button class="tog" data-uo="offer" onclick="setUnicornOffer('offer',this)">Offer</button></div>
+  <div class="chart-wrap" style="height:220px;margin-top:8px"><canvas id="cUnicorn"></canvas></div>
 </div>
 
-<div class="sec"><h2>5 · Creative winner performance by source</h2><span>CPA &amp; hit rates · by source &amp; product</span></div>
+<div class="sec is-collapsible" onclick="toggleSec('s6-body', this)">
+  <h2>6 · Creative Winners (by source)</h2>
+  <span>CPA &amp; hit rates · by source &amp; product <span class="sec-toggle"><span class="chev">▶</span> Show section</span></span>
+</div>
+<div id="s6-body" class="sec-body" hidden>
 <div class="filter-bar" style="border-top:none;margin-top:4px;margin-bottom:4px">
   <span class="toggle-label">Product</span>
   <button class="tog ai" data-sp="all" onclick="setSrcProd('all',this)">All</button>
@@ -227,15 +297,15 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <button class="tog" data-so="offer" onclick="setSrcOffer('offer',this)">Offer</button>
 </div>
 <div class="grid2">
-  <div class="card"><div class="card-lbl">Internal (non-celeb)</div><div class="card-hl">Volume engine</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(173,200,230,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cIntHit"></canvas></div></div>
-  <div class="card"><div class="card-lbl">Celeb / Ambassador</div><div class="card-hl">Highest hit rate — fewest launches</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(180,150,220,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(123,63,160,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cCelSrcHit"></canvas></div></div>
+  <div class="card"><div class="card-lbl">Internal (non-celeb)</div><div class="card-hl">Volume engine</div><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(173,200,230,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cIntHit"></canvas></div></div>
+  <div class="card"><div class="card-lbl">Celeb / Ambassador</div><div class="card-hl">Highest hit rate — fewest launches</div><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(180,150,220,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(123,63,160,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cCelSrcHit"></canvas></div></div>
 </div>
 <div class="grid2">
-  <div class="card"><div class="card-lbl">Brightshift</div><div class="card-hl">Sharpest collapse in hit rate</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(185,225,200,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cBshHit"></canvas></div></div>
-  <div class="card"><div class="card-lbl">Hambi</div><div class="card-hl">Most consistent</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(250,220,165,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cHamHit"></canvas></div></div>
+  <div class="card"><div class="card-lbl">Brightshift</div><div class="card-hl">Sharpest collapse in hit rate</div><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(185,225,200,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(29,122,74,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cBshHit"></canvas></div></div>
+  <div class="card"><div class="card-lbl">Hambi</div><div class="card-hl">Most consistent</div><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(250,220,165,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(184,104,0,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cHamHit"></canvas></div></div>
 </div>
 <div class="grid2">
-  <div class="card"><div class="card-lbl">Influencer</div><div class="card-hl">Scaling from Mar with new naming convention</div><p class="muted-note">Current month partial</p><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(255,180,180,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cInfHit"></canvas></div></div>
+  <div class="card"><div class="card-lbl">Influencer</div><div class="card-hl">Scaling from Mar with new naming convention</div><div class="leg"><div class="leg-item"><div class="l-sq" style="background:rgba(255,180,180,.65)"></div>Launches</div><div class="leg-item"><div class="l-sq" style="background:rgba(191,59,46,.8)"></div>Winners</div><div class="leg-item"><div class="l-ln" style="background:#bf3b2e"></div>Hit rate</div></div><div class="chart-wrap" style="height:190px"><canvas id="cInfHit"></canvas></div></div>
   <div class="card">
     <div class="card-lbl">🦄 Unicorn Scalers — monthly count by source</div>
     <div class="card-hl"><span id="uni-src-headline">…</span></div>
@@ -244,8 +314,9 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
     <div class="chart-wrap" style="height:165px"><canvas id="cUnicornSrc"></canvas></div>
   </div>
 </div>
+</div><!-- /s6-body -->
 
-<div class="sec"><h2>6 · Key creative segments</h2><span>Ambassador, offer &amp; bundle</span></div>
+<div class="sec"><h2>7 · Key creative Segment</h2><span>Ambassador, offer &amp; bundle</span></div>
 <div class="card">
   <div class="card-lbl">Monthly spend mix by creative type — 100% stacked</div>
   <div class="card-hl">Celeb dominant throughout — <em>Offer grew Jan–Feb</em>, Influencer scaling from Mar</div>
@@ -304,7 +375,11 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   </div>
 </div>
 
-<div class="sec"><h2>7 · Top 25 winners — last 4 weeks</h2><span>● active &nbsp;○ not spending &nbsp;🦄 unicorn scaler — <strong>recent launches only</strong> (last 2 months) &nbsp;🚀 spend spike this week</span></div>
+<div class="sec is-collapsible" onclick="toggleSec('s8-body', this)">
+  <h2>8 · Winners</h2>
+  <span>● active &nbsp;○ not spending &nbsp;🦄 unicorn scaler · last 2 months &nbsp;🚀 spend spike this week <span class="sec-toggle"><span class="chev">▶</span> Show section</span></span>
+</div>
+<div id="s8-body" class="sec-body" hidden>
 <div class="filter-bar" style="border-top:none;margin-top:0;margin-bottom:10px">
   <span class="toggle-label">Product</span>
   <button class="tog ai" data-tp="all" onclick="filterTbl('p','all',this)">All</button>
@@ -328,6 +403,8 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
     <tbody id="tBody"></tbody>
   </table>
 </div>
+</div><!-- /s8-body -->
+
 <div class="footer">
   <span>Heights · Meta UK · Internal · <span id="footer-date"></span></span>
   <span>Winner ≥£3K first 30 days (Biotic ≥£1K) · 🦄 ≥5% daily spend within 14 days · Oct 2025+</span>
@@ -342,16 +419,61 @@ Chart.defaults.font.family="'DM Sans',sans-serif";
 const GC='#e8e5df';
 const TT={backgroundColor:'#111',titleColor:'#fff',bodyColor:'rgba(255,255,255,.75)',padding:10,cornerRadius:3,borderColor:'#333',borderWidth:1};
 
+function toggleSec(bodyId, hdr){
+  const body = document.getElementById(bodyId);
+  if(!body) return;
+  const open = body.hasAttribute('hidden');
+  if(open){ body.removeAttribute('hidden'); }
+  else    { body.setAttribute('hidden',''); }
+  const toggle = hdr.querySelector('.sec-toggle');
+  if(toggle) toggle.innerHTML = open
+    ? '<span class="chev">▼</span> Hide section'
+    : '<span class="chev">▶</span> Show section';
+}
+
 function init(){
   document.getElementById('loading').style.display='none';
   document.getElementById('app').style.display='block';
   const K=D.KPI, dt=new Date(K.last_date), ds=dt.toLocaleDateString('en-GB',{month:'short',year:'numeric'});
   document.getElementById('hdr-date').textContent=ds;
   document.getElementById('footer-date').textContent=ds;
+  const fd=document.getElementById('freshness-date');
+  if(fd){
+    const last=(D._meta && D._meta.last_date) || K.last_date;
+    if(last) fd.textContent=new Date(last).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  }
   document.getElementById('s1-span').textContent=`w/e ${K.week_label} vs w/e ${K.prev_week_label}`;
   setKPI('k-spend',`£${K.spend_k}K`,K.spend_delta,`vs £${K.prev_spend_k}K prior week`);
   setKPI('k-cpa',`£${K.cpa}`,K.cpa_delta,`vs £${K.prev_cpa} prior week`);
-  setKPI('k-wsh',`${K.winner_share}%`,K.winner_delta,`vs ${K.prev_winner_share}% prior week`);
+  // Vitals / Biotic CPA — monthly values, current month partial
+  (function(){
+    const vc=D.VIT_CPA, bc=D.BIO_CPA, ml=D.ML, li=ml.length-1;
+    const cpaDelta=(cur,prev)=>{
+      if(!prev || prev<=0) return null;
+      const p=((cur-prev)/prev)*100;
+      return {val:Math.round(p*10)/10, dir: p<-1?'g':(p>1?'r':'n')};
+    };
+    setKPI('k-vit-cpa',`£${vc[li]}`, cpaDelta(vc[li],vc[li-1]), `${ml[li]} MTD · vs £${vc[li-1]} ${ml[li-1]}`);
+    setKPI('k-bio-cpa',`£${bc[li]}`, cpaDelta(bc[li],bc[li-1]), `${ml[li]} MTD · vs £${bc[li-1]} ${ml[li-1]}`);
+  })();
+  // §5 card headlines — last-complete-month hit rate per product (May = current partial, so use Apr)
+  (function(){
+    const pbo=D.PROD_BY_OFFER, ml=D.ML, li=ml.length-2; // last complete month
+    const monthLabel=ml[li];
+    const hr=(prod)=>{
+      try{ return pbo[prod].all[2][li]; }catch(e){ return null; }
+    };
+    const fmt=(prod,name)=>{
+      const v=hr(prod);
+      return (v==null) ? `${name} · ${monthLabel} hit rate —` : `${name} · <em>${v}%</em> hit rate in ${monthLabel}`;
+    };
+    const vit=document.getElementById('hl-vit-hit'); if(vit) vit.innerHTML=fmt('vitals_bundle','Vitals & Bundle');
+    const bio=document.getElementById('hl-bio-hit'); if(bio) bio.innerHTML=fmt('biotic','Biotic');
+    const vb =document.getElementById('hl-vb-hit');  if(vb)  {
+      const v=hr('vitals_biotic');
+      vb.innerHTML = (v==null||v===0) ? `${monthLabel} hit rate — no winners yet` : `<em>${v}%</em> hit rate in ${monthLabel}`;
+    }
+  })();
   document.getElementById('k-vw').textContent=K.new_vit_winners;
   document.getElementById('k-bw').textContent=K.new_bio_winners;
   if(K.new_winner_detail&&K.new_winner_detail.length>0){
@@ -643,6 +765,111 @@ function buildAllCharts(){
     OFF_CPA,NOFF_CPA,OFF_SHARE}=D;
 
   buildSpendChart('w');
+
+  // §3 · Persona expansion tracker — renders when D.PERSONA_TRACKER has data.
+  (function buildPersonaTracker(){
+    const data = D.PERSONA_TRACKER;
+    const container = document.getElementById('personaTracker');
+    if(!container || !Array.isArray(data) || data.length === 0) return;
+
+    // Update the card-hl with a short summary
+    const hl = document.getElementById('hl-persona');
+    if(hl){
+      const unlocked = data.filter(p => p.unlocked).length;
+      const active = data.filter(p => p.live > 0).length;
+      hl.innerHTML = `${unlocked} of ${data.length} personas <em>unlocked</em> · ${active} actively testing`;
+    }
+
+    // CPA colour anchored to the current Vitals CPA (since this tracker
+    // filters to Vitals/Bundle expansion). Green = beating Vitals avg,
+    // amber = within 20% of Vitals avg, red = >20% worse. If VIT_CPA is
+    // missing for any reason, falls back to a £107 anchor (last known).
+    const _vitCpaAnchor = (D.VIT_CPA && D.VIT_CPA[D.VIT_CPA.length-1]) || 107;
+    function cpaClass(cpa){
+      if(cpa == null) return '';
+      if(cpa <= _vitCpaAnchor) return 'pt-cpa-g';
+      if(cpa <= _vitCpaAnchor * 1.20) return 'pt-cpa-a';
+      return 'pt-cpa-r';
+    }
+
+    container.innerHTML = '';
+    data.forEach(p => {
+      const pct = Math.min(p.winners / 2, 1) * 100;
+      const barColor = p.unlocked ? 'var(--green)' : p.winners > 0 ? 'var(--amber)' : 'var(--brand-tint)';
+      const rowBg = p.unlocked ? 'var(--green-lt)' : p.winners > 0 ? 'var(--amber-lt)' : '';
+
+      let badge;
+      if(p.unlocked)            badge = `<span class="pt-badge badge g">Unlocked Stage 1</span>`;
+      else if(p.winners === 1)  badge = `<span class="pt-badge badge a">Emerging · 1 of 2</span>`;
+      else                      badge = `<span class="pt-badge" style="background:var(--bg2);color:var(--muted)">Early testing</span>`;
+
+      const liveLabel = (!p.unlocked && p.live > 0)
+        ? `<span class="pt-live"><span class="pt-live-dot"></span>${p.live} live</span>`
+        : '';
+
+      let dots = '';
+      for(let i = 0; i < Math.min(p.winners, 2); i++) dots += `<span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--green)"></span>`;
+      const emptySlots = Math.max(0, 2 - Math.min(p.winners, 2));
+      for(let i = 0; i < emptySlots; i++) dots += `<span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:#fff;border:1.5px solid #ccc"></span>`;
+
+      const drawerRows = (p.ads || []).map(ad => {
+        const winCls = ad.winner ? ' class="pt-winner-row"' : '';
+        const cpa = ad.cpa30;
+        const cpaTxt = (cpa == null) ? '—' : `£${cpa}`;
+        const cpaC = cpaClass(cpa);
+        const spendTxt = (ad.spend30 != null) ? `£${Number(ad.spend30).toLocaleString()}` : '—';
+        return `<tr${winCls}>
+          <td class="pt-code">${ad.code || '—'}</td>
+          <td class="pt-code">${ad.sprint || '—'}</td>
+          <td>${ad.jtbd || '—'}</td>
+          <td>${ad.problem || '—'}</td>
+          <td>${ad.source || '—'}</td>
+          <td>${ad.creator || '—'}</td>
+          <td style="text-align:right">${spendTxt}</td>
+          <td style="text-align:right" class="${cpaC}">${cpaTxt}</td>
+        </tr>`;
+      }).join('');
+
+      const row = document.createElement('div');
+      row.className = 'pt-row';
+      if(rowBg) row.style.background = rowBg;
+      row.innerHTML = `
+        <div class="pt-hdr">
+          <span class="pt-name">${p.label}</span>
+          ${badge}${liveLabel}
+          <div class="pt-prog"><div class="pt-track"><div class="pt-fill" style="width:${pct}%;background:${barColor}"></div></div></div>
+          <div class="pt-dots">${dots}</div>
+          <span class="pt-count">${p.winners}/2</span>
+          <span class="pt-chev">▼</span>
+        </div>
+        <div class="pt-drawer">
+          <table class="pt-tbl">
+            <thead><tr>
+              <th>Code</th>
+              <th>Sprint</th>
+              <th>JTBD</th>
+              <th>Problem</th>
+              <th>Source</th>
+              <th>Creator</th>
+              <th style="text-align:right">First 30d spend</th>
+              <th style="text-align:right">30d CPA</th>
+            </tr></thead>
+            <tbody>${drawerRows || '<tr><td colspan="8" style="text-align:center;padding:14px;color:var(--muted)">No ads in window</td></tr>'}</tbody>
+          </table>
+        </div>`;
+      row.querySelector('.pt-hdr').addEventListener('click', () => {
+        const isOpen = row.classList.contains('pt-open');
+        container.querySelectorAll('.pt-row.pt-open').forEach(r => r.classList.remove('pt-open'));
+        if(!isOpen) row.classList.add('pt-open');
+      });
+      container.appendChild(row);
+    });
+  })();
+
+  // §3 reach efficiency chart removed 2026-05-16 — analysis showed the metric
+  // didn't predict CPA reliably for Heights (heavy celeb/retargeting mix
+  // distorts account-level reach). Pipeline (windsor_pull_reach.py +
+  // compute_reach_efficiency + RE_* in JSON) left in place for future revisit.
 
   // CPM vs CVR indexed
   new Chart(document.getElementById('cCPMCVR'),{type:'line',data:{labels:WL,datasets:[
@@ -1176,13 +1403,16 @@ function renderVitSourceTable(){
   headHtml += '<th rowspan="2" style="text-align:left;padding:8px 10px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Month</th>';
   for(const col of columns){
     const expandable = col.expandable;
-    const cursor = expandable ? 'cursor:pointer' : '';
-    const click = expandable ? `onclick="toggleVitSrcInfExpand()"` : '';
-    const indicator = expandable ? ' ▾' : '';
-    const collapseIcon = (_vitSrcInfExpanded && col.key==='Paid')
-      ? `<span style="cursor:pointer;color:var(--muted);font-size:9px;margin-right:6px;font-weight:400" onclick="toggleVitSrcInfExpand()">↞ collapse</span>`
-      : '';
-    headHtml += `<th colspan="2" style="text-align:center;padding:6px 10px 2px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:${col.color};${cursor}" ${click}>${collapseIcon}${col.icon} ${col.label}${indicator}</th>`;
+    if(expandable){
+      // Pill-styled clickable button to make drill-down obvious
+      const pill = `<button type="button" onclick="event.stopPropagation();toggleVitSrcInfExpand()" title="Click to break Influencer down into Paid / Affiliate / Micro" style="display:inline-flex;align-items:center;gap:6px;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:${col.color};background:rgba(59,140,90,.08);border:1.5px solid ${col.color};border-radius:20px;padding:4px 12px;cursor:pointer;transition:all .15s" onmouseover="this.style.background='${col.color}';this.style.color='#fff';" onmouseout="this.style.background='rgba(59,140,90,.08)';this.style.color='${col.color}';">${col.icon} ${col.label} <span style="font-size:9px;line-height:1">▶ Expand</span></button>`;
+      headHtml += `<th colspan="2" style="text-align:center;padding:6px 10px 2px">${pill}</th>`;
+    } else if(_vitSrcInfExpanded && col.key==='Paid'){
+      const collapseIcon = `<span style="cursor:pointer;color:var(--muted);font-size:9px;margin-right:6px;font-weight:400" onclick="toggleVitSrcInfExpand()">↞ collapse</span>`;
+      headHtml += `<th colspan="2" style="text-align:center;padding:6px 10px 2px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:${col.color}">${collapseIcon}${col.icon} ${col.label}</th>`;
+    } else {
+      headHtml += `<th colspan="2" style="text-align:center;padding:6px 10px 2px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:${col.color}">${col.icon} ${col.label}</th>`;
+    }
   }
   headHtml += '</tr><tr style="border-bottom:1px solid var(--rule)">';
   for(const col of columns){
@@ -1405,10 +1635,13 @@ let currentOfferFilter='all';
 const prodCfg={
   cVitHit:{key:'vitals_bundle', barBg:'rgba(173,200,230,.55)',barBd:'rgba(120,165,210,.8)',winBg:'rgba(26,95,168,.82)', winBd:'rgba(26,95,168,1)'},
   cBioHit:{key:'biotic',        barBg:'rgba(255,185,160,.55)',barBd:'rgba(220,130,110,.8)',winBg:'rgba(191,59,46,.82)', winBd:'rgba(191,59,46,1)'},
-  cVbHit: {key:'vitals_biotic', barBg:'rgba(250,200,130,.55)',barBd:'rgba(210,160,70,.8)', winBg:'rgba(184,104,0,.82)', winBd:'rgba(184,104,0,1)'},
+  // cVbHit removed 2026-05-16 — Vitals & Biotic combo only had a brief
+  // launch window with zero winners; Unicorn Scalers chart absorbs the
+  // visual real estate.
 };
 function rebuildProdCharts(){
   Object.entries(prodCfg).forEach(([id,cfg])=>{
+    if(!document.getElementById(id)) return; // skip if canvas no longer in DOM
     const arr=D.PROD_BY_OFFER[cfg.key][currentOfferFilter];
     if(prodCharts[id])prodCharts[id].destroy();
     prodCharts[id]=hitChart(id,arr[0],arr[1],arr[2],cfg.barBg,cfg.barBd,cfg.winBg,cfg.winBd);
