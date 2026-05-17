@@ -436,13 +436,15 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
     <div class="leg-item"><div class="l-sq" style="background:rgba(55,138,221,0.7)"></div>Vitals only</div>
     <div class="leg-item"><div class="l-sq" style="background:rgba(55,138,221,0.25);border:1px solid #378ADD"></div>Vitals + OTP gift</div>
     <div class="leg-item"><div class="l-sq" style="background:rgba(55,138,221,0.95)"></div>Vitals + paid Mag</div>
+    <div class="leg-item"><div class="l-sq" style="background:rgba(13,71,161,0.85)"></div>Ultimate Sleep Kit</div>
     <div class="leg-item"><div class="l-sq" style="background:rgba(29,158,117,0.7)"></div>Biotic + Vitals</div>
     <div class="leg-item"><div class="l-sq" style="background:rgba(186,117,23,0.75)"></div>Biotic only</div>
+    <div class="leg-item"><div class="l-sq" style="background:rgba(160,90,150,0.65)"></div>Other Bundles</div>
     <div class="leg-item"><div class="l-sq" style="background:rgba(200,198,190,0.6)"></div>Other</div>
     <div class="leg-item"><div class="l-ln" style="background:#1f2937;border-top:1px dashed #1f2937"></div>Multi-product %</div>
   </div>
   <div class="chart-wrap" style="height:260px;margin-top:10px"><canvas id="cProductMix"></canvas></div>
-  <p class="card-sub" style="margin-top:6px;font-size:11px"><strong>Multi-product</strong> = ≥2 distinct paid product categories per order (Magnesium gift excluded). <strong>Other</strong> = orders with no Vitals or Biotic — typically standalone Magnesium, Hydrate, or Sleep Mask. Reduction over time (Aug 25: 39% → Apr 26: 16%) means more new customers are entering through a Vitals- or Biotic-anchored order rather than a peripheral SKU. Current month is partial (marked *) — comparisons use the previous full month.</p>
+  <p class="card-sub" style="margin-top:6px;font-size:11px"><strong>Multi-product</strong> = ≥2 distinct paid product categories per order (gifts don't count — Magnesium gift, Sleep Mask in the kit, Hydrate gift in the Biotic offer are all free). <strong>Ultimate Sleep Kit</strong> = orders containing the Ultimate Sleep &amp; Energy Starter Kit (Vitals paid + free Mag + free Sleep Mask) — broken out as a distinct segment since ~10–20% of NC orders run through it. <strong>Other Bundles</strong> = multi-product paid bundles not Vitals/Biotic-anchored simple combos (Ultimate Health Trio, Ultimate Gut &amp; Energy). <strong>Other</strong> = standalone non-V/B orders (single Mag, single Hydrate, etc.). Current month is partial (marked *) — comparisons use the previous full month.</p>
 </div>
 </div><!-- /s9-body -->
 
@@ -1202,13 +1204,15 @@ function buildProductMix(){
   if(!ctx) return;
   new Chart(ctx, {type: 'bar',
     data: {labels: months, datasets: [
-      {label: 'Vitals only',       data: pm.V_only, backgroundColor: 'rgba(55,138,221,0.7)', stack: 'mix', order: 5},
-      {label: 'Vitals + OTP gift', data: pm.V_gift, backgroundColor: 'rgba(55,138,221,0.25)', borderColor: '#378ADD', borderWidth: 1, stack: 'mix', order: 5},
-      {label: 'Vitals + paid Mag', data: pm.V_Mag,  backgroundColor: 'rgba(55,138,221,0.95)', stack: 'mix', order: 5},
-      {label: 'Biotic + Vitals',   data: pm.BV,     backgroundColor: 'rgba(29,158,117,0.7)',  stack: 'mix', order: 5},
-      {label: 'Biotic only',       data: pm.B_only, backgroundColor: 'rgba(186,117,23,0.75)', stack: 'mix', order: 5},
-      {label: 'Other',             data: pm.Other,  backgroundColor: 'rgba(200,198,190,0.6)', stack: 'mix', order: 5},
-      {label: 'Multi-product %',   data: pm.Multi,  type: 'line', borderColor: '#1f2937',
+      {label: 'Vitals only',         data: pm.V_only,      backgroundColor: 'rgba(55,138,221,0.7)',   stack: 'mix', order: 5},
+      {label: 'Vitals + OTP gift',   data: pm.V_gift,      backgroundColor: 'rgba(55,138,221,0.25)', borderColor: '#378ADD', borderWidth: 1, stack: 'mix', order: 5},
+      {label: 'Vitals + paid Mag',   data: pm.V_Mag,       backgroundColor: 'rgba(55,138,221,0.95)',  stack: 'mix', order: 5},
+      {label: 'Ultimate Sleep Kit',  data: pm.Ultimate,    backgroundColor: 'rgba(13,71,161,0.85)',   stack: 'mix', order: 5},
+      {label: 'Biotic + Vitals',     data: pm.BV,          backgroundColor: 'rgba(29,158,117,0.7)',   stack: 'mix', order: 5},
+      {label: 'Biotic only',         data: pm.B_only,      backgroundColor: 'rgba(186,117,23,0.75)',  stack: 'mix', order: 5},
+      {label: 'Other Bundles',       data: pm.OtherBundle, backgroundColor: 'rgba(160,90,150,0.65)',  stack: 'mix', order: 5},
+      {label: 'Other',               data: pm.Other,       backgroundColor: 'rgba(200,198,190,0.6)',  stack: 'mix', order: 5},
+      {label: 'Multi-product %',     data: pm.Multi,       type: 'line', borderColor: '#1f2937',
         backgroundColor: 'rgba(31,41,55,0.05)', borderWidth: 2.2, borderDash: [5,3],
         pointRadius: 3, pointBackgroundColor: '#1f2937', pointBorderColor: '#fff',
         pointBorderWidth: 1.2, tension: 0.25, fill: false, order: 1},
