@@ -233,6 +233,16 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   </div>
 </div>
 
+<div class="card" style="padding:18px 22px">
+  <div class="card-lbl">New funnel tracker · Sleep &amp; Advertorial</div>
+  <div class="card-hl" id="hl-newfunnels">Pipeline pending</div>
+  <p class="card-sub">A <strong>new funnel</strong> = ad creative matching its landing page. <strong>Unlock gate</strong>: £75K spend in a single month at or below the Vitals non-offer baseline CPA. Celeb ads are included in the funnel; offer creative is excluded from the baseline only.</p>
+  <table id="newFunnelsTbl" style="width:100%;border-collapse:collapse;margin-top:10px;font-size:12px">
+    <thead id="newFunnelsHead"></thead>
+    <tbody id="newFunnelsBody"></tbody>
+  </table>
+</div>
+
 <div class="sec"><h2>4 · Performance by product</h2><span>Monthly Meta CPA &amp; spend by product bucket</span></div>
 <div class="grid2">
   <div class="card">
@@ -404,6 +414,30 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   </table>
 </div>
 </div><!-- /s8-body -->
+
+<div class="sec is-collapsible" onclick="toggleSec('s9-body', this)">
+  <h2>9 · New Customer product mix</h2>
+  <span>Shopify · new-customer orders by product segment <span class="sec-toggle"><span class="chev">▶</span> Show section</span></span>
+</div>
+<div id="s9-body" class="sec-body" hidden>
+<p class="card-sub" style="margin:0 0 8px 0">New customer orders only · Source: Shopify via Windsor.ai · Refreshed weekly. <strong>Targets:</strong> Multi-product ↑ · Biotic + Vitals co-purchase ↑ · Biotic-only ↑ · Vitals single ↓</p>
+<div class="grid4" id="pmKpiRow" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px"></div>
+<div class="card">
+  <div class="card-lbl">Order mix by segment — % of new-customer orders</div>
+  <div class="card-hl" id="hl-pm-mix">…</div>
+  <div class="leg" style="margin-top:4px">
+    <div class="leg-item"><div class="l-sq" style="background:rgba(55,138,221,0.7)"></div>Vitals only</div>
+    <div class="leg-item"><div class="l-sq" style="background:rgba(55,138,221,0.25);border:1px solid #378ADD"></div>Vitals + OTP gift</div>
+    <div class="leg-item"><div class="l-sq" style="background:rgba(55,138,221,0.95)"></div>Vitals + paid Mag</div>
+    <div class="leg-item"><div class="l-sq" style="background:rgba(29,158,117,0.7)"></div>Biotic + Vitals</div>
+    <div class="leg-item"><div class="l-sq" style="background:rgba(186,117,23,0.75)"></div>Biotic only</div>
+    <div class="leg-item"><div class="l-sq" style="background:rgba(200,198,190,0.6)"></div>Other</div>
+    <div class="leg-item"><div class="l-ln" style="background:#1f2937;border-top:1px dashed #1f2937"></div>Multi-product %</div>
+  </div>
+  <div class="chart-wrap" style="height:260px;margin-top:10px"><canvas id="cProductMix"></canvas></div>
+  <p class="card-sub" style="margin-top:6px;font-size:11px">Multi-product = ≥2 distinct paid product categories per order (Magnesium gift excluded). Current month is partial (marked *) — comparisons use the previous full month.</p>
+</div>
+</div><!-- /s9-body -->
 
 <div class="footer">
   <span>Heights · Meta UK · Internal · <span id="footer-date"></span></span>
@@ -866,6 +900,94 @@ function buildAllCharts(){
     });
   })();
 
+  // §3 · New funnel tracker — Sleep + Advertorial, last 3 months. Reads
+  // D.NEW_FUNNELS (populated by analytics.compute_new_funnels).
+  (function buildNewFunnels(){
+    const nf = D.NEW_FUNNELS;
+    if(!nf || !Array.isArray(nf.funnels) || !Array.isArray(nf.months)) return;
+    const head = document.getElementById('newFunnelsHead');
+    const body = document.getElementById('newFunnelsBody');
+    const hl   = document.getElementById('hl-newfunnels');
+    if(!head || !body) return;
+    const months = nf.months;
+    const threshold = nf.unlock_threshold || 75000;
+    const baseline = Array.isArray(nf.baseline_cpa) ? nf.baseline_cpa : [];
+
+    // Header: Funnel | metric | each month | Unlock progress (current month)
+    const monthCols = months.map((m,i)=>{
+      const isCurrent = (i === months.length - 1);
+      return `<th style="text-align:right">${m}${isCurrent ? ' (MTD)' : ''}</th>`;
+    }).join('');
+    head.innerHTML = `<tr style="border-bottom:1px solid var(--line)">
+      <th style="text-align:left">Funnel</th>
+      <th style="text-align:left;font-weight:500;color:var(--muted)">Metric</th>
+      ${monthCols}
+      <th style="text-align:right">Unlock progress</th>
+    </tr>`;
+
+    const fmtSpend = v => (v == null || v === 0) ? '—' : '£' + Math.round(v).toLocaleString();
+    const fmtPurch = v => (v == null) ? '—' : v.toLocaleString();
+    const fmtCpa = v => (v == null) ? '—' : '£' + v;
+    const pctNum = v => Math.round(v);
+
+    let summaryParts = [];
+    nf.funnels.forEach((f,fi) => {
+      const curSpend = f.spend[f.spend.length-1] || 0;
+      const curCpa = f.cpa[f.cpa.length-1];
+      const baseCur = baseline[baseline.length-1];
+      // Progress meter — current-month spend vs threshold
+      const progressPct = Math.min(100, (curSpend / threshold) * 100);
+      // CPA vs baseline indicator
+      let cpaIndicator = '';
+      if(curCpa != null && baseCur != null && baseCur > 0){
+        const delta = ((curCpa - baseCur) / baseCur) * 100;
+        const sign = delta >= 0 ? '+' : '';
+        const col = delta <= 0 ? 'var(--green)' : delta > 20 ? 'var(--red)' : 'var(--amber)';
+        cpaIndicator = `<span style="color:${col};font-weight:600">${sign}${Math.round(delta)}%</span> vs baseline`;
+      }
+      // Summary text for card-hl
+      summaryParts.push(`<strong>${f.label}</strong> £${(curSpend/1000).toFixed(1)}K (${pctNum(progressPct)}% to unlock)`);
+
+      // Spend row
+      const spendCells = f.spend.map(v => `<td style="text-align:right;font-variant-numeric:tabular-nums">${fmtSpend(v)}</td>`).join('');
+      const unlockBar = `
+        <div style="display:flex;align-items:center;gap:6px;justify-content:flex-end">
+          <div style="width:80px;height:6px;background:var(--bg2);border-radius:3px;overflow:hidden;position:relative">
+            <div style="position:absolute;left:0;top:0;height:100%;width:${progressPct}%;background:${progressPct>=100?'var(--green)':'var(--blue)'}"></div>
+          </div>
+          <span style="font-variant-numeric:tabular-nums;font-size:11px">£${(curSpend/1000).toFixed(1)}K / £${(threshold/1000).toFixed(0)}K</span>
+        </div>`;
+
+      const rowStyle = (fi > 0) ? ' style="border-top:1px solid var(--line)"' : '';
+      body.innerHTML += `<tr${rowStyle}>
+        <td rowspan="3" style="vertical-align:top;font-weight:600;padding-top:8px">${f.label}<div style="font-weight:400;color:var(--muted);font-size:10px;margin-top:2px">${f.definition || ''}</div></td>
+        <td style="color:var(--muted);padding-top:8px">Spend</td>
+        ${spendCells}
+        <td rowspan="3" style="vertical-align:top;padding-top:8px;padding-left:12px">${unlockBar}</td>
+      </tr>`;
+      // Purchases row
+      const purchCells = f.purchases.map(v => `<td style="text-align:right;font-variant-numeric:tabular-nums">${fmtPurch(v)}</td>`).join('');
+      body.innerHTML += `<tr><td style="color:var(--muted)">Purchases</td>${purchCells}</tr>`;
+      // CPA row
+      const cpaCells = f.cpa.map((v,i) => {
+        const baseVal = baseline[i];
+        let col = '';
+        if(v != null && baseVal != null && baseVal > 0){
+          col = (v <= baseVal) ? 'color:var(--green);font-weight:600' : (v > baseVal * 1.2 ? 'color:var(--red)' : 'color:var(--ink2)');
+        }
+        return `<td style="text-align:right;font-variant-numeric:tabular-nums;${col}">${fmtCpa(v)}</td>`;
+      }).join('');
+      body.innerHTML += `<tr>
+        <td style="color:var(--muted)">CPA <span style="font-size:10px;color:var(--muted)">vs £${baseline[baseline.length-1] ?? '—'} baseline</span></td>
+        ${cpaCells}
+      </tr>`;
+    });
+
+    if(hl){
+      hl.innerHTML = summaryParts.join(' · ');
+    }
+  })();
+
   // §3 reach efficiency chart removed 2026-05-16 — analysis showed the metric
   // didn't predict CPA reliably for Heights (heavy celeb/retargeting mix
   // distorts account-level reach). Pipeline (windsor_pull_reach.py +
@@ -972,7 +1094,98 @@ function buildAllCharts(){
   rebuildProdCharts();
   rebuildSrcCharts();
   refreshDynamicHeadlines();
+  buildProductMix();
 }
+
+// §9 · New customer product mix (Shopify). Reads D.PRODUCT_MIX populated by
+// analytics.compute_product_mix(). Renders 4 KPI tiles + stacked mix chart.
+function buildProductMix(){
+  const pm = D.PRODUCT_MIX;
+  if(!pm || !Array.isArray(pm.months) || pm.months.length === 0) return;
+
+  const months = pm.months;
+  const li = months.length - 1;
+  const pi = months.length - 2;
+  const cur = (k) => Array.isArray(pm[k]) ? pm[k][li] : null;
+  const prev = (k) => Array.isArray(pm[k]) ? pm[k][pi] : null;
+  // Strip trailing '*' from month labels for "vs prev" display
+  const stripStar = s => (s || '').replace(/\*+$/, '');
+  const curLbl = stripStar(months[li]);
+  const prevLbl = stripStar(months[pi] || '');
+
+  // KPI tiles
+  const kpiRow = document.getElementById('pmKpiRow');
+  if(kpiRow){
+    function tile(label, valNum, prevVal, dirHigherGood, sub){
+      let cls = 'kpi', deltaHtml = '';
+      if(valNum != null && prevVal != null){
+        if(valNum > prevVal){
+          cls += dirHigherGood ? ' good' : ' bad';
+          deltaHtml = `<div class="kpi-delta ${dirHigherGood ? 'up' : 'dn'}">↑ vs ${prevLbl}: ${prevVal}%</div>`;
+        } else if(valNum < prevVal){
+          cls += dirHigherGood ? ' bad' : ' good';
+          deltaHtml = `<div class="kpi-delta ${dirHigherGood ? 'dn' : 'up'}">↓ vs ${prevLbl}: ${prevVal}%</div>`;
+        } else {
+          cls += ' warn';
+          deltaHtml = `<div class="kpi-delta">→ vs ${prevLbl}: ${prevVal}%</div>`;
+        }
+      }
+      return `<div class="card ${cls}" style="padding:10px 12px"><div class="kpi-label" style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em">${label}</div><div class="kpi-val" style="font-size:22px;font-weight:600;margin-top:4px">${valNum != null ? valNum + '%' : '—'}</div>${deltaHtml}<div class="kpi-sub" style="font-size:10px;color:var(--muted);margin-top:2px">${sub || ''}</div></div>`;
+    }
+    // Tile 1 — Multi-product % (higher = good)
+    const multiCur = cur('Multi'), multiPrev = prev('Multi');
+    // Tile 2 — B+V (higher = good)
+    const bvCur = cur('BV'), bvPrev = prev('BV');
+    // Tile 3 — B-only (higher = good) — also flag highest-in-series
+    const bArr = pm.B_only || [];
+    const bonlyCur = bArr[li], bonlyPrev = bArr[pi];
+    const otherMax = bArr.slice(0, li).length ? Math.max(...bArr.slice(0, li)) : 0;
+    const isHighest = bonlyCur != null && bonlyCur >= otherMax;
+    // Tile 4 — Vitals single (V_only + V_gift, lower = good)
+    const vsCur = (cur('V_only') ?? 0) + (cur('V_gift') ?? 0);
+    const vsPrev = (prev('V_only') ?? 0) + (prev('V_gift') ?? 0);
+    const isPartial = months[li].endsWith('*');
+    const curSub = `${curLbl}${isPartial ? ' partial' : ''}`;
+
+    kpiRow.innerHTML =
+      tile('① Multi-product %', round1(multiCur), round1(multiPrev), true, curSub)
+      + tile('② Biotic + Vitals', round1(bvCur), round1(bvPrev), true, curSub)
+      + tile('③ Biotic only', round1(bonlyCur), round1(bonlyPrev), true, isHighest ? 'Highest in series' : curSub)
+      + tile('④ Vitals single (incl. OTP gift)', round1(vsCur), round1(vsPrev), false, 'Lower is better');
+  }
+
+  // Stacked mix chart
+  const hl = document.getElementById('hl-pm-mix');
+  if(hl){
+    hl.innerHTML = `Multi <em>${round1(cur('Multi'))}%</em> · B+V <em>${round1(cur('BV'))}%</em> · ${months[li]}`;
+  }
+
+  const ctx = document.getElementById('cProductMix');
+  if(!ctx) return;
+  new Chart(ctx, {type: 'bar',
+    data: {labels: months, datasets: [
+      {label: 'Vitals only',       data: pm.V_only, backgroundColor: 'rgba(55,138,221,0.7)', stack: 'mix', order: 5},
+      {label: 'Vitals + OTP gift', data: pm.V_gift, backgroundColor: 'rgba(55,138,221,0.25)', borderColor: '#378ADD', borderWidth: 1, stack: 'mix', order: 5},
+      {label: 'Vitals + paid Mag', data: pm.V_Mag,  backgroundColor: 'rgba(55,138,221,0.95)', stack: 'mix', order: 5},
+      {label: 'Biotic + Vitals',   data: pm.BV,     backgroundColor: 'rgba(29,158,117,0.7)',  stack: 'mix', order: 5},
+      {label: 'Biotic only',       data: pm.B_only, backgroundColor: 'rgba(186,117,23,0.75)', stack: 'mix', order: 5},
+      {label: 'Other',             data: pm.Other,  backgroundColor: 'rgba(200,198,190,0.6)', stack: 'mix', order: 5},
+      {label: 'Multi-product %',   data: pm.Multi,  type: 'line', borderColor: '#1f2937',
+        backgroundColor: 'rgba(31,41,55,0.05)', borderWidth: 2.2, borderDash: [5,3],
+        pointRadius: 3, pointBackgroundColor: '#1f2937', pointBorderColor: '#fff',
+        pointBorderWidth: 1.2, tension: 0.25, fill: false, order: 1},
+    ]},
+    options: {responsive: true, maintainAspectRatio: false,
+      plugins: {legend: {display: false}, tooltip: {...TT, callbacks: {label: c => ` ${c.dataset.label}: ${c.raw}%`}}},
+      scales: {
+        x: {stacked: true, grid: {display: false}, ticks: {font: {size: 9}}},
+        y: {stacked: true, min: 0, max: 100, grid: {color: GC}, ticks: {callback: v => v + '%', font: {size: 9}}}
+      }
+    }
+  });
+}
+
+function round1(v){ return (v == null) ? null : Math.round(v * 10) / 10; }
 
 // Auto-populate the formerly-hardcoded headlines from current data.
 // Called after charts build. Each one is a small text computation.
