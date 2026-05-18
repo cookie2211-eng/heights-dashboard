@@ -368,7 +368,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="card">
     <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px">
       <div>
-        <div class="card-lbl"><span id="vit-offer-title">Vitals &amp; Bundle</span> — offer vs non-offer CPA + offer share</div>
+        <div class="card-lbl"><span id="vit-offer-title">Vitals &amp; Bundle</span> offer vs non-offer CPA + offer share</div>
         <div class="card-hl"><span id="hl-vit-offer">…</span></div>
       </div>
       <div class="view-toggle" style="flex-shrink:0;margin-left:12px"><button class="active" onclick="setVitOfferView('m',this)">Monthly</button><button onclick="setVitOfferView('w',this)">Weekly</button></div>
@@ -1463,15 +1463,14 @@ function buildVitOfferChart(v){
   const isW=v==='w';
   const labels=isW?D.WL:D.ML;
   const isBio=_vitOfferProd==='biotic';
-  // Biotic: Rehydrate Offer campaign not yet launched, so offer share = 0
-  // and the non-offer line = total Biotic CPA. Weekly Biotic CPA not yet
-  // plumbed so weekly view falls back to monthly array for now.
+  // Biotic Rehydrate Offer campaign launched 2026-05-12 — real BIO_OFF_*
+  // series now wired in (Charlie 2026-05-18). Months before May 2026 show
+  // 0% offer share since the campaign wasn't live yet.
   let pct, offCPA, noffCPA;
   if(isBio){
-    const noffSrc = D.BIO_CPA || [];
-    pct = noffSrc.map(_=>0);
-    offCPA = noffSrc.map(_=>null);
-    noffCPA = isW ? noffSrc.map(_=>null) : noffSrc;
+    pct    = isW ? D.W_BIO_OFF_PCT  : D.BIO_OFF_PCT;
+    offCPA = isW ? D.W_BIO_OFF_CPA  : D.BIO_OFF_CPA;
+    noffCPA= isW ? D.W_BIO_NOFF_CPA : D.BIO_NOFF_CPA;
   } else {
     pct=isW?D.W_VIT_OFF_PCT:D.VIT_OFF_PCT;
     offCPA=isW?D.W_VIT_OFF_CPA:D.VIT_OFF_CPA;
@@ -1497,7 +1496,7 @@ function buildVitOfferChart(v){
   const fn = document.getElementById('vit-offer-footnote');
   if(fn){
     fn.innerHTML = isBio
-      ? '⚠ Biotic offer = ads in the <em>Biotic — Rehydrate Offer</em> campaign. Campaign not yet launched, so offer share = 0% across all months; line shows total Biotic CPA.'
+      ? '⚠ Biotic offer = ads in the <em>Biotic — Rehydrate Offer</em> campaign (live from 2026-05-12). Offer share = 0% across pre-May months because the campaign was not running.'
       : '⚠ Offer % includes celeb offer ads (e.g. Ben Shephard Door to Door) — so differs slightly from the Celeb-priority segment chart above.';
   }
 }
