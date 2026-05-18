@@ -1501,7 +1501,7 @@ function buildVitOfferChart(v){
   }
 }
 function setVitOfferView(v,btn){_vitOfferView=v;btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');buildVitOfferChart(v);}
-function setVitOfferProd(p,btn){_vitOfferProd=p;btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');buildVitOfferChart(_vitOfferView);}
+function setVitOfferProd(p,btn){_vitOfferProd=p;document.querySelectorAll('[data-vop]').forEach(b=>b.classList.remove('ai'));btn.classList.add('ai');buildVitOfferChart(_vitOfferView);}
 
 // Free Mag vs Intro Bundle chart builder
 function buildFMIBChart(v){
