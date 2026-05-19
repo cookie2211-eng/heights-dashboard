@@ -505,7 +505,12 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
           </tr>
         </tbody>
       </table>
-      <p style="margin:8px 0 0 0;color:var(--muted);font-size:10.5px"><strong>Multi-product</strong> = ≥2 distinct paid product categories (V, B, paid Mag, Hydrate, Thrive, Calmer). Gifts (Magnesium⁺ Gift, Sleep Mask, Gut Rehydration Gift) never count. <strong>Priority:</strong> Ultimate kit → Other multi (named bundles) → Biotic + Vitals → Biotic + paid Mag → Biotic only → Vitals + paid Mag → Vitals + OTP gift → Other multi (ad-hoc combos) → Vitals only → Other. Every multi-product order lands in an always-multi segment — no leakage into "single" buckets. <strong>NC filter:</strong> order's date matches customer's lifetime first-order date. Current month is partial (marked *).</p>
+      <div style="margin-top:10px;color:var(--muted);font-size:11px;line-height:1.55">
+        <div><strong>Multi-product</strong> = an order with 2+ different paid products (Vitals⁺, Biotic⁺, Magnesium⁺, Hydrate⁺, Thrive⁺, Calmer⁺).</div>
+        <div><strong>Gifts don't count.</strong> Magnesium⁺ Gift, Sleep Mask, and Gut Rehydration Gift are free, so "Vitals + Magnesium gift" is single-product.</div>
+        <div><strong>New customer</strong> = the order date matches the customer's first-ever order date at Heights.</div>
+        <div><strong>*</strong> = current month is partial (still in progress).</div>
+      </div>
     </div>
   </details>
 </div>
