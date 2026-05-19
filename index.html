@@ -438,13 +438,76 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
     <div class="leg-item"><div class="l-sq" style="background:rgba(55,138,221,0.95)"></div>Vitals + paid Mag</div>
     <div class="leg-item"><div class="l-sq" style="background:rgba(220,90,120,0.78)"></div>Ultimate Sleep + Energy</div>
     <div class="leg-item"><div class="l-sq" style="background:rgba(29,158,117,0.7)"></div>Biotic + Vitals</div>
-    <div class="leg-item"><div class="l-sq" style="background:rgba(186,117,23,0.75)"></div>Biotic only</div>
-    <div class="leg-item"><div class="l-sq" style="background:rgba(160,90,150,0.65)"></div>Other Bundles</div>
+    <div class="leg-item"><div class="l-sq" style="background:rgba(186,117,23,0.45)"></div>Biotic only</div>
+    <div class="leg-item"><div class="l-sq" style="background:rgba(186,117,23,0.9)"></div>Biotic + paid Mag</div>
+    <div class="leg-item"><div class="l-sq" style="background:rgba(160,90,150,0.65)"></div>Other multi</div>
     <div class="leg-item"><div class="l-sq" style="background:rgba(200,198,190,0.6)"></div>Other</div>
     <div class="leg-item"><div class="l-ln" style="background:#1f2937;border-top:1px dashed #1f2937"></div>Multi-product %</div>
   </div>
   <div class="chart-wrap" style="height:260px;margin-top:10px"><canvas id="cProductMix"></canvas></div>
-  <p class="card-sub" style="margin-top:6px;font-size:11px"><strong>Multi-product</strong> = ≥2 distinct paid product categories per order (gifts don't count — Magnesium gift, Sleep Mask in the kit, Hydrate gift in the Biotic offer are all free). <strong>Ultimate Sleep + Energy</strong> = orders containing the Ultimate Sleep &amp; Energy Starter Kit (Vitals + Magnesium subscriptions + a free Sleep Mask) — broken out as a distinct segment since ~10–20% of NC orders run through it. <strong>Other Bundles</strong> = multi-product paid bundles not Vitals/Biotic-anchored simple combos (Ultimate Health Trio, Ultimate Gut &amp; Energy). <strong>Other</strong> = standalone non-V/B orders (single Mag, single Hydrate, etc.). Current month is partial (marked *) — comparisons use the previous full month.</p>
+
+  <details style="margin-top:10px;font-size:11px">
+    <summary style="cursor:pointer;color:var(--muted);user-select:none">Classification rules — what's in each segment (click to expand)</summary>
+    <div style="margin-top:8px;overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:11px;line-height:1.4">
+        <thead>
+          <tr style="background:#f7f7f5;border-bottom:1px solid #e5e5e0">
+            <th style="text-align:left;padding:6px 8px;width:160px">Segment</th>
+            <th style="text-align:left;padding:6px 8px;width:80px">Bucket</th>
+            <th style="text-align:left;padding:6px 8px">Cart contains</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #f0f0eb">
+            <td style="padding:6px 8px"><span style="display:inline-block;width:10px;height:10px;background:rgba(55,138,221,0.7);vertical-align:middle;margin-right:5px"></span>Vitals only</td>
+            <td style="padding:6px 8px;color:var(--muted)">Single</td>
+            <td style="padding:6px 8px">Vitals⁺ standalone (no Biotic, no Mag of any kind)</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f0f0eb">
+            <td style="padding:6px 8px"><span style="display:inline-block;width:10px;height:10px;background:rgba(55,138,221,0.25);border:1px solid #378ADD;vertical-align:middle;margin-right:5px"></span>Vitals + OTP gift</td>
+            <td style="padding:6px 8px;color:var(--muted)">Single</td>
+            <td style="padding:6px 8px">Vitals⁺ + free Magnesium⁺ Gift (gift doesn't count as paid)</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f0f0eb">
+            <td style="padding:6px 8px"><span style="display:inline-block;width:10px;height:10px;background:rgba(55,138,221,0.95);vertical-align:middle;margin-right:5px"></span>Vitals + paid Mag</td>
+            <td style="padding:6px 8px;color:var(--green)">Multi</td>
+            <td style="padding:6px 8px">Magnesium⁺ &amp; Vitals⁺ bundle · Longevity Duo · ad-hoc [Mag, Vitals]</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f0f0eb">
+            <td style="padding:6px 8px"><span style="display:inline-block;width:10px;height:10px;background:rgba(220,90,120,0.78);vertical-align:middle;margin-right:5px"></span>Ultimate Sleep + Energy</td>
+            <td style="padding:6px 8px;color:var(--green)">Multi</td>
+            <td style="padding:6px 8px">Ultimate Sleep &amp; Energy Starter Kit (Vitals + paid Mag + free Sleep Mask)</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f0f0eb">
+            <td style="padding:6px 8px"><span style="display:inline-block;width:10px;height:10px;background:rgba(29,158,117,0.7);vertical-align:middle;margin-right:5px"></span>Biotic + Vitals</td>
+            <td style="padding:6px 8px;color:var(--green)">Multi</td>
+            <td style="padding:6px 8px">Vitals⁺ &amp; Biotic⁺ bundle · Daily Essentials Duo · Magnesium⁺ + Biotic⁺ + Vitals⁺ bundle · ad-hoc [Biotic, Vitals]</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f0f0eb">
+            <td style="padding:6px 8px"><span style="display:inline-block;width:10px;height:10px;background:rgba(186,117,23,0.45);vertical-align:middle;margin-right:5px"></span>Biotic only</td>
+            <td style="padding:6px 8px;color:var(--muted)">Single</td>
+            <td style="padding:6px 8px">Biotic⁺ standalone (no Vitals, no paid Mag)</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f0f0eb;background:#fffbf2">
+            <td style="padding:6px 8px"><span style="display:inline-block;width:10px;height:10px;background:rgba(186,117,23,0.9);vertical-align:middle;margin-right:5px"></span>Biotic + paid Mag</td>
+            <td style="padding:6px 8px;color:var(--green)">Multi</td>
+            <td style="padding:6px 8px">Magnesium⁺ &amp; Biotic⁺ bundle · ad-hoc [Mag, Biotic] (no Vitals). Previously lumped into Biotic only — split out 2026-05-19.</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f0f0eb">
+            <td style="padding:6px 8px"><span style="display:inline-block;width:10px;height:10px;background:rgba(160,90,150,0.65);vertical-align:middle;margin-right:5px"></span>Other multi</td>
+            <td style="padding:6px 8px;color:var(--green)">Multi</td>
+            <td style="padding:6px 8px">Named multi-bundles (Ultimate Health Trio, Ultimate Gut &amp; Energy Bundle) <em>plus</em> ad-hoc multi-product carts not anchored on V or B (e.g. Vitals + Hydrate/Thrive/Calmer; Mag + Hydrate/Calmer)</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px"><span style="display:inline-block;width:10px;height:10px;background:rgba(200,198,190,0.6);vertical-align:middle;margin-right:5px"></span>Other</td>
+            <td style="padding:6px 8px;color:var(--muted)">Single</td>
+            <td style="padding:6px 8px">Strictly standalone non-V/non-B: Magnesium⁺, Hydrate⁺ (all flavours), Thrive⁺, Calmer⁺</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin:8px 0 0 0;color:var(--muted);font-size:10.5px"><strong>Multi-product</strong> = ≥2 distinct paid product categories (V, B, paid Mag, Hydrate, Thrive, Calmer). Gifts (Magnesium⁺ Gift, Sleep Mask, Gut Rehydration Gift) never count. <strong>Priority:</strong> Ultimate kit → Other multi (named bundles) → Biotic + Vitals → Biotic + paid Mag → Biotic only → Vitals + paid Mag → Vitals + OTP gift → Other multi (ad-hoc combos) → Vitals only → Other. Every multi-product order lands in an always-multi segment — no leakage into "single" buckets. <strong>NC filter:</strong> order's date matches customer's lifetime first-order date. Current month is partial (marked *).</p>
+    </div>
+  </details>
 </div>
 </div><!-- /s9-body -->
 
@@ -1209,8 +1272,9 @@ function buildProductMix(){
       {label: 'Vitals + paid Mag',   data: pm.V_Mag,       backgroundColor: 'rgba(55,138,221,0.95)',  stack: 'mix', order: 5},
       {label: 'Ultimate Sleep + Energy',  data: pm.Ultimate,    backgroundColor: 'rgba(220,90,120,0.78)',  stack: 'mix', order: 5},
       {label: 'Biotic + Vitals',     data: pm.BV,          backgroundColor: 'rgba(29,158,117,0.7)',   stack: 'mix', order: 5},
-      {label: 'Biotic only',         data: pm.B_only,      backgroundColor: 'rgba(186,117,23,0.75)',  stack: 'mix', order: 5},
-      {label: 'Other Bundles',       data: pm.OtherBundle, backgroundColor: 'rgba(160,90,150,0.65)',  stack: 'mix', order: 5},
+      {label: 'Biotic only',         data: pm.B_only,      backgroundColor: 'rgba(186,117,23,0.45)',  stack: 'mix', order: 5},
+      {label: 'Biotic + paid Mag',   data: pm.B_Mag,       backgroundColor: 'rgba(186,117,23,0.9)',   stack: 'mix', order: 5},
+      {label: 'Other multi',       data: pm.OtherBundle, backgroundColor: 'rgba(160,90,150,0.65)',  stack: 'mix', order: 5},
       {label: 'Other',               data: pm.Other,       backgroundColor: 'rgba(200,198,190,0.6)',  stack: 'mix', order: 5},
       {label: 'Multi-product %',     data: pm.Multi,       type: 'line', borderColor: '#1f2937',
         backgroundColor: 'rgba(31,41,55,0.05)', borderWidth: 2.2, borderDash: [5,3],
