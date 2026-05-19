@@ -1265,7 +1265,18 @@ function buildProductMix(){
   // Stacked mix chart
   const hl = document.getElementById('hl-pm-mix');
   if(hl){
-    hl.innerHTML = `Multi <em>${round1(cur('Multi'))}%</em> · B+V <em>${round1(cur('BV'))}%</em> · ${months[li]}`;
+    const mCur = round1(cur('Multi'));
+    const mPrev = round1(prev('Multi'));
+    // Higher Multi% is better → green if up, red if down, muted if flat
+    const mCol = (mCur > mPrev) ? 'var(--green)'
+               : (mCur < mPrev) ? 'var(--red,#bf3b2e)'
+               : 'var(--muted)';
+    const bvCur = round1(cur('BV'));
+    const bvPrev = round1(prev('BV'));
+    const bvCol = (bvCur > bvPrev) ? 'var(--green)'
+                : (bvCur < bvPrev) ? 'var(--red,#bf3b2e)'
+                : 'var(--muted)';
+    hl.innerHTML = `Multi <em style="color:${mCol}">${mCur}%</em> · B+V <em style="color:${bvCol}">${bvCur}%</em> · ${months[li]}`;
   }
 
   const ctx = document.getElementById('cProductMix');
