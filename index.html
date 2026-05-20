@@ -144,8 +144,6 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <span id="freshness-text">Data through w/e <span id="freshness-date"></span> · current month is partial</span>
   <span id="freshness-stale-block" style="display:none;color:#c0392b;font-weight:600;margin-left:6px">⚠ <span id="freshness-stale-msg"></span> · Last refreshed <span id="freshness-generated-stale"></span></span>
   <span id="freshness-generated-tooltip" style="display:none" title=""></span>
-  <span style="color:#bbb;padding:0 4px">|</span>
-  <a href="winners_export.csv" download style="color:var(--brand);text-decoration:none;font-weight:600">⬇ Download winners CSV</a>
 </div>
 
 <div style="background:var(--brand);color:#fff;border-radius:6px;padding:18px 22px;margin-bottom:22px">
@@ -191,7 +189,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
     <span>New winners this week — crossed threshold w/e <span id="nwd-week"></span></span>
     <span class="nwd-toggle" style="font-weight:600;color:var(--brand);background:rgba(1,0,113,.06);padding:3px 9px;border-radius:3px"><span class="chev">▶</span> Show</span>
   </div>
-  <div id="nwd-list" hidden style="display:flex;flex-direction:column;gap:4px"></div>
+  <div id="nwd-list" style="display:none;flex-direction:column;gap:4px"></div>
 </div>
 <div id="spend-spike-card" style="display:none;background:rgba(184,104,0,.07);border:1px solid rgba(184,104,0,.25);border-radius:6px;padding:12px 16px;margin-bottom:12px">
   <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:6px">🚀 Spend spikes this week — large increase vs prior 3-week average</div>
@@ -407,7 +405,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <span>● active &nbsp;○ not spending &nbsp;🦄 unicorn scaler · last 2 months &nbsp;🚀 spend spike this week <span class="sec-toggle"><span class="chev">▶</span> Show section</span></span>
 </div>
 <div id="s8-body" class="sec-body" hidden>
-<div class="filter-bar" style="border-top:none;margin-top:0;margin-bottom:10px">
+<div class="filter-bar" style="border-top:none;margin-top:0;margin-bottom:10px;display:flex;align-items:center;flex-wrap:wrap;gap:4px">
   <span class="toggle-label">Product</span>
   <button class="tog ai" data-tp="all" onclick="filterTbl('p','all',this)">All</button>
   <button class="tog" data-tp="Vitals" onclick="filterTbl('p','Vitals',this)">Vitals &amp; Bundle</button>
@@ -417,6 +415,12 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <button class="tog ag" data-to="all" onclick="filterTbl('o','all',this)">All</button>
   <button class="tog" data-to="non_offer" onclick="filterTbl('o','non_offer',this)">Non-offer</button>
   <button class="tog" data-to="offer" onclick="filterTbl('o','offer',this)">Offer</button>
+  <span class="toggle-label" style="margin-left:10px">Cohort month</span>
+  <select id="cohortMonthFilter" onchange="filterTbl('m', this.value, null)" style="font-size:11px;padding:3px 6px;border:1px solid var(--line);border-radius:3px;background:#fff;color:var(--ink)">
+    <option value="all">All months</option>
+  </select>
+  <span id="winnersRowCount" style="margin-left:auto;font-size:11px;color:var(--muted);font-style:italic"></span>
+  <a href="winners_export.csv" download style="margin-left:10px;color:var(--brand);text-decoration:none;font-weight:600;font-size:11px;background:rgba(1,0,113,.06);padding:4px 10px;border-radius:3px">⬇ Download all winners CSV</a>
 </div>
 <div class="card" style="padding:0;overflow:hidden">
   <table class="wtbl">
@@ -603,24 +607,26 @@ function applyWatchPref(){
 }
 
 // Collapsible "New winners this week" panel. Default = collapsed.
+// Uses inline style.display (not the hidden attribute) because the list
+// needs display:flex when shown, which would otherwise win over the
+// browser's hidden=display:none default.
 function toggleNewWinners(hdr){
   const body = document.getElementById('nwd-list');
   if(!body) return;
-  const willHide = !body.hasAttribute('hidden');
-  if(willHide) body.setAttribute('hidden','');
-  else         body.removeAttribute('hidden');
+  const isHidden = (body.style.display === 'none' || body.style.display === '');
+  body.style.display = isHidden ? 'flex' : 'none';
   const tgl = hdr.querySelector('.nwd-toggle');
-  if(tgl) tgl.innerHTML = willHide
-    ? '<span class="chev">▶</span> Show'
-    : '<span class="chev">▼</span> Hide';
-  try { localStorage.setItem('nwdHidden', willHide ? '1' : '0'); } catch(e){}
+  if(tgl) tgl.innerHTML = isHidden
+    ? '<span class="chev">▼</span> Hide'
+    : '<span class="chev">▶</span> Show';
+  try { localStorage.setItem('nwdHidden', isHidden ? '0' : '1'); } catch(e){}
 }
 function applyNewWinnersPref(){
   let pref = null;
   try { pref = localStorage.getItem('nwdHidden'); } catch(e){}
   if(pref === '0'){
     const body = document.getElementById('nwd-list');
-    if(body) body.removeAttribute('hidden');
+    if(body) body.style.display = 'flex';
     const tgl = document.querySelector('.nwd-toggle');
     if(tgl) tgl.innerHTML = '<span class="chev">▼</span> Hide';
   }
@@ -632,6 +638,7 @@ function init(){
   applyTldrPref();
   applyWatchPref();
   applyNewWinnersPref();
+  populateMonthFilter();
   const K=D.KPI, dt=new Date(K.last_date), ds=dt.toLocaleDateString('en-GB',{month:'short',year:'numeric'});
   document.getElementById('hdr-date').textContent=ds;
   document.getElementById('footer-date').textContent=ds;
@@ -2117,19 +2124,41 @@ function setSrcOffer(f,btn){currentSrcOffer=f;document.querySelectorAll('[data-s
 // Winner table
 let tblProd='all',tblOffer='all';
 function filterTbl(dim,val,btn){
-  if(dim==='p'){tblProd=val;document.querySelectorAll('[data-tp]').forEach(b=>b.classList.remove('ai'));btn.classList.add('ai');}
-  else{tblOffer=val;document.querySelectorAll('[data-to]').forEach(b=>b.classList.remove('ag'));btn.classList.add('ag');}
+  if(dim==='p'){tblProd=val;document.querySelectorAll('[data-tp]').forEach(b=>b.classList.remove('ai'));if(btn)btn.classList.add('ai');}
+  else if(dim==='o'){tblOffer=val;document.querySelectorAll('[data-to]').forEach(b=>b.classList.remove('ag'));if(btn)btn.classList.add('ag');}
+  else if(dim==='m'){tblMonth=val;}
   renderTable();
+}
+let tblMonth = 'all';
+// Populate Cohort month dropdown once WINNERS is loaded — uses the
+// `launch_month` field on each winner (format: "Mar 2026"). Sorted newest first.
+function populateMonthFilter(){
+  const sel = document.getElementById('cohortMonthFilter');
+  if(!sel || !D.WINNERS) return;
+  const months = [...new Set(D.WINNERS.map(w => w.launch_month).filter(Boolean))];
+  // Sort by date descending (parse "MMM YYYY")
+  months.sort((a, b) => new Date(b) - new Date(a));
+  months.forEach(m => {
+    const opt = document.createElement('option');
+    opt.value = m;
+    opt.textContent = m;
+    sel.appendChild(opt);
+  });
 }
 function renderTable(){
   const tb=document.getElementById('tBody');tb.innerHTML='';
-  D.WINNERS.filter(w=>{
+  const filtered = D.WINNERS.filter(w=>{
     if(tblProd==='Vitals'&&!['Vitals','Bundle'].includes(w.product))return false;
     if(tblProd!=='all'&&tblProd!=='Vitals'&&w.product!==tblProd)return false;
     if(tblOffer==='offer'&&!w.offer)return false;
     if(tblOffer==='non_offer'&&w.offer)return false;
+    if(tblMonth!=='all' && w.launch_month !== tblMonth)return false;
     return true;
-  }).forEach(w=>{
+  });
+  // Show row count next to filters so the user can cross-check against chart numbers
+  const rc = document.getElementById('winnersRowCount');
+  if(rc) rc.textContent = `${filtered.length} winner${filtered.length===1?'':'s'} shown`;
+  filtered.forEach(w=>{
     const bc=w.bucket==='Fresh'?'g':w.bucket==='Prime'?'a':'r';
     const cc=w.cpa<75?'g':w.cpa>110?'r':'a';
     const velBadge = w.velocity && w.velocity > 150 && w.spend_w4 >= 5000
