@@ -140,16 +140,18 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 </div>
 
 <div id="data-freshness" style="display:flex;justify-content:flex-end;align-items:center;gap:8px;font-size:10px;color:var(--muted);margin:-12px 0 14px">
-  <span id="freshness-dot" style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--brand)"></span>
-  Data through w/e <span id="freshness-date"></span> · current month is partial
+  <span id="freshness-dot" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#1d7a4a" title="Data is current"></span>
+  <span id="freshness-text">Data through w/e <span id="freshness-date"></span> · current month is partial</span>
+  <span id="freshness-stale-block" style="display:none;color:#c0392b;font-weight:600;margin-left:6px">⚠ <span id="freshness-stale-msg"></span> · Last refreshed <span id="freshness-generated-stale"></span></span>
+  <span id="freshness-generated-tooltip" style="display:none" title=""></span>
   <span style="color:#bbb;padding:0 4px">|</span>
-  Last refreshed <span id="freshness-generated">—</span><span id="freshness-stale" style="display:none;color:#c0392b;font-weight:600;margin-left:6px"></span>
+  <a href="winners_export.csv" download style="color:var(--brand);text-decoration:none;font-weight:600">⬇ Download winners CSV</a>
 </div>
 
 <div style="background:var(--brand);color:#fff;border-radius:6px;padding:18px 22px;margin-bottom:22px">
-  <div style="display:flex;justify-content:space-between;align-items:center;cursor:pointer" onclick="toggleTldr(this)">
+  <div style="display:flex;justify-content:space-between;align-items:center;cursor:pointer" onclick="toggleTldr(this)" title="Click to collapse or expand">
     <div style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4)">TLDR</div>
-    <div style="font-size:10px;color:rgba(255,255,255,.45);user-select:none">
+    <div style="font-size:11px;color:rgba(255,255,255,.85);user-select:none;background:rgba(255,255,255,.12);padding:4px 10px;border-radius:4px;font-weight:600">
       <span class="tldr-toggle"><span class="chev">▼</span> Hide</span>
     </div>
   </div>
@@ -166,8 +168,11 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
       </div>
     </div>
     <div id="tldr-watch-wrap" style="margin-top:12px;display:none">
-      <div style="font-size:9px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,180,60,.85);margin-bottom:6px;border-bottom:1px solid rgba(255,180,60,.25);padding-bottom:5px">▸ Ads to watch</div>
-      <ul id="tldr-watch" style="margin:0;padding:0;list-style:none;font-size:12px;line-height:1.7;color:rgba(255,255,255,.75);columns:2;column-gap:24px"></ul>
+      <div onclick="toggleWatch(this)" style="cursor:pointer;font-size:9px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,180,60,.85);margin-bottom:6px;border-bottom:1px solid rgba(255,180,60,.25);padding-bottom:5px;display:flex;justify-content:space-between;align-items:center" title="Click to expand or collapse">
+        <span>▸ Ads to watch</span>
+        <span class="watch-toggle" style="font-weight:600;background:rgba(255,180,60,.15);padding:3px 8px;border-radius:3px;color:rgba(255,180,60,1)"><span class="chev">▶</span> Show</span>
+      </div>
+      <ul id="tldr-watch" hidden style="margin:0;padding:0;list-style:none;font-size:12px;line-height:1.7;color:rgba(255,255,255,.75);columns:2;column-gap:24px"></ul>
     </div>
   </div>
 </div>
@@ -182,8 +187,11 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
   <div class="kpi"><div class="kpi-lbl">New Biotic winners</div><div class="kpi-val" id="k-bw"></div><div class="kpi-diff n">£1K threshold</div><div class="kpi-sub">crossed threshold this week</div></div>
 </div>
 <div id="new-winner-detail" style="display:none;margin-bottom:12px">
-  <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">New winners this week — crossed threshold w/e <span id="nwd-week"></span></div>
-  <div id="nwd-list" style="display:flex;flex-direction:column;gap:4px"></div>
+  <div onclick="toggleNewWinners(this)" style="cursor:pointer;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.06)" title="Click to expand or collapse">
+    <span>New winners this week — crossed threshold w/e <span id="nwd-week"></span></span>
+    <span class="nwd-toggle" style="font-weight:600;color:var(--brand);background:rgba(1,0,113,.06);padding:3px 9px;border-radius:3px"><span class="chev">▶</span> Show</span>
+  </div>
+  <div id="nwd-list" hidden style="display:flex;flex-direction:column;gap:4px"></div>
 </div>
 <div id="spend-spike-card" style="display:none;background:rgba(184,104,0,.07);border:1px solid rgba(184,104,0,.25);border-radius:6px;padding:12px 16px;margin-bottom:12px">
   <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:6px">🚀 Spend spikes this week — large increase vs prior 3-week average</div>
@@ -567,10 +575,63 @@ function applyTldrPref(){
   if(tgl) tgl.innerHTML = '<span class="chev">▶</span> Show';
 }
 
+// Collapsible "Ads to watch" sub-panel inside the TLDR. Default = collapsed.
+// Click the header to expand. Pref persisted in localStorage like TLDR.
+function toggleWatch(hdr){
+  const body = document.getElementById('tldr-watch');
+  if(!body) return;
+  const willHide = !body.hasAttribute('hidden');
+  if(willHide) body.setAttribute('hidden','');
+  else         body.removeAttribute('hidden');
+  const tgl = hdr.querySelector('.watch-toggle');
+  if(tgl) tgl.innerHTML = willHide
+    ? '<span class="chev">▶</span> Show'
+    : '<span class="chev">▼</span> Hide';
+  try { localStorage.setItem('watchHidden', willHide ? '1' : '0'); } catch(e){}
+}
+function applyWatchPref(){
+  // Default is COLLAPSED (so pref of '1' = hidden = default). Only unhide
+  // if user explicitly opened it before.
+  let pref = null;
+  try { pref = localStorage.getItem('watchHidden'); } catch(e){}
+  if(pref === '0'){
+    const body = document.getElementById('tldr-watch');
+    if(body) body.removeAttribute('hidden');
+    const tgl = document.querySelector('.watch-toggle');
+    if(tgl) tgl.innerHTML = '<span class="chev">▼</span> Hide';
+  }
+}
+
+// Collapsible "New winners this week" panel. Default = collapsed.
+function toggleNewWinners(hdr){
+  const body = document.getElementById('nwd-list');
+  if(!body) return;
+  const willHide = !body.hasAttribute('hidden');
+  if(willHide) body.setAttribute('hidden','');
+  else         body.removeAttribute('hidden');
+  const tgl = hdr.querySelector('.nwd-toggle');
+  if(tgl) tgl.innerHTML = willHide
+    ? '<span class="chev">▶</span> Show'
+    : '<span class="chev">▼</span> Hide';
+  try { localStorage.setItem('nwdHidden', willHide ? '1' : '0'); } catch(e){}
+}
+function applyNewWinnersPref(){
+  let pref = null;
+  try { pref = localStorage.getItem('nwdHidden'); } catch(e){}
+  if(pref === '0'){
+    const body = document.getElementById('nwd-list');
+    if(body) body.removeAttribute('hidden');
+    const tgl = document.querySelector('.nwd-toggle');
+    if(tgl) tgl.innerHTML = '<span class="chev">▼</span> Hide';
+  }
+}
+
 function init(){
   document.getElementById('loading').style.display='none';
   document.getElementById('app').style.display='block';
   applyTldrPref();
+  applyWatchPref();
+  applyNewWinnersPref();
   const K=D.KPI, dt=new Date(K.last_date), ds=dt.toLocaleDateString('en-GB',{month:'short',year:'numeric'});
   document.getElementById('hdr-date').textContent=ds;
   document.getElementById('footer-date').textContent=ds;
@@ -580,39 +641,67 @@ function init(){
     if(last) fd.textContent=new Date(last).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
   }
   // Pipeline last-refresh timestamp — surfaces a missed Monday refresh.
-  // Stale if the file is >9 days old (one Monday-to-Monday cycle + 2 days slack).
+  // Default is GREEN dot + clean message. Only surfaces "Last refreshed"
+  // when something is wrong (>9d stale = red, >7d = amber).
+  // The timestamp is still accessible via hovering the dot (title attribute).
   (function(){
-    const fg=document.getElementById('freshness-generated');
     const dot=document.getElementById('freshness-dot');
-    const stale=document.getElementById('freshness-stale');
+    const staleBlock=document.getElementById('freshness-stale-block');
+    const staleMsg=document.getElementById('freshness-stale-msg');
+    const staleGen=document.getElementById('freshness-generated-stale');
     const gen=(D._meta && D._meta.generated) || null;
-    if(!fg) return;
-    if(!gen){fg.textContent='unknown'; if(dot) dot.style.background='#c0392b'; return;}
+    if(!gen){
+      if(dot){ dot.style.background='#c0392b'; dot.title='Last refresh time unknown'; }
+      if(staleBlock){ staleBlock.style.display='inline'; staleMsg.textContent='Pipeline status unknown'; staleGen.textContent='unknown';}
+      return;
+    }
     const g=new Date(gen);
     const ageDays=(Date.now()-g.getTime())/86400000;
     const fmt=g.toLocaleDateString('en-GB',{day:'numeric',month:'short'})
               + ' '+g.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',hour12:false});
-    fg.textContent=fmt;
+    if(dot) dot.title='Last refreshed '+fmt+' ('+Math.round(ageDays*10)/10+' days ago)';
     if(ageDays>9){
       if(dot) dot.style.background='#c0392b';
-      if(stale){stale.style.display='inline'; stale.textContent='⚠ '+Math.round(ageDays)+'d old — Monday refresh may have failed';}
+      if(staleBlock){
+        staleBlock.style.display='inline';
+        staleMsg.textContent=Math.round(ageDays)+'d old — Monday refresh may have failed';
+        staleGen.textContent=fmt;
+      }
     } else if(ageDays>7){
       if(dot) dot.style.background='#e67e22';
+      if(staleBlock){
+        staleBlock.style.display='inline';
+        staleMsg.textContent=Math.round(ageDays)+'d since last refresh';
+        staleGen.textContent=fmt;
+      }
     }
+    // else: green dot, no extra text. Clean.
   })();
   document.getElementById('s1-span').textContent=`w/e ${K.week_label} vs w/e ${K.prev_week_label}`;
   setKPI('k-spend',`£${K.spend_k}K`,K.spend_delta,`vs £${K.prev_spend_k}K prior week`);
   setKPI('k-cpa',`£${K.cpa}`,K.cpa_delta,`vs £${K.prev_cpa} prior week`);
-  // Vitals / Biotic CPA — monthly values, current month partial
+  // Vitals / Biotic CPA — WEEKLY (WoW) to match Blended CPA card.
+  // Was previously MoM (MTD vs prior month) which created a confusing
+  // mismatch with the Blended card's WoW. Changed 2026-05-20.
+  // Falls back to monthly arrays if weekly aren't present (older snapshots).
   (function(){
-    const vc=D.VIT_CPA, bc=D.BIO_CPA, ml=D.ML, li=ml.length-1;
+    const wvc=D.W_VIT_CPA, wbc=D.W_BIO_CPA, wl=D.WL;
+    const vm=D.VIT_CPA, bm=D.BIO_CPA, ml=D.ML;
     const cpaDelta=(cur,prev)=>{
       if(!prev || prev<=0) return null;
       const p=((cur-prev)/prev)*100;
       return {val:Math.round(p*10)/10, dir: p<-1?'g':(p>1?'r':'n')};
     };
-    setKPI('k-vit-cpa',`£${vc[li]}`, cpaDelta(vc[li],vc[li-1]), `${ml[li]} MTD · vs £${vc[li-1]} ${ml[li-1]}`);
-    setKPI('k-bio-cpa',`£${bc[li]}`, cpaDelta(bc[li],bc[li-1]), `${ml[li]} MTD · vs £${bc[li-1]} ${ml[li-1]}`);
+    if(wvc && wvc.length >= 2 && wbc && wbc.length >= 2){
+      const li=wvc.length-1;
+      setKPI('k-vit-cpa',`£${wvc[li]}`, cpaDelta(wvc[li],wvc[li-1]), `WoW · vs £${wvc[li-1]} w/e ${wl[li-1]}`);
+      setKPI('k-bio-cpa',`£${wbc[li]}`, cpaDelta(wbc[li],wbc[li-1]), `WoW · vs £${wbc[li-1]} w/e ${wl[li-1]}`);
+    } else {
+      // Fallback for older snapshots without weekly Vitals/Biotic arrays
+      const li=ml.length-1;
+      setKPI('k-vit-cpa',`£${vm[li]}`, cpaDelta(vm[li],vm[li-1]), `${ml[li]} MTD · vs £${vm[li-1]} ${ml[li-1]}`);
+      setKPI('k-bio-cpa',`£${bm[li]}`, cpaDelta(bm[li],bm[li-1]), `${ml[li]} MTD · vs £${bm[li-1]} ${ml[li-1]}`);
+    }
   })();
   // §5 card headlines — last-complete-month hit rate per product (May = current partial, so use Apr)
   (function(){
@@ -1084,32 +1173,30 @@ function buildAllCharts(){
 
       const rowStyle = (fi > 0) ? ' style="border-top:1px solid var(--line)"' : '';
       body.innerHTML += `<tr${rowStyle}>
-        <td rowspan="4" style="vertical-align:top;font-weight:600;padding-top:8px">${f.label}<div style="font-weight:400;color:var(--muted);font-size:10px;margin-top:2px">${f.definition || ''}</div></td>
+        <td rowspan="2" style="vertical-align:top;font-weight:600;padding-top:8px" title="${f.definition || ''}">${f.label}<div style="font-weight:400;color:var(--muted);font-size:10px;margin-top:2px">${f.definition || ''}</div></td>
         <td style="color:var(--muted);padding-top:8px">Spend</td>
         ${spendCells}
-        <td rowspan="4" style="vertical-align:top;padding-top:8px;padding-left:12px">${unlockBar}</td>
+        <td rowspan="2" style="vertical-align:top;padding-top:8px;padding-left:12px">${unlockBar}</td>
       </tr>`;
-      // Purchases row
-      const purchCells = f.purchases.map(v => `<td style="text-align:right;font-variant-numeric:tabular-nums">${fmtPurch(v)}</td>`).join('');
-      body.innerHTML += `<tr><td style="color:var(--muted)">Purchases</td>${purchCells}</tr>`;
-      // CPA row
+      // CPA row — baseline shown inline with each CPA cell (no separate row).
+      // Tidy 2026-05-20 (Charlie): dropped Purchases row + collapsed baseline.
       const cpaCells = f.cpa.map((v,i) => {
         const baseVal = baseline[i];
         let col = '';
+        let baseAnnot = '';
         if(v != null && baseVal != null && baseVal > 0){
-          col = (v <= baseVal) ? 'color:var(--green);font-weight:600' : (v > baseVal * 1.2 ? 'color:var(--red)' : 'color:var(--ink2)');
+          const delta = ((v - baseVal) / baseVal) * 100;
+          col = (v <= baseVal) ? 'color:var(--green);font-weight:600' : (v > baseVal * 1.2 ? 'color:var(--red);font-weight:600' : 'color:var(--ink2)');
+          const deltaStr = (delta >= 0 ? '+' : '') + Math.round(delta) + '%';
+          baseAnnot = `<div style="font-size:10px;color:var(--muted);font-weight:400">baseline £${baseVal} (${deltaStr})</div>`;
+        } else if(baseVal != null) {
+          baseAnnot = `<div style="font-size:10px;color:var(--muted);font-weight:400">baseline £${baseVal}</div>`;
         }
-        return `<td style="text-align:right;font-variant-numeric:tabular-nums;${col}">${fmtCpa(v)}</td>`;
+        return `<td style="text-align:right;font-variant-numeric:tabular-nums;${col};padding:2px 4px">${fmtCpa(v)}${baseAnnot}</td>`;
       }).join('');
       body.innerHTML += `<tr>
-        <td style="color:var(--muted)">CPA</td>
+        <td style="color:var(--muted);padding-top:4px">CPA</td>
         ${cpaCells}
-      </tr>`;
-      // Baseline row — per-month, makes the apples-to-apples comparison explicit.
-      const baselineCells = baseline.map(v => `<td style="text-align:right;font-variant-numeric:tabular-nums;color:var(--muted);font-size:11px">${v == null ? '—' : '£' + v}</td>`).join('');
-      body.innerHTML += `<tr>
-        <td style="color:var(--muted);font-size:11px;padding-left:8px;font-style:italic">Vitals non-offer baseline</td>
-        ${baselineCells}
       </tr>`;
     });
 
