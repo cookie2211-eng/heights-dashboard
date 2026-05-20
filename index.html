@@ -386,7 +386,7 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
     <div class="filter-bar"><span class="toggle-label">Product</span><button class="tog ai" data-vop="vitals" onclick="setVitOfferProd('vitals',this)">Vitals &amp; Bundle</button><button class="tog" data-vop="biotic" onclick="setVitOfferProd('biotic',this)">Biotic</button></div>
     <div class="leg" id="vit-offer-leg"><div class="leg-item"><div class="l-sq" style="background:rgba(26,95,168,.2)"></div><span class="leg-pct-label">Offer % of Vitals</span> (left)</div><div class="leg-item"><div class="l-ln" style="background:#1a5fa8"></div><span class="leg-off-label">Vitals offer CPA</span> (right)</div><div class="leg-item"><div class="l-ln" style="background:#aaa"></div><span class="leg-noff-label">Vitals non-offer CPA</span> (right)</div></div>
     <div class="chart-wrap" style="height:200px;margin-top:8px"><canvas id="cVitOffer"></canvas></div>
-    <div id="vit-offer-footnote" style="font-size:10px;color:var(--muted);margin-top:6px">⚠ Offer % includes celeb offer ads (e.g. Ben Shephard Door to Door) — so differs slightly from the Celeb-priority segment chart above.</div>
+    <div id="vit-offer-footnote" style="font-size:11px;color:#7a5300;background:rgba(255,200,90,.14);border-left:3px solid #b86800;padding:6px 10px;margin-top:8px;border-radius:3px">⚠ <strong>Offer %</strong> includes celeb offer ads (e.g. Ben Shephard Door to Door) — so differs slightly from the Celeb-priority segment chart above.</div>
   </div>
   <div class="card">
     <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2px">
@@ -404,9 +404,9 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 
 <div class="sec is-collapsible" onclick="toggleSec('s8-body', this)">
   <h2>8 · Winners</h2>
-  <span>● active &nbsp;○ not spending &nbsp;🦄 unicorn scaler · last 2 months &nbsp;🚀 spend spike this week <span class="sec-toggle"><span class="chev">▼</span> Hide section</span></span>
+  <span>● active &nbsp;○ not spending &nbsp;🦄 unicorn scaler · last 2 months &nbsp;🚀 spend spike this week <span class="sec-toggle"><span class="chev">▶</span> Show section</span></span>
 </div>
-<div id="s8-body" class="sec-body">
+<div id="s8-body" class="sec-body" hidden>
 <div class="filter-bar" style="border-top:none;margin-top:0;margin-bottom:10px;display:flex;align-items:center;flex-wrap:wrap;gap:4px">
   <span class="toggle-label">Product</span>
   <button class="tog ai" data-tp="all" onclick="filterTbl('p','all',this)">All</button>
@@ -1696,7 +1696,7 @@ function buildVitOfferChart(v){
   if(fn){
     fn.innerHTML = isBio
       ? '⚠ Biotic offer = ads in the <em>Biotic — Rehydrate Offer</em> campaign (live from 2026-05-12). Offer share = 0% across pre-May months because the campaign was not running.'
-      : '⚠ Offer % includes celeb offer ads (e.g. Ben Shephard Door to Door) — so differs slightly from the Celeb-priority segment chart above.';
+      : '⚠ <strong>Offer %</strong> includes celeb offer ads (e.g. Ben Shephard Door to Door) — so differs slightly from the Celeb-priority segment chart above.';
   }
 }
 function setVitOfferView(v,btn){_vitOfferView=v;btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');buildVitOfferChart(v);}
