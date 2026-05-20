@@ -140,8 +140,10 @@ body{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);line-heigh
 </div>
 
 <div id="data-freshness" style="display:flex;justify-content:flex-end;align-items:center;gap:8px;font-size:10px;color:var(--muted);margin:-12px 0 14px">
-  <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--brand)"></span>
+  <span id="freshness-dot" style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--brand)"></span>
   Data through w/e <span id="freshness-date"></span> · current month is partial
+  <span style="color:#bbb;padding:0 4px">|</span>
+  Last refreshed <span id="freshness-generated">—</span><span id="freshness-stale" style="display:none;color:#c0392b;font-weight:600;margin-left:6px"></span>
 </div>
 
 <div style="background:var(--brand);color:#fff;border-radius:6px;padding:18px 22px;margin-bottom:22px">
@@ -577,6 +579,27 @@ function init(){
     const last=(D._meta && D._meta.last_date) || K.last_date;
     if(last) fd.textContent=new Date(last).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
   }
+  // Pipeline last-refresh timestamp — surfaces a missed Monday refresh.
+  // Stale if the file is >9 days old (one Monday-to-Monday cycle + 2 days slack).
+  (function(){
+    const fg=document.getElementById('freshness-generated');
+    const dot=document.getElementById('freshness-dot');
+    const stale=document.getElementById('freshness-stale');
+    const gen=(D._meta && D._meta.generated) || null;
+    if(!fg) return;
+    if(!gen){fg.textContent='unknown'; if(dot) dot.style.background='#c0392b'; return;}
+    const g=new Date(gen);
+    const ageDays=(Date.now()-g.getTime())/86400000;
+    const fmt=g.toLocaleDateString('en-GB',{day:'numeric',month:'short'})
+              + ' '+g.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',hour12:false});
+    fg.textContent=fmt;
+    if(ageDays>9){
+      if(dot) dot.style.background='#c0392b';
+      if(stale){stale.style.display='inline'; stale.textContent='⚠ '+Math.round(ageDays)+'d old — Monday refresh may have failed';}
+    } else if(ageDays>7){
+      if(dot) dot.style.background='#e67e22';
+    }
+  })();
   document.getElementById('s1-span').textContent=`w/e ${K.week_label} vs w/e ${K.prev_week_label}`;
   setKPI('k-spend',`£${K.spend_k}K`,K.spend_delta,`vs £${K.prev_spend_k}K prior week`);
   setKPI('k-cpa',`£${K.cpa}`,K.cpa_delta,`vs £${K.prev_cpa} prior week`);
