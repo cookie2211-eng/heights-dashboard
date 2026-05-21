@@ -1418,7 +1418,26 @@ function buildProductMix(){
         pointBorderWidth: 1.2, tension: 0.25, fill: false, order: 1},
     ]},
     options: {responsive: true, maintainAspectRatio: false,
-      plugins: {legend: {display: false}, tooltip: {...TT, callbacks: {label: c => ` ${c.dataset.label}: ${c.raw}%`}}},
+      plugins: {legend: {display: false}, tooltip: {...TT, callbacks: {
+        title: items => {
+          if(!items.length) return '';
+          const i = items[0].dataIndex;
+          const tot = pm.totals ? pm.totals[i] : null;
+          return (tot != null)
+            ? `${items[0].label} · ${tot.toLocaleString()} new-cust. orders`
+            : items[0].label;
+        },
+        label: c => {
+          if(c.dataset.label === 'Multi-product %'){
+            return ` ${c.dataset.label}: ${c.raw}%`;
+          }
+          const tot = pm.totals ? pm.totals[c.dataIndex] : null;
+          const n = (tot != null && c.raw != null) ? Math.round(c.raw / 100 * tot) : null;
+          return (n != null)
+            ? ` ${c.dataset.label}: ${c.raw}% (${n.toLocaleString()} orders)`
+            : ` ${c.dataset.label}: ${c.raw}%`;
+        }
+      }}},
       scales: {
         x: {stacked: true, grid: {display: false}, ticks: {font: {size: 9}}},
         y: {stacked: true, min: 0, max: 100, grid: {color: GC}, ticks: {callback: v => v + '%', font: {size: 9}}}
